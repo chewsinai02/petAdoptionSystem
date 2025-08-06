@@ -11,6 +11,7 @@ import com.mycompany.petAdoptionSystem.admin.AdminDashboardScreen;
 import com.mycompany.petAdoptionSystem.user.AdoptedPetListScreen;
 import com.mycompany.petAdoptionSystem.user.UpdatePetStatus;
 import com.mycompany.petAdoptionSystem.user.ViewAdoptionApplicationsScreen;
+import com.mycompany.petAdoptionSystem.UserSession;
 
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -119,7 +120,7 @@ public class MainScreen {
         notificationMenu.getItems().add(notificationItem);
 
         // Show/hide menus based on login state
-        boolean loggedIn = PetGalleryScreen.UserSession.isLoggedIn();
+        boolean loggedIn = UserSession.isLoggedIn();
         if (loggedIn) {
             localMenuBar.getMenus().addAll(homeMenu, knowledgeMenu, adoptionMenu, notificationMenu);
         } else {
@@ -268,7 +269,7 @@ public class MainScreen {
     }
 
     private void showUserProfile() {
-        int userId = PetGalleryScreen.UserSession.getCurrentUserId();
+        int userId = UserSession.getCurrentUserId();
         if (userId <= 0) {
             showMessage("Not Logged In", "Please log in to view your profile.");
             return;
@@ -755,7 +756,7 @@ public class MainScreen {
         MenuBar newMenuBar = createMenuBar();
         this.menuBar.getMenus().addAll(newMenuBar.getMenus());
         // If logged in, add user menu items as before
-        if (PetGalleryScreen.UserSession.isLoggedIn()) {
+        if (UserSession.isLoggedIn()) {
             Menu userMenu = new Menu("User");
             MenuItem profileItem = new MenuItem("User Profile");
             MenuItem myApplicationsItem = new MenuItem("My Adoption Applications");
@@ -790,8 +791,8 @@ public class MainScreen {
 
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                PetGalleryScreen.UserSession.setLoggedIn(false);
-                PetGalleryScreen.UserSession.setCurrentUserId(-1);
+                UserSession.setLoggedIn(false);
+                UserSession.setCurrentUserId(-1);
                 updateMenuBarAfterLogin();
                 showPetGallery();
             }
@@ -822,7 +823,7 @@ public class MainScreen {
                             "  ) " +
                             ")"
             );
-            stmt.setInt(1, PetGalleryScreen.UserSession.getCurrentUserId());
+            stmt.setInt(1, UserSession.getCurrentUserId());
             ResultSet rs = stmt.executeQuery();
 
             StringBuilder sb = new StringBuilder();

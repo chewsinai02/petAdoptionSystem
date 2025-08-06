@@ -12,6 +12,7 @@ import java.util.function.Consumer;
 import com.mycompany.petAdoptionSystem.Pet;
 import com.mycompany.petAdoptionSystem.PetGalleryScreen;
 
+import com.mycompany.petAdoptionSystem.UserSession;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -78,12 +79,12 @@ public class AdoptedPetListScreen {
 
     private void loadAdoptedPets(GridPane grid) {
         adoptedPets = new ArrayList<>();
-        if (!PetGalleryScreen.UserSession.isLoggedIn()) {
+        if (!UserSession.isLoggedIn()) {
             showError("Please login to view your adopted pets.");
             return;
         }
 
-        int userId = PetGalleryScreen.UserSession.getCurrentUserId();
+        int userId = UserSession.getCurrentUserId();
 
         try {
             String query = "SELECT p.* FROM pet p JOIN adoptanimal a ON p.id = a.petId WHERE a.userId = ? AND a.state = 2";

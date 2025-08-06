@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.mycompany.petAdoptionSystem.Pet;
 import com.mycompany.petAdoptionSystem.PetGalleryScreen;
+import com.mycompany.petAdoptionSystem.UserSession;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -71,7 +72,7 @@ public class RequestPetUpdate {
 
     private void loadAdoptedPets(GridPane grid) {
         List<Pet> adoptedPets = new ArrayList<>();
-        if (!PetGalleryScreen.UserSession.isLoggedIn()) {
+        if (!UserSession.isLoggedIn()) {
             showError("Please login to view your adopted pets.");
             return;
         }

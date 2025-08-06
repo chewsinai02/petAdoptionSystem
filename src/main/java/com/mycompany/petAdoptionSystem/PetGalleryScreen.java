@@ -8,7 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+import com.mycompany.petAdoptionSystem.Pet;
+import com.mycompany.petAdoptionSystem.UserSession;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -165,12 +166,12 @@ public class PetGalleryScreen {
         imageView.setStyle("-fx-background-radius: 8;");
 
         // Pet name
-        Text nameText = new Text(pet.getPetName());
+        Text nameText = new Text(pet.getName());
         nameText.setFont(Font.font("System", FontWeight.BOLD, 18));
         nameText.setFill(Color.web(ACCENT_COLOR));
 
         // Pet type and sex
-        Text detailsText = new Text(pet.getPetType() + " • " + pet.getSex());
+        Text detailsText = new Text(pet.getType() + " • " + pet.getSex());
         detailsText.setFont(Font.font("System", 15));
         detailsText.setFill(Color.web("#666666"));
 
@@ -297,7 +298,7 @@ public class PetGalleryScreen {
     private void showPetDetails(Pet pet) {
         Dialog<Void> dialog = new Dialog<>();
         dialog.setTitle("Pet Details");
-        dialog.setHeaderText(pet.getPetName());
+        dialog.setHeaderText(pet.getName());
 
         VBox localContent = new VBox(15);
         localContent.setPadding(new Insets(20));
@@ -334,7 +335,7 @@ public class PetGalleryScreen {
         detailsGrid.setVgap(10);
         detailsGrid.setPadding(new Insets(10));
 
-        addDetailRow(detailsGrid, "Type:", pet.getPetType(), 0);
+        addDetailRow(detailsGrid, "Type:", pet.getType(), 0);
         addDetailRow(detailsGrid, "Sex:", pet.getSex(), 1);
         addDetailRow(detailsGrid, "Birthday:", pet.getBirthday().toString(), 2);
         addDetailRow(detailsGrid, "Status:", getStatusText(pet.getState()), 3);
@@ -443,7 +444,7 @@ public class PetGalleryScreen {
         petImageView.setPreserveRatio(true);
         petImageView.setStyle("-fx-background-radius: 5;");
 
-        Text headerText = new Text("Adopt " + pet.getPetName() + "?");
+        Text headerText = new Text("Adopt " + pet.getName() + "?");
         headerText.setFont(Font.font("System", FontWeight.BOLD, 18));
         headerText.setFill(Color.web(ACCENT_COLOR));
         headerBox.getChildren().addAll(petImageView, headerText);
@@ -461,7 +462,7 @@ public class PetGalleryScreen {
         detailsGrid.setVgap(5);
         detailsGrid.setPadding(new Insets(5, 0, 0, 0));
 
-        addDetailRow(detailsGrid, "Type:", pet.getPetType(), 0);
+        addDetailRow(detailsGrid, "Type:", pet.getType(), 0);
         addDetailRow(detailsGrid, "Sex:", pet.getSex(), 1);
         addDetailRow(detailsGrid, "Birthday:", pet.getBirthday().toString(), 2);
 
@@ -584,48 +585,5 @@ public class PetGalleryScreen {
         noteText.setFont(Font.font("System", 13));
         noteText.setFill(Color.web("#424242"));
         return noteText;
-    }
-
-    // Pet class to hold pet data
-    private static class Pet {
-        private final int id;
-        private final String petName;
-        private final String petType;
-        private final String sex;
-        private final Date birthday;
-        private final String pic;
-        private final int state;
-        private final String remark;
-
-        public Pet(int id, String petName, String petType, String sex, Date birthday, String pic, int state, String remark) {
-            this.id = id;
-            this.petName = petName;
-            this.petType = petType;
-            this.sex = sex;
-            this.birthday = birthday;
-            this.pic = pic;
-            this.state = state;
-            this.remark = remark;
-        }
-
-        // Getters
-        public int getId() { return id; }
-        public String getPetName() { return petName; }
-        public String getPetType() { return petType; }
-        public String getSex() { return sex; }
-        public Date getBirthday() { return birthday; }
-        public String getPic() { return pic; }
-        public int getState() { return state; }
-        public String getRemark() { return remark; }
-    }
-
-    public static class UserSession {
-        private static boolean loggedIn = false;
-        private static int currentUserId = -1;
-
-        public static boolean isLoggedIn() { return loggedIn; }
-        public static void setLoggedIn(boolean value) { loggedIn = value; }
-        public static int getCurrentUserId() { return currentUserId; }
-        public static void setCurrentUserId(int userId) { currentUserId = userId; }
     }
 } 

@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.mycompany.petAdoptionSystem.Pet;
 import com.mycompany.petAdoptionSystem.PetGalleryScreen;
+import com.mycompany.petAdoptionSystem.UserSession;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -332,7 +333,7 @@ public class UpdatePetStatus {
 
     private void loadAdoptedPets() {
         try {
-            int userId = PetGalleryScreen.UserSession.getCurrentUserId();
+            int userId = UserSession.getCurrentUserId();
             if (userId <= 0) {
                 showError("Please log in to submit updates");
                 return;
@@ -400,7 +401,7 @@ public class UpdatePetStatus {
 
         try {
             String petName;
-            int userId = PetGalleryScreen.UserSession.getCurrentUserId();
+            int userId = UserSession.getCurrentUserId();
             if (initialPet != null) {
                 petName = initialPet.getName();
             } else {

@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.mycompany.petAdoptionSystem.PetGalleryScreen.UserSession;
+import com.mycompany.petAdoptionSystem.UserSession;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;

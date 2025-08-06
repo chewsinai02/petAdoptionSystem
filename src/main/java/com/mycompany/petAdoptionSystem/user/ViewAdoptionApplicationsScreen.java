@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.mycompany.petAdoptionSystem.PetGalleryScreen;
 
+import com.mycompany.petAdoptionSystem.UserSession;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -143,12 +144,12 @@ public class ViewAdoptionApplicationsScreen {
     }
 
     private void loadApplications() {
-        if (!PetGalleryScreen.UserSession.isLoggedIn()) {
+        if (!UserSession.isLoggedIn()) {
             showError("Please login to view your applications");
             return;
         }
 
-        int userId = PetGalleryScreen.UserSession.getCurrentUserId();
+        int userId = UserSession.getCurrentUserId();
         List<AdoptionApplication> applications = new ArrayList<>();
 
         try {

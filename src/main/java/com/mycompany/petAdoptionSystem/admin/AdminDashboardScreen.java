@@ -3,6 +3,7 @@ package com.mycompany.petAdoptionSystem.admin;
 import com.mycompany.petAdoptionSystem.MainScreen;
 import com.mycompany.petAdoptionSystem.PetGalleryScreen;
 
+import com.mycompany.petAdoptionSystem.UserSession;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -113,8 +114,8 @@ public class AdminDashboardScreen {
 
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                PetGalleryScreen.UserSession.setLoggedIn(false);
-                PetGalleryScreen.UserSession.setCurrentUserId(-1);
+                UserSession.setLoggedIn(false);
+                UserSession.setCurrentUserId(-1);
 
                 MainScreen mainScreen = new MainScreen(stage);
                 mainScreen.show();
