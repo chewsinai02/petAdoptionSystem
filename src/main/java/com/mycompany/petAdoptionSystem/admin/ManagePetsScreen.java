@@ -570,6 +570,20 @@ public class ManagePetsScreen {
 
                 // Show confirmation
                 showMessage("Returned", "Pet was successfully marked as returned.");
+            }else if (oldState == 3 && newState == 2) {
+                // Returned → Adopted (re-adopted)
+                // Update adoptanimal state from 3 to 2
+                String updateAdoptAnimal = "UPDATE adoptanimal SET state = 2 WHERE petId = ? AND state = 3";
+                PreparedStatement stmtAdoptAnimal = conn.prepareStatement(updateAdoptAnimal);
+                stmtAdoptAnimal.setInt(1, selectedPet.getId());
+                stmtAdoptAnimal.executeUpdate();
+
+            } else if ((oldState == 2 || oldState == 3 || oldState == 1) && newState == 0) {
+                // Any adoption-related status → Available
+                String resetAdoptAnimal = "UPDATE adoptanimal SET state = 0 WHERE petId = ? AND (state = 1 OR state = 2 OR state = 3)";
+                PreparedStatement stmtReset = conn.prepareStatement(resetAdoptAnimal);
+                stmtReset.setInt(1, selectedPet.getId());
+                stmtReset.executeUpdate();
             }
             loadPets();
             clearForm();
