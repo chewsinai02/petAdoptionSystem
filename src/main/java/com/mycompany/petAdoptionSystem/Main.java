@@ -16,7 +16,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class ProjectGUI extends Application {
+public class Main extends Application {
     private TextArea outputArea;
     private static final String SECONDARY_COLOR = "#F5F5F5";
     private static final String ACCENT_COLOR = "#2C3E50";
