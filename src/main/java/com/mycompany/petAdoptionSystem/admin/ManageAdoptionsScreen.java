@@ -289,6 +289,7 @@ public class ManageAdoptionsScreen {
                     case 0: statusText = "Rejected"; break;
                     case 1: statusText = "Pending"; break;
                     case 2: statusText = "Approved"; break;
+                    case 3: statusText = "Returned"; break;
                     default: statusText = "Unknown"; break;
                 }
                 requests.add(new AdoptionRequest(
@@ -325,9 +326,11 @@ public class ManageAdoptionsScreen {
             String updatePet = "UPDATE pet SET state = ? WHERE id = (SELECT petId FROM adoptanimal WHERE id = ?)";
             PreparedStatement stmtPet = conn.prepareStatement(updatePet);
 
+            //0= disagree, 1= under review, 2= agree, 3= return back for adoptanimal
+            //0= Current status or not applied for adoption, 1=applied for adoption, 2=has been adopted
             if (approve) {
-                stmtAdopt.setInt(1, 2); // 2 = approved for adoptanimal
-                stmtPet.setInt(1, 3); // 3 = adopted for pet
+                stmtAdopt.setInt(1, 2);
+                stmtPet.setInt(1, 2);
                 // Update user: petHave += 1, state = 1
                 String updateUser = "UPDATE user SET petHave = petHave + 1, state = 1 WHERE userName = ?";
                 PreparedStatement stmtUser = conn.prepareStatement(updateUser);

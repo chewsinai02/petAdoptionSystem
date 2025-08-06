@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mycompany.petAdoptionSystem.Pet;
-import com.mycompany.petAdoptionSystem.PetGalleryScreen;
 import com.mycompany.petAdoptionSystem.UserSession;
 
 import javafx.geometry.Insets;
@@ -150,6 +149,9 @@ public class RequestPetUpdate {
         Label lastUpdateLabel = new Label("Last Update: " + getLastUpdateDate(pet.getId()));
         lastUpdateLabel.setStyle("-fx-font-size: 13px; -fx-text-fill: #888;");
 
+        final Label requestLabel = new Label("Last Request: " + getRequestDate(pet.getId()));
+        requestLabel.setStyle("-fx-font-size: 13px; -fx-text-fill: #888;");
+
         Button requestUpdateButton = new Button("Request");
         requestUpdateButton.setStyle(
             "-fx-background-color: transparent;" +
@@ -199,9 +201,9 @@ public class RequestPetUpdate {
             "-fx-cursor: hand;" +
             "-fx-padding: 5 12;"
         ));
-        requestUpdateButton.setOnAction(e -> sendStatusUpdateRequest(pet, adopterUserId));
+        requestUpdateButton.setOnAction(e -> sendStatusUpdateRequest(pet, adopterUserId,requestLabel));
 
-        card.getChildren().addAll(imageView, nameText, detailsText, lastUpdateLabel, requestUpdateButton);
+        card.getChildren().addAll(imageView, nameText, detailsText, lastUpdateLabel, requestLabel, requestUpdateButton);
         return card;
     }
 
@@ -223,7 +225,25 @@ public class RequestPetUpdate {
         return "-";
     }
 
-    private void sendStatusUpdateRequest(Pet pet, int userId) {
+    private String getRequestDate(int petId) {
+        try {
+            String query = "SELECT createdAt FROM notification WHERE petId = ? ORDER BY createdAt DESC LIMIT 1";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, petId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                java.sql.Date lastUpdate = rs.getDate("createdAt"); // fixed column name
+                if (lastUpdate != null) {
+                    return lastUpdate.toString();
+                }
+            }
+        } catch (SQLException e) {
+            // ignore, just show blank
+        }
+        return "-";
+    }
+
+    private void sendStatusUpdateRequest(Pet pet, int userId, Label requestLabel) {
         try {
             String insert = "INSERT INTO notification (userId, petId, createdAt) VALUES (?, ?, NOW())";
             PreparedStatement stmt = conn.prepareStatement(insert);
@@ -231,6 +251,8 @@ public class RequestPetUpdate {
             stmt.setInt(2, pet.getId());
             stmt.executeUpdate();
             showInfo("Request sent! The adopter will see this in their notifications.");
+
+            requestLabel.setText("Last Request: " + getRequestDate(pet.getId()));
         } catch (SQLException e) {
             showError("Failed to send request: " + e.getMessage());
         }

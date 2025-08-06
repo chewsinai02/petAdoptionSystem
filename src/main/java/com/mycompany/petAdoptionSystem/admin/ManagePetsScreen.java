@@ -146,6 +146,7 @@ public class ManagePetsScreen {
                         case "0": setText("Available"); break;
                         case "1": setText("Under Review"); break;
                         case "2": setText("Adopted"); break;
+                        case "3": setText("Returned"); break;
                         default: setText("Unknown"); break;
                     }
                 }
@@ -309,7 +310,7 @@ public class ManagePetsScreen {
         grid.add(imagePreviewBox, 1, row++);
 
         stateComboBox = new ComboBox<>();
-        stateComboBox.getItems().addAll("Available", "Under Review", "Adopted");
+        stateComboBox.getItems().addAll("Available", "Under Review", "Adopted", "Returned");
         stateComboBox.setStyle("-fx-font-size: 14px; "
                 + "-fx-background-color: white; "
                 + "-fx-border-color: #E0E0E0; "
@@ -474,6 +475,7 @@ public class ManagePetsScreen {
                     case "Available": stateValue = 0; break;
                     case "Under Review": stateValue = 1; break;
                     case "Adopted": stateValue = 2; break;
+                    case "Returned": stateValue = 3; break;
                 }
             }
             stmt.setInt(6, stateValue);
@@ -527,6 +529,7 @@ public class ManagePetsScreen {
                     case "Available": stateValue = 0; break;
                     case "Under Review": stateValue = 1; break;
                     case "Adopted": stateValue = 2; break;
+                    case "Returned": stateValue = 3; break;
                 }
             }
             stmt.setInt(6, stateValue);
@@ -535,14 +538,38 @@ public class ManagePetsScreen {
 
             stmt.executeUpdate();
             int oldState = selectedPet.getState();
-            int newState = stateValue; // stateValue is set above based on the ComboBox
+            int newState = stateValue;
 
-            if (oldState == 2 && newState == 0) {
-                // Pet is being returned (Adopted -> Available)
+            if (oldState == 2 && newState == 3) {
+                // Fetch owner name from database
+                String ownerName = "Unknown";
+                String getOwnerNameSQL = "SELECT u.realName FROM user u JOIN adoptanimal a ON u.id = a.userId WHERE a.petId = ? AND a.state = 2";
+                PreparedStatement ownerStmt = conn.prepareStatement(getOwnerNameSQL);
+                ownerStmt.setInt(1, selectedPet.getId());
+                rs = ownerStmt.executeQuery();
+                if (rs.next()) {
+                    ownerName = rs.getString("realName");
+                }
+
+                // Confirm status change from Adopted to Returned
+                Alert confirmReturn = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmReturn.setTitle("Confirm Return");
+                confirmReturn.setHeaderText("Mark " + selectedPet.getName() + " as returned?");
+                confirmReturn.setContentText(selectedPet.getName() + " was previously adopted by " + ownerName + "." +
+                        "\nAre you sure you want to mark it as returned?");
+
+                if (confirmReturn.showAndWait().get() != ButtonType.OK) {
+                    return; // Cancel update if not confirmed
+                }
+
+                // Update adoptanimal state
                 String updateAdoptAnimal = "UPDATE adoptanimal SET state = 3 WHERE petId = ? AND state = 2";
                 PreparedStatement stmtAdoptAnimal = conn.prepareStatement(updateAdoptAnimal);
                 stmtAdoptAnimal.setInt(1, selectedPet.getId());
                 stmtAdoptAnimal.executeUpdate();
+
+                // Show confirmation
+                showMessage("Returned", "Pet was successfully marked as returned.");
             }
             loadPets();
             clearForm();
@@ -671,6 +698,7 @@ public class ManagePetsScreen {
             case 0: stateComboBox.setValue("Available"); break;
             case 1: stateComboBox.setValue("Under Review"); break;
             case 2: stateComboBox.setValue("Adopted"); break;
+            case 3: stateComboBox.setValue("Returned"); break;
             default: stateComboBox.getSelectionModel().clearSelection(); break;
         }
         remarkField.setText(pet.getRemark());

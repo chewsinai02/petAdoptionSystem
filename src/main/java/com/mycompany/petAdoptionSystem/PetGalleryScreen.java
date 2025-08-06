@@ -1,15 +1,13 @@
 package com.mycompany.petAdoptionSystem;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import com.mycompany.petAdoptionSystem.Pet;
-import com.mycompany.petAdoptionSystem.UserSession;
+
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -91,6 +89,7 @@ public class PetGalleryScreen {
         try {
             String query = "SELECT p.id, p.petName, p.petType, p.sex, p.birthday, p.pic, p.remark, " +
                            "CASE " +
+                           "    WHEN EXISTS (SELECT 1 FROM adoptanimal a WHERE a.petId = p.id AND a.state = 3) THEN 3 " +
                            "    WHEN EXISTS (SELECT 1 FROM adoptanimal a WHERE a.petId = p.id AND a.state = 2) THEN 2 " +
                            "    WHEN EXISTS (SELECT 1 FROM adoptanimal a WHERE a.petId = p.id AND a.state = 1) THEN 1 " +
                            "    ELSE 0 " +
@@ -177,9 +176,12 @@ public class PetGalleryScreen {
 
         // Status
         Label statusLabel = new Label(getStatusText(pet.getState()));
-        statusLabel.setStyle("-fx-background-color: " + 
-            (pet.getState() == 0 ? "#a1f195" : pet.getState() == 1 ? "#f1e695" : "#f195a1") + 
-            "; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 8;-fx-font-weight: bold;-fx-font-size: 12px;");
+        statusLabel.setStyle("-fx-background-color: " +
+                (pet.getState() == 0 ? "#a1f195" :
+                        pet.getState() == 1 ? "#f1e695" :
+                                pet.getState() == 2 ? "#f195a1" :
+                                        "#95a3f1") +
+                "; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 8; -fx-font-weight: bold; -fx-font-size: 12px;");
 
         // View details button
         Button detailsButton = new Button("View Details");
@@ -360,10 +362,10 @@ public class PetGalleryScreen {
 
     private String getStatusText(int state) {
         switch (state) {
-            case 0: return "Available for Adoption";
+            case 0: return "Available";
             case 1: return "Under Review";
-            case 2:
-                return "Adopted";
+            case 2: return "Adopted";
+            case 3: return "Not Available";
             default: return "Unknown";
         }
     }
