@@ -36,8 +36,8 @@ public class UserDashboardScreen extends MainScreen {
     }
 
     private MenuBar createUserMenuBar() {
-        MenuBar menuBar = new MenuBar();
-        menuBar.setStyle("-fx-background-color: white; font-color: #4A90E2; -fx-border-color: #E0E0E0; -fx-border-width: 0 0 1 0; -fx-padding: 5 0;");
+        MenuBar userMenuBar = new MenuBar();
+        userMenuBar.setStyle("-fx-background-color: white; font-color: #4A90E2; -fx-border-color: #E0E0E0; -fx-border-width: 0 0 1 0; -fx-padding: 5 0;");
 
         // Home Menu
         Menu homeMenu = new Menu("Home");
@@ -84,8 +84,8 @@ public class UserDashboardScreen extends MainScreen {
         logoutMenu.getItems().add(logoutItem);
 
         // Add menus in logical order
-        menuBar.getMenus().addAll(homeMenu, knowledgeMenu, adoptionMenu, userMenu, notificationMenu, logoutMenu);
-        return menuBar;
+        userMenuBar.getMenus().addAll(homeMenu, knowledgeMenu, adoptionMenu, userMenu, notificationMenu, logoutMenu);
+        return userMenuBar;
     }
 
     @Override

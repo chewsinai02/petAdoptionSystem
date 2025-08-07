@@ -75,15 +75,15 @@ public class AdminDashboardScreen extends MainScreen {
     }
 
     private void showWelcome() {
-        VBox content = new VBox(20);
-        content.setAlignment(Pos.CENTER);
-        content.setPadding(new Insets(20));
-        content.setStyle("-fx-background-color: #FAD9DD; -fx-background-radius: 12;-fx-border-radius: 12;");
-        content.setAlignment(Pos.CENTER);
-        content.setPadding(new Insets(40));
+        VBox adminContent = new VBox(20);
+        adminContent.setAlignment(Pos.CENTER);
+        adminContent.setPadding(new Insets(20));
+        adminContent.setStyle("-fx-background-color: #FAD9DD; -fx-background-radius: 12;-fx-border-radius: 12;");
+        adminContent.setAlignment(Pos.CENTER);
+        adminContent.setPadding(new Insets(40));
         Label welcomeLabel = new Label("Welcome to the Admin Dashboard!\nPlease select an action above.");
         welcomeLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2C3E50; -fx-text-alignment: center;-fx-font-family: 'Cherry Bomb One';");
-        contentArea.getChildren().setAll(content);
+        contentArea.getChildren().setAll(adminContent);
     }
 
     private void showManagePets() {

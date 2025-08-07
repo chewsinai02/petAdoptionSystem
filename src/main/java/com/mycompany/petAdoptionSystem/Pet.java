@@ -68,10 +68,10 @@ public class Pet implements PetBehavior {
     // Interface method implementations
     @Override
     public String getCareInstructions() {
-        String type = getType().toLowerCase();
-        if (type.contains("dog")) {
+        String petType = getType().toLowerCase();
+        if (petType.contains("dog")) {
             return "Dogs need regular exercise, training, and social interaction. Feed them quality food and provide fresh water.";
-        } else if (type.contains("cat")) {
+        } else if (petType.contains("cat")) {
             return "Cats need a clean litter box, scratching posts, and regular grooming. Provide fresh water and quality food.";
         } else {
             return "Provide appropriate food, shelter, and veterinary care for your pet.";
@@ -80,10 +80,10 @@ public class Pet implements PetBehavior {
     
     @Override
     public String getAdoptionRequirements() {
-        String type = getType().toLowerCase();
-        if (type.contains("dog")) {
+        String petType = getType().toLowerCase();
+        if (petType.contains("dog")) {
             return "Dog adoption requires: stable home, time for exercise, training commitment, and financial resources for care.";
-        } else if (type.contains("cat")) {
+        } else if (petType.contains("cat")) {
             return "Cat adoption requires: safe indoor environment, time for care and play, and financial resources for veterinary care.";
         } else {
             return "General requirements: stable home, time for care, and financial resources for veterinary care.";
