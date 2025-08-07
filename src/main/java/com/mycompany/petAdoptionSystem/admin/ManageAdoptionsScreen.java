@@ -7,7 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.mycompany.petAdoptionSystem.user.Adoption;
+
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
@@ -29,12 +31,13 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class ManageAdoptionsScreen {
+public class ManageAdoptionsScreen extends AdminDashboardScreen {
     private BorderPane content;
     private Connection conn;
     private TableView<Adoption> table;
 
     public ManageAdoptionsScreen(Stage stage) {
+        super(stage);
         content = new BorderPane();
         content.setStyle("-fx-background-color: #FAD9DD; -fx-background-radius: 12;-fx-border-radius: 12;");
         
@@ -372,12 +375,18 @@ public class ManageAdoptionsScreen {
         alert.showAndWait();
     }
 
-    private void showMessage(String title, String content) {
+    @Override
+    protected void showMessage(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    @Override
+    public void showDefaultContent() {
+        contentArea.getChildren().setAll(content);
     }
 
     public BorderPane getContent() {

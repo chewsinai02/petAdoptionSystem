@@ -18,12 +18,19 @@ public class UserDashboardScreen extends MainScreen {
         // Override the menu bar with user-specific menu
         this.menuBar.getMenus().clear();
         this.menuBar.getMenus().addAll(createUserMenuBar().getMenus());
-        showPetGallery();
     }
 
     @Override
-    protected MenuBar createMenuBar() {
+    public MenuBar createMenuBar() {
         return createUserMenuBar();
+    }
+
+    public void showDefaultContent() {
+        showPetGallery();
+    }
+
+    public String getDashboardTitle() {
+        return "User Dashboard";
     }
 
     private MenuBar createUserMenuBar() {
@@ -92,7 +99,64 @@ public class UserDashboardScreen extends MainScreen {
                 UserSession.setCurrentUserId(-1);
                 UserSession.setAdmin(false);
 
-                MainScreen mainScreen = new MainScreen(stage);
+                MainScreen mainScreen = new MainScreen(stage) {
+                    @Override
+                    protected MenuBar createMenuBar() {
+                        MenuBar localMenuBar = new MenuBar();
+                        localMenuBar.setStyle("-fx-background-color: white; font-color: #4A90E2;-fx-border-color: #E0E0E0; -fx-border-width: 0 0 1 0; -fx-padding: 5 0;");
+
+                        // Home Menu
+                        Menu homeMenu = new Menu("Home");
+                        MenuItem homeItem = new MenuItem("Back to Home");
+                        homeItem.setOnAction(e -> showPetGallery());
+                        homeMenu.getItems().add(homeItem);
+
+                        // Pet Knowledge Menu
+                        Menu knowledgeMenu = new Menu("Pet Knowledge");
+                        MenuItem dogCareItem = new MenuItem("Dog Care");
+                        MenuItem catCareItem = new MenuItem("Cat Care");
+                        dogCareItem.setOnAction(e -> showPetCareInfo("dog"));
+                        catCareItem.setOnAction(e -> showPetCareInfo("cat"));
+                        knowledgeMenu.getItems().addAll(dogCareItem, catCareItem);
+
+                        // Adoption Menu
+                        Menu adoptionMenu = new Menu("Adoption");
+                        MenuItem adoptionProcessItem = new MenuItem("Adoption Process");
+                        adoptionProcessItem.setOnAction(e -> showAdoptionProcess());
+                        adoptionMenu.getItems().add(adoptionProcessItem);
+
+                        // User Account Menu
+                        Menu userAccountMenu = new Menu("Account");
+                        MenuItem loginRegisterItem = new MenuItem("Login/Register");
+                        loginRegisterItem.setOnAction(e -> showLoginScreen());
+                        userAccountMenu.getItems().add(loginRegisterItem);
+
+                        // Notification Menu
+                        Menu notificationMenu = new Menu("Notification");
+                        MenuItem notificationItem = new MenuItem("Notification");
+                        notificationItem.setOnAction(e -> showNotification());
+                        notificationMenu.getItems().add(notificationItem);
+
+                        // Show/hide menus based on login state
+                        boolean loggedIn = UserSession.isLoggedIn();
+                        if (loggedIn) {
+                            localMenuBar.getMenus().addAll(homeMenu, knowledgeMenu, adoptionMenu, notificationMenu);
+                        } else {
+                            localMenuBar.getMenus().addAll(homeMenu, knowledgeMenu, adoptionMenu, userAccountMenu);
+                        }
+                        return localMenuBar;
+                    }
+
+                    @Override
+                    protected void showDefaultContent() {
+                        showPetGallery();
+                    }
+
+                    @Override
+                    protected String getDashboardTitle() {
+                        return "Pet Adoption System";
+                    }
+                };
                 mainScreen.show();
             }
         });

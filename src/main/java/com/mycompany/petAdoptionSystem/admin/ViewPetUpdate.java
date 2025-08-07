@@ -7,7 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.mycompany.petAdoptionSystem.PetUpdate;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -26,13 +28,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
-public class ViewPetUpdate {
+public class ViewPetUpdate extends AdminDashboardScreen {
     private BorderPane content;
     private TableView<PetUpdate> updateTable;
     private Connection conn;
     
-    public ViewPetUpdate() {
+    public ViewPetUpdate(Stage stage) {
+        super(stage);
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/adopt", "root", "");
@@ -42,7 +46,8 @@ public class ViewPetUpdate {
         }
     }
 
-    private void initializeUI() {
+    @Override
+    protected void initializeUI() {
         content = new BorderPane();
         content.setStyle("-fx-background-color: #FAD9DD; -fx-background-radius: 12;-fx-border-radius: 12;");
 
@@ -255,6 +260,11 @@ public class ViewPetUpdate {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @Override
+    public void showDefaultContent() {
+        contentArea.getChildren().setAll(content);
     }
 
     public BorderPane getContent() {

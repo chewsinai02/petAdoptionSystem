@@ -4,6 +4,9 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -25,7 +28,64 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         // Show main screen directly with pet gallery
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/Logo.png")));
-        MainScreen mainScreen = new MainScreen(primaryStage);
+        MainScreen mainScreen = new MainScreen(primaryStage) {
+            @Override
+            protected MenuBar createMenuBar() {
+                MenuBar localMenuBar = new MenuBar();
+                localMenuBar.setStyle("-fx-background-color: white; font-color: #4A90E2;-fx-border-color: #E0E0E0; -fx-border-width: 0 0 1 0; -fx-padding: 5 0;");
+
+                // Home Menu
+                Menu homeMenu = new Menu("Home");
+                MenuItem homeItem = new MenuItem("Back to Home");
+                homeItem.setOnAction(e -> showPetGallery());
+                homeMenu.getItems().add(homeItem);
+
+                // Pet Knowledge Menu
+                Menu knowledgeMenu = new Menu("Pet Knowledge");
+                MenuItem dogCareItem = new MenuItem("Dog Care");
+                MenuItem catCareItem = new MenuItem("Cat Care");
+                dogCareItem.setOnAction(e -> showPetCareInfo("dog"));
+                catCareItem.setOnAction(e -> showPetCareInfo("cat"));
+                knowledgeMenu.getItems().addAll(dogCareItem, catCareItem);
+
+                // Adoption Menu
+                Menu adoptionMenu = new Menu("Adoption");
+                MenuItem adoptionProcessItem = new MenuItem("Adoption Process");
+                adoptionProcessItem.setOnAction(e -> showAdoptionProcess());
+                adoptionMenu.getItems().add(adoptionProcessItem);
+
+                // User Account Menu
+                Menu userAccountMenu = new Menu("Account");
+                MenuItem loginRegisterItem = new MenuItem("Login/Register");
+                loginRegisterItem.setOnAction(e -> showLoginScreen());
+                userAccountMenu.getItems().add(loginRegisterItem);
+
+                // Notification Menu
+                Menu notificationMenu = new Menu("Notification");
+                MenuItem notificationItem = new MenuItem("Notification");
+                notificationItem.setOnAction(e -> showNotification());
+                notificationMenu.getItems().add(notificationItem);
+
+                // Show/hide menus based on login state
+                boolean loggedIn = UserSession.isLoggedIn();
+                if (loggedIn) {
+                    localMenuBar.getMenus().addAll(homeMenu, knowledgeMenu, adoptionMenu, notificationMenu);
+                } else {
+                    localMenuBar.getMenus().addAll(homeMenu, knowledgeMenu, adoptionMenu, userAccountMenu);
+                }
+                return localMenuBar;
+            }
+
+            @Override
+            protected void showDefaultContent() {
+                showPetGallery();
+            }
+
+            @Override
+            protected String getDashboardTitle() {
+                return "Pet Adoption System";
+            }
+        };
         mainScreen.show();
     }
 

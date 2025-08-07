@@ -27,11 +27,12 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class RequestPetUpdate {
+public class RequestPetUpdate extends AdminDashboardScreen {
     private VBox content;
     private Connection conn;
 
     public RequestPetUpdate(Stage stage) {
+        super(stage);
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/adopt", "root", "");
@@ -41,7 +42,8 @@ public class RequestPetUpdate {
         }
     }
 
-    private void initializeUI() {
+    @Override
+    protected void initializeUI() {
         content = new VBox(20);
         content.setAlignment(Pos.CENTER);
         content.setPadding(new Insets(20));
@@ -272,6 +274,11 @@ public class RequestPetUpdate {
         alert.setContentText(message);
         alert.showAndWait();
     }
+    @Override
+    public void showDefaultContent() {
+        contentArea.getChildren().setAll(content);
+    }
+
     public VBox getContent() {
         return content;
     }

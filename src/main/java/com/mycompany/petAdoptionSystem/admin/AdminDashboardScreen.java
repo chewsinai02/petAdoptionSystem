@@ -12,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -23,12 +22,19 @@ public class AdminDashboardScreen extends MainScreen {
         // Override the menu bar with admin-specific menu
         this.menuBar.getMenus().clear();
         this.menuBar.getMenus().addAll(createAdminMenuBar().getMenus());
-        showWelcome();
     }
 
     @Override
-    protected MenuBar createMenuBar() {
+    public MenuBar createMenuBar() {
         return createAdminMenuBar();
+    }
+
+    public void showDefaultContent() {
+        showWelcome();
+    }
+
+    public String getDashboardTitle() {
+        return "Admin Dashboard";
     }
 
     private MenuBar createAdminMenuBar() {
@@ -81,26 +87,22 @@ public class AdminDashboardScreen extends MainScreen {
 
     private void showManagePets() {
         ManagePetsScreen petsScreen = new ManagePetsScreen(stage);
-        contentArea.getChildren().setAll(petsScreen.getContent());
-        StackPane.setMargin(petsScreen.getContent(), new Insets(0));
+        petsScreen.showDefaultContent();
     }
 
     private void showManageApprovals() {
         ManageAdoptionsScreen adoptionsScreen = new ManageAdoptionsScreen(stage);
-        contentArea.getChildren().setAll(adoptionsScreen.getContent());
-        StackPane.setMargin(adoptionsScreen.getContent(), new Insets(0));
+        adoptionsScreen.showDefaultContent();
     }
 
     private void showWellbeing() {
-        ViewPetUpdate updateScreen = new ViewPetUpdate();
-        contentArea.getChildren().setAll(updateScreen.getContent());
-        StackPane.setMargin(updateScreen.getContent(), new Insets(0));
+        ViewPetUpdate updateScreen = new ViewPetUpdate(stage);
+        updateScreen.showDefaultContent();
     }
 
     private void showRequest() {
         RequestPetUpdate requestScreen = new RequestPetUpdate(stage);
-        contentArea.getChildren().setAll(requestScreen.getContent());
-        StackPane.setMargin(requestScreen.getContent(), new Insets(0));
+        requestScreen.showDefaultContent();
     }
 
     @Override
@@ -116,7 +118,64 @@ public class AdminDashboardScreen extends MainScreen {
                 UserSession.setCurrentUserId(-1);
                 UserSession.setAdmin(false);
 
-                MainScreen mainScreen = new MainScreen(stage);
+                MainScreen mainScreen = new MainScreen(stage) {
+                    @Override
+                    protected MenuBar createMenuBar() {
+                        MenuBar localMenuBar = new MenuBar();
+                        localMenuBar.setStyle("-fx-background-color: white; font-color: #4A90E2;-fx-border-color: #E0E0E0; -fx-border-width: 0 0 1 0; -fx-padding: 5 0;");
+
+                        // Home Menu
+                        Menu homeMenu = new Menu("Home");
+                        MenuItem homeItem = new MenuItem("Back to Home");
+                        homeItem.setOnAction(e -> showPetGallery());
+                        homeMenu.getItems().add(homeItem);
+
+                        // Pet Knowledge Menu
+                        Menu knowledgeMenu = new Menu("Pet Knowledge");
+                        MenuItem dogCareItem = new MenuItem("Dog Care");
+                        MenuItem catCareItem = new MenuItem("Cat Care");
+                        dogCareItem.setOnAction(e -> showPetCareInfo("dog"));
+                        catCareItem.setOnAction(e -> showPetCareInfo("cat"));
+                        knowledgeMenu.getItems().addAll(dogCareItem, catCareItem);
+
+                        // Adoption Menu
+                        Menu adoptionMenu = new Menu("Adoption");
+                        MenuItem adoptionProcessItem = new MenuItem("Adoption Process");
+                        adoptionProcessItem.setOnAction(e -> showAdoptionProcess());
+                        adoptionMenu.getItems().add(adoptionProcessItem);
+
+                        // User Account Menu
+                        Menu userAccountMenu = new Menu("Account");
+                        MenuItem loginRegisterItem = new MenuItem("Login/Register");
+                        loginRegisterItem.setOnAction(e -> showLoginScreen());
+                        userAccountMenu.getItems().add(loginRegisterItem);
+
+                        // Notification Menu
+                        Menu notificationMenu = new Menu("Notification");
+                        MenuItem notificationItem = new MenuItem("Notification");
+                        notificationItem.setOnAction(e -> showNotification());
+                        notificationMenu.getItems().add(notificationItem);
+
+                        // Show/hide menus based on login state
+                        boolean loggedIn = UserSession.isLoggedIn();
+                        if (loggedIn) {
+                            localMenuBar.getMenus().addAll(homeMenu, knowledgeMenu, adoptionMenu, notificationMenu);
+                        } else {
+                            localMenuBar.getMenus().addAll(homeMenu, knowledgeMenu, adoptionMenu, userAccountMenu);
+                        }
+                        return localMenuBar;
+                    }
+
+                    @Override
+                    protected void showDefaultContent() {
+                        showPetGallery();
+                    }
+
+                    @Override
+                    protected String getDashboardTitle() {
+                        return "Pet Adoption System";
+                    }
+                };
                 mainScreen.show();
             }
         });

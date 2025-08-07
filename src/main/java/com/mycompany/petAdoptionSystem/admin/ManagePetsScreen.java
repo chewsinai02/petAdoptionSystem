@@ -18,7 +18,6 @@ import com.mycompany.petAdoptionSystem.Pet;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -39,11 +38,10 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class ManagePetsScreen {
+public class ManagePetsScreen extends AdminDashboardScreen {
     private static final String PRIMARY_COLOR = "#F4ACB5";
     private static final String SECONDARY_COLOR = "#fad9dd";
     private static final String ACCENT_COLOR = "#2C3E50";
-    private final Stage stage;
     private Connection conn;
     private TableView<Pet> petTable;
     private TextField nameField, typeField, remarkField;
@@ -54,7 +52,7 @@ public class ManagePetsScreen {
     private VBox content;
 
     public ManagePetsScreen(Stage primaryStage) {
-        this.stage = primaryStage;
+        super(primaryStage);
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/adopt", "root", "");
@@ -62,15 +60,10 @@ public class ManagePetsScreen {
         } catch (ClassNotFoundException | SQLException e) {
             showError("Database connection error: " + e.getMessage());
         }
-        VBox mainContent = new VBox(20);
-        mainContent.setAlignment(Pos.CENTER);
-        mainContent.setPadding(new Insets(20));
-        mainContent.setStyle("-fx-background-color: " + SECONDARY_COLOR + ";");
-        Scene scene = new Scene(mainContent, 900, 700);
-        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
     }
 
-    private void initializeUI() {
+    @Override
+    protected void initializeUI() {
         content = new VBox(20);
         content.setAlignment(Pos.CENTER);
         content.setPadding(new Insets(20));
@@ -737,12 +730,18 @@ public class ManagePetsScreen {
         alert.showAndWait();
     }
 
-    private void showMessage(String title, String content) {
+    @Override
+    protected void showMessage(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    @Override
+    public void showDefaultContent() {
+        contentArea.getChildren().setAll(content);
     }
 
     public VBox getContent() {

@@ -9,7 +9,13 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Pet {
+// Interface for pet behaviors
+interface PetBehavior {
+    String getCareInstructions();
+    String getAdoptionRequirements();
+}
+
+public class Pet implements PetBehavior {
     private final IntegerProperty id;
     private final StringProperty name;
     private final StringProperty type;
@@ -58,4 +64,29 @@ public class Pet {
     public void setPic(String pic) { this.pic.set(pic); }
     public void setState(int state) { this.state.set(state); }
     public void setRemark(String remark) { this.remark.set(remark); }
+    
+    // Interface method implementations
+    @Override
+    public String getCareInstructions() {
+        String type = getType().toLowerCase();
+        if (type.contains("dog")) {
+            return "Dogs need regular exercise, training, and social interaction. Feed them quality food and provide fresh water.";
+        } else if (type.contains("cat")) {
+            return "Cats need a clean litter box, scratching posts, and regular grooming. Provide fresh water and quality food.";
+        } else {
+            return "Provide appropriate food, shelter, and veterinary care for your pet.";
+        }
+    }
+    
+    @Override
+    public String getAdoptionRequirements() {
+        String type = getType().toLowerCase();
+        if (type.contains("dog")) {
+            return "Dog adoption requires: stable home, time for exercise, training commitment, and financial resources for care.";
+        } else if (type.contains("cat")) {
+            return "Cat adoption requires: safe indoor environment, time for care and play, and financial resources for veterinary care.";
+        } else {
+            return "General requirements: stable home, time for care, and financial resources for veterinary care.";
+        }
+    }
 } 
