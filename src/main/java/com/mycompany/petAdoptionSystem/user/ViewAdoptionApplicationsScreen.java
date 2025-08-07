@@ -7,9 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.mycompany.petAdoptionSystem.PetGalleryScreen;
-
 import com.mycompany.petAdoptionSystem.UserSession;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -32,7 +29,7 @@ public class ViewAdoptionApplicationsScreen {
     private VBox content;
     private VBox card;
     private Connection conn;
-    private TableView<AdoptionApplication> table;
+    private TableView<Adoption> table;
 
     public ViewAdoptionApplicationsScreen(Stage primaryStage) {
         this.stage = primaryStage;
@@ -70,7 +67,7 @@ public class ViewAdoptionApplicationsScreen {
         
         // CSS for rows and header can be placed in an external stylesheet or programmatically added:
         table.setRowFactory(tv -> {
-            TableRow<AdoptionApplication> row = new TableRow<>();
+            TableRow<Adoption> row = new TableRow<>();
 
             String defaultStyle =
                 "-fx-background-color: transparent;" +
@@ -118,19 +115,19 @@ public class ViewAdoptionApplicationsScreen {
 
         
         // Create columns
-        TableColumn<AdoptionApplication, String> petNameCol = new TableColumn<>("Pet Name");
+        TableColumn<Adoption, String> petNameCol = new TableColumn<>("Pet Name");
         petNameCol.setCellValueFactory(new PropertyValueFactory<>("petName"));
 
-        TableColumn<AdoptionApplication, String> petTypeCol = new TableColumn<>("Pet Type");
+        TableColumn<Adoption, String> petTypeCol = new TableColumn<>("Pet Type");
         petTypeCol.setCellValueFactory(new PropertyValueFactory<>("petType"));
 
-        TableColumn<AdoptionApplication, String> applyDateCol = new TableColumn<>("Apply Date");
+        TableColumn<Adoption, String> applyDateCol = new TableColumn<>("Apply Date");
         applyDateCol.setCellValueFactory(new PropertyValueFactory<>("applyDate"));
 
-        TableColumn<AdoptionApplication, String> statusCol = new TableColumn<>("Status");
+        TableColumn<Adoption, String> statusCol = new TableColumn<>("Status");
         statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-        TableColumn<AdoptionApplication, String> remarksCol = new TableColumn<>("Remarks");
+        TableColumn<Adoption, String> remarksCol = new TableColumn<>("Remarks");
         remarksCol.setCellValueFactory(new PropertyValueFactory<>("remarks"));
 
         table.getColumns().addAll(petNameCol, petTypeCol, applyDateCol, statusCol, remarksCol);
@@ -150,7 +147,7 @@ public class ViewAdoptionApplicationsScreen {
         }
 
         int userId = UserSession.getCurrentUserId();
-        List<AdoptionApplication> applications = new ArrayList<>();
+        List<Adoption> applications = new ArrayList<>();
 
         try {
             String query = "SELECT a.id, p.petName, p.petType, a.adoptTime, a.state, p.remark " +
@@ -172,13 +169,22 @@ public class ViewAdoptionApplicationsScreen {
                     default: status = "Unknown";
                 }
 
-                applications.add(new AdoptionApplication(
-                    rs.getInt("id"),
-                    rs.getString("petName"),
-                    rs.getString("petType"),
-                    rs.getDate("adoptTime").toString(),
-                    status,
-                    rs.getString("remark")
+                applications.add(new Adoption(
+                        rs.getInt("id"),
+                        rs.getString("realName"),
+                        rs.getString("petName"),
+                        rs.getDate("adoptTime").toString(),
+                        status,
+                        rs.getString("userName"),
+                        rs.getString("telephone"),
+                        rs.getString("email"),
+                        rs.getString("sex"),
+                        rs.getInt("age"),
+                        rs.getString("address"),
+                        rs.getInt("userState"),
+                        rs.getInt("petHave"),
+                        rs.getInt("experience"),
+                        rs.getString("pic")
                 ));
             }
 
@@ -208,32 +214,5 @@ public class ViewAdoptionApplicationsScreen {
 
     public VBox getContent() {
         return content;
-    }
-
-    // Class to hold adoption application data
-    public static class AdoptionApplication {
-        private final int id;
-        private final String petName;
-        private final String petType;
-        private final String applyDate;
-        private final String status;
-        private final String remarks;
-
-        public AdoptionApplication(int id, String petName, String petType, String applyDate, String status, String remarks) {
-            this.id = id;
-            this.petName = petName;
-            this.petType = petType;
-            this.applyDate = applyDate;
-            this.status = status;
-            this.remarks = remarks;
-        }
-
-        // Getters
-        public int getId() { return id; }
-        public String getPetName() { return petName; }
-        public String getPetType() { return petType; }
-        public String getApplyDate() { return applyDate; }
-        public String getStatus() { return status; }
-        public String getRemarks() { return remarks; }
     }
 } 

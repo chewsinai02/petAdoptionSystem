@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+import com.mycompany.petAdoptionSystem.user.Adoption;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
@@ -32,9 +32,8 @@ import javafx.stage.Stage;
 public class ManageAdoptionsScreen {
     private BorderPane content;
     private Connection conn;
-    private TableView<AdoptionRequest> table;
+    private TableView<Adoption> table;
 
-    @SuppressWarnings("unchecked")
     public ManageAdoptionsScreen(Stage stage) {
         content = new BorderPane();
         content.setStyle("-fx-background-color: #FAD9DD; -fx-background-radius: 12;-fx-border-radius: 12;");
@@ -68,7 +67,7 @@ public class ManageAdoptionsScreen {
                 + "-fx-border-radius:1px;"
                 + "-fx-border-width:1px;"
                 + "-fx-border-color: white;");
-        TableColumn<AdoptionRequest, Integer> idCol = new TableColumn<>("ID");
+        TableColumn<Adoption, Integer> idCol = new TableColumn<>("ID");
         idCol.setCellValueFactory(cellData -> cellData.getValue().idProperty().asObject());
         idCol.setMinWidth(40);
         idCol.setPrefWidth(40);
@@ -77,7 +76,7 @@ public class ManageAdoptionsScreen {
                 + "-fx-border-color: #E0E0E0; "
                 + "-fx-border-width: 0 0 1 0; "
                 + "-fx-padding: 5px 0;");
-        TableColumn<AdoptionRequest, AdoptionRequest> userCol = new TableColumn<>("User");
+        TableColumn<Adoption, Adoption> userCol = new TableColumn<>("User");
         userCol.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue()));
         userCol.setCellFactory(col -> new TableCell<>() {
             private final HBox box = new HBox(6);
@@ -91,7 +90,7 @@ public class ManageAdoptionsScreen {
                 box.getChildren().addAll(imageView, nameLabel);
             }
             @Override
-            protected void updateItem(AdoptionRequest item, boolean empty) {
+            protected void updateItem(Adoption item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
                     setGraphic(null);
@@ -107,7 +106,7 @@ public class ManageAdoptionsScreen {
                 + "-fx-border-color: #E0E0E0; "
                 + "-fx-border-width: 0 0 1 0; "
                 + "-fx-padding: 5px 0;");
-        TableColumn<AdoptionRequest, String> picCol = new TableColumn<>("Profile Pic");
+        TableColumn<Adoption, String> picCol = new TableColumn<>("Profile Pic");
         picCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPic()));
         picCol.setCellFactory(col -> new TableCell<>() {
             private final ImageView imageView = new ImageView();
@@ -127,7 +126,7 @@ public class ManageAdoptionsScreen {
                 }
             }
         });
-        TableColumn<AdoptionRequest, String> sexCol = new TableColumn<>("Sex");
+        TableColumn<Adoption, String> sexCol = new TableColumn<>("Sex");
         sexCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getSex()));
         sexCol.setMinWidth(50);
         sexCol.setPrefWidth(50);
@@ -136,7 +135,7 @@ public class ManageAdoptionsScreen {
                 + "-fx-border-color: #E0E0E0; "
                 + "-fx-border-width: 0 0 1 0; "
                 + "-fx-padding: 5px 0;");
-        TableColumn<AdoptionRequest, String> ageCol = new TableColumn<>("Age");
+        TableColumn<Adoption, String> ageCol = new TableColumn<>("Age");
         ageCol.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getAge())));
         ageCol.setMinWidth(50);
         ageCol.setPrefWidth(50);
@@ -145,7 +144,7 @@ public class ManageAdoptionsScreen {
                 + "-fx-border-color: #E0E0E0; "
                 + "-fx-border-width: 0 0 1 0; "
                 + "-fx-padding: 5px 0;");
-        TableColumn<AdoptionRequest, String> telephoneCol = new TableColumn<>("Telephone");
+        TableColumn<Adoption, String> telephoneCol = new TableColumn<>("Telephone");
         telephoneCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTelephone()));
         telephoneCol.setMinWidth(120);
         telephoneCol.setPrefWidth(130);
@@ -154,14 +153,14 @@ public class ManageAdoptionsScreen {
                 + "-fx-border-color: #E0E0E0; "
                 + "-fx-border-width: 0 0 1 0; "
                 + "-fx-padding: 5px 0;");
-        TableColumn<AdoptionRequest, String> emailCol = new TableColumn<>("Email");
+        TableColumn<Adoption, String> emailCol = new TableColumn<>("Email");
         emailCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmail()));
         emailCol.setPrefWidth(180);
         emailCol.setStyle("-fx-background-radius: 5pt 5pt 0 0; "
                 + "-fx-border-color: #E0E0E0; "
                 + "-fx-border-width: 0 0 1 0; "
                 + "-fx-padding: 5px 0;");
-        TableColumn<AdoptionRequest, String> petCol = new TableColumn<>("Pet Name");
+        TableColumn<Adoption, String> petCol = new TableColumn<>("Pet Name");
         petCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPetName()));
         petCol.setMinWidth(80);
         petCol.setPrefWidth(80);
@@ -170,7 +169,7 @@ public class ManageAdoptionsScreen {
                 + "-fx-border-color: #E0E0E0; "
                 + "-fx-border-width: 0 0 1 0; "
                 + "-fx-padding: 5px 0;");
-        TableColumn<AdoptionRequest, String> dateCol = new TableColumn<>("Adopt Date");
+        TableColumn<Adoption, String> dateCol = new TableColumn<>("Adopt Date");
         dateCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAdoptTime()));
         dateCol.setMinWidth(80);
         dateCol.setPrefWidth(90);
@@ -179,14 +178,14 @@ public class ManageAdoptionsScreen {
                 + "-fx-border-color: #E0E0E0; "
                 + "-fx-border-width: 0 0 1 0; "
                 + "-fx-padding: 5px 0;");
-        TableColumn<AdoptionRequest, Void> detailsCol = new TableColumn<>("Details");
+        TableColumn<Adoption, Void> detailsCol = new TableColumn<>("Details");
         detailsCol.setCellFactory(param -> new TableCell<>() {
             private final Button detailsBtn = new Button("View Details");
             private final HBox box = new HBox(detailsBtn);
             {
                 box.setAlignment(Pos.CENTER);
                 detailsBtn.setOnAction(e -> {
-                    AdoptionRequest request = getTableView().getItems().get(getIndex());
+                    Adoption request = getTableView().getItems().get(getIndex());
                     showUserDetailsDialog(request);
                 });
             }
@@ -207,7 +206,7 @@ public class ManageAdoptionsScreen {
                 + "-fx-border-color: #E0E0E0; "
                 + "-fx-border-width: 0 0 1 0; "
                 + "-fx-padding: 5px 0;");
-        TableColumn<AdoptionRequest, Void> actionCol = new TableColumn<>("Action");
+        TableColumn<Adoption, Void> actionCol = new TableColumn<>("Action");
         actionCol.setCellFactory(param -> new TableCell<>() {
             private final Button approveBtn = new Button("Approve");
             private final Button rejectBtn = new Button("Reject");
@@ -228,7 +227,7 @@ public class ManageAdoptionsScreen {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    AdoptionRequest request = getTableView().getItems().get(getIndex());
+                    Adoption request = getTableView().getItems().get(getIndex());
                     if (request.getStatus().equals("Pending")) {
                         setGraphic(buttonBox);
                     } else {
@@ -255,7 +254,7 @@ public class ManageAdoptionsScreen {
                 + "-fx-border-width: 0 0 1 0; "
                 + "-fx-padding: 5px 0;");
 
-        TableColumn<AdoptionRequest, Void> dummyCol = new TableColumn<>("");
+        TableColumn<Adoption, Void> dummyCol = new TableColumn<>("");
         dummyCol.setMinWidth(0);
         dummyCol.setMaxWidth(0);
         dummyCol.setPrefWidth(0);
@@ -269,11 +268,11 @@ public class ManageAdoptionsScreen {
             idCol, userCol, sexCol, ageCol, telephoneCol, emailCol, petCol, dateCol, detailsCol, actionCol, dummyCol
         );
         content.setCenter(table);
-        loadAdoptionRequests();
+        loadAdoption();
     }
 
-    private void loadAdoptionRequests() {
-        List<AdoptionRequest> requests = new ArrayList<>();
+    private void loadAdoption() {
+        List<Adoption> requests = new ArrayList<>();
         try {
             String query = "SELECT a.*, p.petName AS petName, " +
                           "u.realName, u.userName, u.sex, u.age, u.address, u.telephone, u.email, u.state AS userState, u.petHave, u.experience, u.pic " +
@@ -292,7 +291,7 @@ public class ManageAdoptionsScreen {
                     case 3: statusText = "Returned"; break;
                     default: statusText = "Unknown"; break;
                 }
-                requests.add(new AdoptionRequest(
+                requests.add(new Adoption(
                         rs.getInt("id"),
                         rs.getString("realName"),
                         rs.getString("petName") != null ? rs.getString("petName") : "Unknown",
@@ -316,7 +315,7 @@ public class ManageAdoptionsScreen {
         }
     }
 
-    private void handleApproval(AdoptionRequest request, boolean approve) {
+    private void handleApproval(Adoption request, boolean approve) {
         try {
             conn.setAutoCommit(false); // Start transaction
 
@@ -347,7 +346,7 @@ public class ManageAdoptionsScreen {
             stmtPet.executeUpdate();
 
             conn.commit(); // Commit transaction
-            loadAdoptionRequests();
+            loadAdoption();
             showMessage("Success", approve ? "Adoption approved and pet status updated." : "Adoption rejected and pet status reset.");
         } catch (SQLException e) {
             try {
@@ -385,91 +384,7 @@ public class ManageAdoptionsScreen {
         return content;
     }
 
-    // Inner class for adoption request row
-    public static class AdoptionRequest {
-        private final javafx.beans.property.IntegerProperty id;
-        private final javafx.beans.property.StringProperty userName;
-        private final javafx.beans.property.StringProperty petName;
-        private final javafx.beans.property.StringProperty adoptTime;
-        private final javafx.beans.property.StringProperty status;
-        private String realName;
-        private String telephone;
-        private String email;
-        private String address;
-        private String sex;
-        private int age;
-        private int petHave;
-        private int experience;
-        private final int userState;
-        private final String pic;
-        public AdoptionRequest(
-            int id,
-            String realName,
-            String petName,
-            String adoptTime,
-            String status,
-            String userName,
-            String telephone,
-            String email,
-            String sex,
-            int age,
-            String address,
-            int userState,
-            int petHave,
-            int experience,
-            String pic
-        ) {
-            this.id = new javafx.beans.property.SimpleIntegerProperty(id);
-            this.realName = realName;
-            this.petName = new javafx.beans.property.SimpleStringProperty(petName);
-            this.adoptTime = new javafx.beans.property.SimpleStringProperty(adoptTime);
-            this.status = new javafx.beans.property.SimpleStringProperty(status);
-            this.userName = new javafx.beans.property.SimpleStringProperty(userName);
-            this.telephone = telephone;
-            this.email = email;
-            this.sex = sex;
-            this.age = age;
-            this.address = address;
-            this.userState = userState;
-            this.petHave = petHave;
-            this.experience = experience;
-            this.pic = pic;
-        }
-        public int getId() { return id.get(); }
-        public javafx.beans.property.IntegerProperty idProperty() { return id; }
-        public String getUserName() { return userName.get(); }
-        public javafx.beans.property.StringProperty userNameProperty() { return userName; }
-        public String getPetName() { return petName.get(); }
-        public javafx.beans.property.StringProperty petNameProperty() { return petName; }
-        public String getAdoptTime() { return adoptTime.get(); }
-        public javafx.beans.property.StringProperty adoptTimeProperty() { return adoptTime; }
-        public String getStatus() { return status.get(); }
-        public javafx.beans.property.StringProperty statusProperty() { return status; }
-        public String getRealName() { return realName; }
-        public void setRealName(String realName) { this.realName = realName; }
-        public String getTelephone() { return telephone; }
-        public void setTelephone(String telephone) { this.telephone = telephone; }
-        public String getEmail() { return email; }
-        public void setEmail(String email) { this.email = email; }
-        public String getAddress() { return address; }
-        public void setAddress(String address) { this.address = address; }
-        public String getSex() { return sex; }
-        public void setSex(String sex) { this.sex = sex; }
-        public int getAge() { return age; }
-        public void setAge(int age) { this.age = age; }
-        public int getUserState() { return userState; }
-        public void setUserState(int state) { } // This field is no longer used
-        public int getPetHave() { return petHave; }
-        public void setPetHave(int petHave) { this.petHave = petHave; }
-        public int getExperience() { return experience; }
-        public void setExperience(int experience) { this.experience = experience; }
-        public String getUserStateString() {
-            return userState == 1 ? "Yes" : "No";
-        }
-        public String getPic() { return pic; }
-    }
-
-    private void showUserDetailsDialog(AdoptionRequest request) {
+    private void showUserDetailsDialog(Adoption request) {
         Dialog<Void> dialog = new Dialog<>();
         dialog.setTitle("User Details");
         dialog.setHeaderText(null);

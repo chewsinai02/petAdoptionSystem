@@ -10,8 +10,8 @@ import java.sql.SQLException;
 import com.mycompany.petAdoptionSystem.admin.AdminDashboardScreen;
 import com.mycompany.petAdoptionSystem.user.AdoptedPetListScreen;
 import com.mycompany.petAdoptionSystem.user.UpdatePetStatus;
+import com.mycompany.petAdoptionSystem.user.UserDashboardScreen;
 import com.mycompany.petAdoptionSystem.user.ViewAdoptionApplicationsScreen;
-import com.mycompany.petAdoptionSystem.UserSession;
 
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -48,17 +48,17 @@ public class MainScreen {
     private static final String PRIMARY_COLOR = "#FAD9DD";
     private static final String SECONDARY_COLOR = "#F5F5F5";
     private static final String ACCENT_COLOR = "#2C3E50";
-    private final Stage stage;
-    private BorderPane mainLayout;
-    private StackPane contentArea;
-    private MenuBar menuBar;
+    protected final Stage stage;
+    protected BorderPane mainLayout;
+    protected StackPane contentArea;
+    protected MenuBar menuBar;
 
     public MainScreen(Stage primaryStage) {
         this.stage = primaryStage;
         initializeUI();
     }
 
-    private void initializeUI() {
+    protected void initializeUI() {
         mainLayout = new BorderPane();
         mainLayout.setStyle("-fx-background-color: " + SECONDARY_COLOR + ";");
 
@@ -83,7 +83,7 @@ public class MainScreen {
         showPetGallery();
     }
 
-    private MenuBar createMenuBar() {
+    protected MenuBar createMenuBar() {
         MenuBar localMenuBar = new MenuBar();
         localMenuBar.setStyle("-fx-background-color: white; font-color: #4A90E2;-fx-border-color: #E0E0E0; -fx-border-width: 0 0 1 0; -fx-padding: 5 0;");
 
@@ -129,14 +129,14 @@ public class MainScreen {
         return localMenuBar;
     }
 
-    private void showPetGallery() {
+    protected void showPetGallery() {
         PetGalleryScreen galleryScreen = new PetGalleryScreen(stage);
         contentArea.getChildren().clear();
         contentArea.getChildren().add(galleryScreen.getContent());
         StackPane.setMargin(galleryScreen.getContent(), new Insets(0));
     }
 
-    private void showPetCareInfo(String petType) {
+    protected void showPetCareInfo(String petType) {
         Dialog<Void> dialog = new Dialog<>();
         dialog.setTitle(petType.equals("dog") ? "Dog Care" : "Cat Care");
         
@@ -205,7 +205,7 @@ public class MainScreen {
         dialog.showAndWait();
     }
 
-    private void showAdoptionProcess() {
+    protected void showAdoptionProcess() {
         Dialog<Void> dialog = new Dialog<>();
         dialog.setTitle("Adoption Process");
         
@@ -261,14 +261,14 @@ public class MainScreen {
         dialog.showAndWait();
     }
 
-    private void showAdoptedPetList() {
+    protected void showAdoptedPetList() {
         AdoptedPetListScreen adoptedPetsScreen = new AdoptedPetListScreen(children -> contentArea.getChildren().setAll(children));
         contentArea.getChildren().clear();
         contentArea.getChildren().add(adoptedPetsScreen.getContent());
         StackPane.setMargin(adoptedPetsScreen.getContent(), new Insets(0));
     }
 
-    private void showUserProfile() {
+    protected void showUserProfile() {
         int userId = UserSession.getCurrentUserId();
         if (userId <= 0) {
             showMessage("Not Logged In", "Please log in to view your profile.");
@@ -433,7 +433,7 @@ public class MainScreen {
     }
 
     // Show edit profile form, pre-filled with user info
-    private void showEditUserProfile(UserProfileData user) {
+    protected void showEditUserProfile(UserProfileData user) {
         try {
             int userId = user.id;
             final int INPUT_WIDTH = 320;
@@ -713,7 +713,7 @@ public class MainScreen {
         }
     }
     
-    private void styleInputField(Control field) {
+    protected void styleInputField(Control field) {
         field.setStyle(
             "-fx-background-color: transparent;" +
             "-fx-border-color: #F4ACB5;" +
@@ -724,7 +724,7 @@ public class MainScreen {
 
 
     // Helper for edit row
-    private HBox createEditRow(String labelText, javafx.scene.Node field, Font labelFont, Color labelColor) {
+    protected HBox createEditRow(String labelText, javafx.scene.Node field, Font labelFont, Color labelColor) {
         Label label = new Label(labelText + ":");
         label.setFont(labelFont);
         label.setTextFill(labelColor);
@@ -734,12 +734,12 @@ public class MainScreen {
         return row;
     }
 
-    private void showLoginScreen() {
+    protected void showLoginScreen() {
         Stage loginStage = new Stage();
         LoginScreen loginScreen = new LoginScreen(loginStage);
         loginScreen.setOnUserLoginSuccess(() -> {
-            updateMenuBarAfterLogin();
-            showPetGallery();
+            UserDashboardScreen userDashboard = new UserDashboardScreen(stage);
+            userDashboard.show();
             loginStage.close();
         });
         loginScreen.setOnAdminLoginSuccess(() -> {
@@ -750,7 +750,7 @@ public class MainScreen {
         loginScreen.show();
     }
 
-    private void updateMenuBarAfterLogin() {
+    protected void updateMenuBarAfterLogin() {
         // Remove all menus and recreate based on login state
         this.menuBar.getMenus().clear();
         MenuBar newMenuBar = createMenuBar();
@@ -773,17 +773,17 @@ public class MainScreen {
         }
     }
 
-    private void showMyApplications() {
+    protected void showMyApplications() {
         ViewAdoptionApplicationsScreen applicationsScreen = new ViewAdoptionApplicationsScreen(new Stage());
         applicationsScreen.show();
     }
 
-    private void showUpdatePetStatus() {
+    protected void showUpdatePetStatus() {
         UpdatePetStatus UpdateScreen = new UpdatePetStatus();
         contentArea.getChildren().setAll(UpdateScreen.getContent());
     }
 
-    private void handleLogout() {
+    protected void handleLogout() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Logout");
         alert.setHeaderText(null);
@@ -793,13 +793,14 @@ public class MainScreen {
             if (response == ButtonType.OK) {
                 UserSession.setLoggedIn(false);
                 UserSession.setCurrentUserId(-1);
+                UserSession.setAdmin(false);
                 updateMenuBarAfterLogin();
                 showPetGallery();
             }
         });
     }
 
-    public void showNotification() {
+    protected void showNotification() {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/adopt", "root", "");
             PreparedStatement stmt = conn.prepareStatement(
@@ -850,7 +851,7 @@ public class MainScreen {
         }
     }
 
-    private void showMessage(String title, String content) {
+    protected void showMessage(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);

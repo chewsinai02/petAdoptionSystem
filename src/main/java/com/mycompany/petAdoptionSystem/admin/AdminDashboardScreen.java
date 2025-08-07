@@ -1,9 +1,8 @@
 package com.mycompany.petAdoptionSystem.admin;
 
 import com.mycompany.petAdoptionSystem.MainScreen;
-import com.mycompany.petAdoptionSystem.PetGalleryScreen;
-
 import com.mycompany.petAdoptionSystem.UserSession;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,28 +12,26 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class AdminDashboardScreen {
-    private final Stage stage;
-    private final BorderPane mainLayout;
-    private final StackPane contentArea;
-
+public class AdminDashboardScreen extends MainScreen {
+    
     public AdminDashboardScreen(Stage primaryStage) {
-        this.stage = primaryStage;
-        mainLayout = new BorderPane();
-        contentArea = new StackPane();
-        contentArea.setPadding(new Insets(20));
-        contentArea.setStyle("-fx-background-color: white; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);");
-        mainLayout.setCenter(contentArea);
-        mainLayout.setTop(createMenuBar());
+        super(primaryStage);
+        // Override the menu bar with admin-specific menu
+        this.menuBar.getMenus().clear();
+        this.menuBar.getMenus().addAll(createAdminMenuBar().getMenus());
         showWelcome();
     }
 
-    private MenuBar createMenuBar() {
+    @Override
+    protected MenuBar createMenuBar() {
+        return createAdminMenuBar();
+    }
+
+    private MenuBar createAdminMenuBar() {
         MenuBar menuBar = new MenuBar();
         menuBar.setStyle("-fx-background-color: white; font-color: #4A90E2; -fx-border-color: #E0E0E0; -fx-border-width: 0 0 1 0; -fx-padding: 5 0;");
 
@@ -106,7 +103,8 @@ public class AdminDashboardScreen {
         StackPane.setMargin(requestScreen.getContent(), new Insets(0));
     }
 
-    private void handleLogout() {
+    @Override
+    protected void handleLogout() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Logout");
         alert.setHeaderText(null);
@@ -116,6 +114,7 @@ public class AdminDashboardScreen {
             if (response == ButtonType.OK) {
                 UserSession.setLoggedIn(false);
                 UserSession.setCurrentUserId(-1);
+                UserSession.setAdmin(false);
 
                 MainScreen mainScreen = new MainScreen(stage);
                 mainScreen.show();
@@ -123,6 +122,7 @@ public class AdminDashboardScreen {
         });
     }
 
+    @Override
     public void show() {
         Scene scene = new Scene(mainLayout, 1200, 800);
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());

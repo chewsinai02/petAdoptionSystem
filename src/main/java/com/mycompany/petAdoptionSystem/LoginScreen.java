@@ -6,8 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.mycompany.petAdoptionSystem.UserSession;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -263,6 +261,7 @@ public class LoginScreen {
                 isAdmin = true;
                 UserSession.setLoggedIn(true);
                 UserSession.setCurrentUserId(adminRs.getInt("id"));
+                UserSession.setAdmin(true);
                 showSuccessAndProceed();
                 return;
             }
@@ -279,6 +278,7 @@ public class LoginScreen {
                 isAdmin = false;
                 UserSession.setLoggedIn(true);
                 UserSession.setCurrentUserId(userRs.getInt("id"));
+                UserSession.setAdmin(false);
                 showSuccessAndProceed();
                 return;
             }
