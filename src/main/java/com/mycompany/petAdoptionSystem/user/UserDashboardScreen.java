@@ -25,10 +25,12 @@ public class UserDashboardScreen extends MainScreen {
         return createUserMenuBar();
     }
 
+    @Override
     public void showDefaultContent() {
         showPetGallery();
     }
 
+    @Override
     public String getDashboardTitle() {
         return "User Dashboard";
     }

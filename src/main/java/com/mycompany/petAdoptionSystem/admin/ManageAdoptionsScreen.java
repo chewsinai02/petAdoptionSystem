@@ -34,7 +34,7 @@ import javafx.stage.Stage;
 public class ManageAdoptionsScreen extends AdminDashboardScreen {
     private BorderPane content;
     private Connection conn;
-    private TableView<Adoption> table;
+    private final TableView<Adoption> table = new TableView<>();
 
     public ManageAdoptionsScreen(Stage stage) {
         super(stage);
@@ -59,7 +59,6 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
             return;
         }
 
-        table = new TableView<>();
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         table.setEditable(false);
         table.setStyle("-fx-background-color: white; "
@@ -231,21 +230,25 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
                     setGraphic(null);
                 } else {
                     Adoption request = getTableView().getItems().get(getIndex());
-                    if (request.getStatus().equals("Pending")) {
-                        setGraphic(buttonBox);
-                    } else {
-                        if (request.getStatus().equals("Approved")) {
+                    switch (request.getStatus().equals("Pending") ? 1 : request.getStatus().equals("Approved") ? 2 : request.getStatus().equals("Rejected") ? 3 : 0) {
+                        case 1:
+                            statusLabel.setText("Pending");
+                            statusLabel.setStyle("-fx-text-fill: #FF9800; -fx-font-weight: bold;");
+                            break;
+                        case 2:
                             statusLabel.setText("Approved");
                             statusLabel.setStyle("-fx-text-fill: #4CAF50; -fx-font-weight: bold;");
-                        } else if (request.getStatus().equals("Rejected")) {
+                            break;
+                        case 3:
                             statusLabel.setText("Rejected");
                             statusLabel.setStyle("-fx-text-fill: #f44336; -fx-font-weight: bold;");
-                        } else {
+                            break;
+                        default:
                             statusLabel.setText(request.getStatus());
                             statusLabel.setStyle("");
+                            break;
                     }
-                        setGraphic(labelBox);
-                    }
+                    setGraphic(labelBox);
                 }
             }
         });

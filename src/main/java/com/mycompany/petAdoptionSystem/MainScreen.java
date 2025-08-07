@@ -55,6 +55,8 @@ public abstract class MainScreen {
 
     public MainScreen(Stage primaryStage) {
         this.stage = primaryStage;
+    }
+    public void initialize() {
         initializeUI();
     }
 

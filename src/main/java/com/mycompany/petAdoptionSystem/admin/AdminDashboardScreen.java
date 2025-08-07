@@ -29,10 +29,12 @@ public class AdminDashboardScreen extends MainScreen {
         return createAdminMenuBar();
     }
 
+    @Override
     public void showDefaultContent() {
         showWelcome();
     }
 
+    @Override
     public String getDashboardTitle() {
         return "Admin Dashboard";
     }
@@ -81,7 +83,6 @@ public class AdminDashboardScreen extends MainScreen {
         content.setPadding(new Insets(40));
         Label welcomeLabel = new Label("Welcome to the Admin Dashboard!\nPlease select an action above.");
         welcomeLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2C3E50; -fx-text-alignment: center;-fx-font-family: 'Cherry Bomb One';");
-        content.getChildren().add(welcomeLabel);
         contentArea.getChildren().setAll(content);
     }
 
