@@ -86,6 +86,7 @@ public class Main extends Application {
                 return "Pet Adoption System";
             }
         };
+        mainScreen.initializeUI();
         mainScreen.show();
     }
 

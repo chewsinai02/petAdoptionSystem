@@ -39,7 +39,7 @@ public class RequestPetUpdate extends AdminDashboardScreen {
         } catch (ClassNotFoundException | SQLException e) {
             showError("Database connection error: " + e.getMessage());
         }
-        // Do not call initializeUI() here
+        initializeUI();
     }
 
     public void postConstruct() {
@@ -47,7 +47,7 @@ public class RequestPetUpdate extends AdminDashboardScreen {
     }
 
     @Override
-    protected void initializeUI() {
+    public void initializeUI() {
         content = new VBox(20);
         content.setAlignment(Pos.CENTER);
         content.setPadding(new Insets(20));

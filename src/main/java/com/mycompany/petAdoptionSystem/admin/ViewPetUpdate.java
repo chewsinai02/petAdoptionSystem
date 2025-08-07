@@ -43,7 +43,7 @@ public class ViewPetUpdate extends AdminDashboardScreen {
         } catch (ClassNotFoundException | SQLException e) {
             showError("Database connection error: " + e.getMessage());
         }
-        // Do not call initializeUI() here
+        initializeUI();
     }
 
     public void postConstruct() {
@@ -51,7 +51,7 @@ public class ViewPetUpdate extends AdminDashboardScreen {
     }
 
     @Override
-    protected void initializeUI() {
+    public void initializeUI() {
         content = new BorderPane();
         content.setStyle("-fx-background-color: #FAD9DD; -fx-background-radius: 12;-fx-border-radius: 12;");
 

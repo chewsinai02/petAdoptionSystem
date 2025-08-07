@@ -60,7 +60,7 @@ public abstract class MainScreen {
         initializeUI();
     }
 
-    protected void initializeUI() {
+    public void initializeUI() {
         mainLayout = new BorderPane();
         mainLayout.setStyle("-fx-background-color: " + SECONDARY_COLOR + ";");
 
@@ -700,11 +700,13 @@ public abstract class MainScreen {
         LoginScreen loginScreen = new LoginScreen(loginStage);
         loginScreen.setOnUserLoginSuccess(() -> {
             UserDashboardScreen userDashboard = new UserDashboardScreen(stage);
+            userDashboard.initializeUI();
             userDashboard.show();
             loginStage.close();
         });
         loginScreen.setOnAdminLoginSuccess(() -> {
             AdminDashboardScreen adminDashboard = new AdminDashboardScreen(stage);
+            adminDashboard.initializeUI();
             adminDashboard.show();
             loginStage.close();
         });
@@ -822,27 +824,30 @@ public abstract class MainScreen {
     protected void showNotification() {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/adopt", "root", "");
-            PreparedStatement stmt = conn.prepareStatement(
-                    "SELECT n.*, u.realName, p.petName " +
-                            "FROM notification n " +
-                            "JOIN user u ON n.userId = u.id " +
-                            "JOIN pet p ON n.petId = p.id " +
-                            "WHERE n.userId = ? " +
-                            "AND EXISTS (SELECT 1 FROM adoptanimal a WHERE a.userId = n.userId AND a.petId = n.petId AND a.state = 2) " +
-                            "AND ( " +
-                            "  NOT EXISTS ( " +
-                            "    SELECT 1 FROM petupdate pu " +
-                            "    JOIN adoptanimal aa ON pu.adoptId = aa.id " +
-                            "    WHERE aa.userId = n.userId AND aa.petId = n.petId " +
-                            "  ) " +
-                            "  OR n.createdAt > ( " +
-                            "    SELECT MAX(pu.updateTime) " +
-                            "    FROM petupdate pu " +
-                            "    JOIN adoptanimal aa ON pu.adoptId = aa.id " +
-                            "    WHERE aa.userId = n.userId AND aa.petId = n.petId " +
-                            "  ) " +
-                            ")"
-            );
+            String sql =
+                "SELECT n.*, u.realName, p.petName " +
+                "FROM notification n " +
+                "JOIN user u ON n.userId = u.id " +
+                "JOIN pet p ON n.petId = p.id " +
+                "WHERE n.userId = ? " +
+                "AND EXISTS ( " +
+                "    SELECT 1 " +
+                "    FROM adoptanimal a " +
+                "    WHERE a.userId = n.userId " +
+                "      AND a.petId = n.petId " +
+                "      AND a.state = 2 " +
+                ") " +
+                "AND NOT EXISTS ( " +
+                "    SELECT 1 " +
+                "    FROM petupdate pu " +
+                "    JOIN adoptanimal aa ON pu.adoptId = aa.id " +
+                "    WHERE aa.userId = n.userId " +
+                "      AND aa.petId = n.petId " +
+                "      AND pu.updateTime >= DATE(n.createdAt) " +
+                ") " +
+                "ORDER BY n.createdAt DESC " +
+                "LIMIT 0, 25";
+            PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, UserSession.getCurrentUserId());
             ResultSet rs = stmt.executeQuery();
 

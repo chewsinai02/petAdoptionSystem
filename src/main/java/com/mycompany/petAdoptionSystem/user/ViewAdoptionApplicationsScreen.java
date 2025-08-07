@@ -7,7 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.mycompany.petAdoptionSystem.UserSession;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -122,13 +124,13 @@ public class ViewAdoptionApplicationsScreen {
         petTypeCol.setCellValueFactory(new PropertyValueFactory<>("petType"));
 
         TableColumn<Adoption, String> applyDateCol = new TableColumn<>("Apply Date");
-        applyDateCol.setCellValueFactory(new PropertyValueFactory<>("applyDate"));
+        applyDateCol.setCellValueFactory(new PropertyValueFactory<>("adoptTime")); 
 
         TableColumn<Adoption, String> statusCol = new TableColumn<>("Status");
         statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         TableColumn<Adoption, String> remarksCol = new TableColumn<>("Remarks");
-        remarksCol.setCellValueFactory(new PropertyValueFactory<>("remarks"));
+        remarksCol.setCellValueFactory(new PropertyValueFactory<>("remark"));
 
         table.getColumns().addAll(petNameCol, petTypeCol, applyDateCol, statusCol, remarksCol);
 
@@ -150,11 +152,13 @@ public class ViewAdoptionApplicationsScreen {
         List<Adoption> applications = new ArrayList<>();
 
         try {
-            String query = "SELECT a.id, p.petName, p.petType, a.adoptTime, a.state, p.remark " +
-                          "FROM adoptanimal a " +
-                          "JOIN pet p ON a.petId = p.id " +
-                          "WHERE a.userId = ? " +
-                          "ORDER BY a.adoptTime DESC";
+            String query = "SELECT a.id, p.petName, p.petType, a.adoptTime, a.state, p.remark, " +
+                            "u.realName, u.userName, u.telephone, u.email, u.sex, u.age, u.address, u.state AS userState, u.petHave, u.experience, u.pic " +
+                            "FROM adoptanimal a " +
+                            "JOIN pet p ON a.petId = p.id " +
+                            "JOIN user u ON a.userId = u.id " +
+                            "WHERE a.userId = ? " +
+                            "ORDER BY a.adoptTime DESC";
             
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, userId);
@@ -184,7 +188,9 @@ public class ViewAdoptionApplicationsScreen {
                         rs.getInt("userState"),
                         rs.getInt("petHave"),
                         rs.getInt("experience"),
-                        rs.getString("pic")
+                        rs.getString("pic"),
+                        rs.getString("petType"),
+                        rs.getString("remark")
                 ));
             }
 

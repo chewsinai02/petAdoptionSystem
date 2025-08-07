@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "com.mycompany.petAdoptionSystem/com.mycompany.petAdoptionSystem.Main",
+            "projectName": "petAdoptionSystem"
+        },
+        {
+            "type": "java",
             "name": "ProjectGUI",
             "request": "launch",
             "mainClass": "com.mycompany.petAdoptionSystem/com.mycompany.petAdoptionSystem.ProjectGUI",

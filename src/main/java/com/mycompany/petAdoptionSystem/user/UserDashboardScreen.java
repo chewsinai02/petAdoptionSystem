@@ -15,7 +15,11 @@ public class UserDashboardScreen extends MainScreen {
     
     public UserDashboardScreen(Stage primaryStage) {
         super(primaryStage);
-        // Override the menu bar with user-specific menu
+    }
+
+    @Override
+    public void initializeUI() {
+        super.initializeUI();
         this.menuBar.getMenus().clear();
         this.menuBar.getMenus().addAll(createUserMenuBar().getMenus());
     }
@@ -59,6 +63,12 @@ public class UserDashboardScreen extends MainScreen {
         adoptionProcessItem.setOnAction(e -> showAdoptionProcess());
         adoptionMenu.getItems().add(adoptionProcessItem);
 
+        // Notification Menu
+        Menu notificationMenu = new Menu("Notification");
+        MenuItem notificationItem = new MenuItem("Notification");
+        notificationItem.setOnAction(e -> showNotification());
+        notificationMenu.getItems().add(notificationItem);
+
         // User Account Menu
         Menu userMenu = new Menu("User");
         MenuItem profileItem = new MenuItem("User Profile");
@@ -71,12 +81,6 @@ public class UserDashboardScreen extends MainScreen {
         updatePetStatusItem.setOnAction(e -> showUpdatePetStatus());
         userMenu.getItems().addAll(profileItem, myApplicationsItem, viewAdoptedPetsItem, updatePetStatusItem);
 
-        // Notification Menu
-        Menu notificationMenu = new Menu("Notification");
-        MenuItem notificationItem = new MenuItem("Notification");
-        notificationItem.setOnAction(e -> showNotification());
-        notificationMenu.getItems().add(notificationItem);
-
         // Logout Menu
         Menu logoutMenu = new Menu("Account");
         MenuItem logoutItem = new MenuItem("Logout");
@@ -84,7 +88,7 @@ public class UserDashboardScreen extends MainScreen {
         logoutMenu.getItems().add(logoutItem);
 
         // Add menus in logical order
-        userMenuBar.getMenus().addAll(homeMenu, knowledgeMenu, adoptionMenu, userMenu, notificationMenu, logoutMenu);
+        userMenuBar.getMenus().addAll(homeMenu, knowledgeMenu, adoptionMenu, notificationMenu, userMenu, logoutMenu);
         return userMenuBar;
     }
 
@@ -159,6 +163,7 @@ public class UserDashboardScreen extends MainScreen {
                         return "Pet Adoption System";
                     }
                 };
+                mainScreen.initializeUI();
                 mainScreen.show();
             }
         });

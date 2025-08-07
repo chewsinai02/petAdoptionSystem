@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -19,7 +20,12 @@ public class AdminDashboardScreen extends MainScreen {
     
     public AdminDashboardScreen(Stage primaryStage) {
         super(primaryStage);
-        // Override the menu bar with admin-specific menu
+        // Do NOT touch menuBar here!
+    }
+
+    @Override
+    public void initializeUI() {
+        super.initializeUI();
         this.menuBar.getMenus().clear();
         this.menuBar.getMenus().addAll(createAdminMenuBar().getMenus());
     }
@@ -74,7 +80,7 @@ public class AdminDashboardScreen extends MainScreen {
         return adminMenuBar;
     }
 
-    private void showWelcome() {
+    protected void showWelcome() {
         VBox adminContent = new VBox(20);
         adminContent.setAlignment(Pos.CENTER);
         adminContent.setPadding(new Insets(20));
@@ -87,24 +93,28 @@ public class AdminDashboardScreen extends MainScreen {
         contentArea.getChildren().setAll(adminContent);
     }
 
-    private void showManagePets() {
+    protected void showManagePets() {
         ManagePetsScreen petsScreen = new ManagePetsScreen(stage);
-        petsScreen.showDefaultContent();
+        contentArea.getChildren().setAll(petsScreen.getContent());
+        StackPane.setMargin(petsScreen.getContent(), new Insets(0));
     }
 
-    private void showManageApprovals() {
+    protected void showManageApprovals() {
         ManageAdoptionsScreen adoptionsScreen = new ManageAdoptionsScreen(stage);
-        adoptionsScreen.showDefaultContent();
+        contentArea.getChildren().setAll(adoptionsScreen.getContent());
+        StackPane.setMargin(adoptionsScreen.getContent(), new Insets(0));
     }
 
-    private void showWellbeing() {
+    protected void showWellbeing() {
         ViewPetUpdate updateScreen = new ViewPetUpdate(stage);
-        updateScreen.showDefaultContent();
+        contentArea.getChildren().setAll(updateScreen.getContent());
+        StackPane.setMargin(updateScreen.getContent(), new Insets(0));
     }
 
-    private void showRequest() {
+    protected void showRequest() {
         RequestPetUpdate requestScreen = new RequestPetUpdate(stage);
-        requestScreen.showDefaultContent();
+        contentArea.getChildren().setAll(requestScreen.getContent());
+        StackPane.setMargin(requestScreen.getContent(), new Insets(0));
     }
 
     @Override
@@ -178,6 +188,7 @@ public class AdminDashboardScreen extends MainScreen {
                         return "Pet Adoption System";
                     }
                 };
+                mainScreen.initializeUI();
                 mainScreen.show();
             }
         });

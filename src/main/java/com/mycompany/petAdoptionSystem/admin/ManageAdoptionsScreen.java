@@ -35,7 +35,7 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
     private BorderPane content;
     private Connection conn;
     private final TableView<Adoption> table = new TableView<>();
-    
+
     @SuppressWarnings("unchecked")
     public ManageAdoptionsScreen(Stage stage) {
         super(stage);
@@ -172,6 +172,12 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
                 + "-fx-border-color: #E0E0E0; "
                 + "-fx-border-width: 0 0 1 0; "
                 + "-fx-padding: 5px 0;");
+        TableColumn<Adoption, String> petTypeCol = new TableColumn<>("Pet Type");
+        petTypeCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPetType()));
+        petTypeCol.setMinWidth(80);
+        petTypeCol.setPrefWidth(80);
+        petTypeCol.setMaxWidth(80);
+        petTypeCol.setStyle("-fx-background-radius: 5pt 5pt 0 0; -fx-border-color: #E0E0E0; -fx-border-width: 0 0 1 0; -fx-padding: 5px 0;");
         TableColumn<Adoption, String> dateCol = new TableColumn<>("Adopt Date");
         dateCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAdoptTime()));
         dateCol.setMinWidth(80);
@@ -231,25 +237,30 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
                     setGraphic(null);
                 } else {
                     Adoption request = getTableView().getItems().get(getIndex());
-                    switch (request.getStatus().equals("Pending") ? 1 : request.getStatus().equals("Approved") ? 2 : request.getStatus().equals("Rejected") ? 3 : 0) {
-                        case 1:
-                            statusLabel.setText("Pending");
-                            statusLabel.setStyle("-fx-text-fill: #FF9800; -fx-font-weight: bold;");
-                            break;
-                        case 2:
-                            statusLabel.setText("Approved");
-                            statusLabel.setStyle("-fx-text-fill: #4CAF50; -fx-font-weight: bold;");
-                            break;
-                        case 3:
-                            statusLabel.setText("Rejected");
-                            statusLabel.setStyle("-fx-text-fill: #f44336; -fx-font-weight: bold;");
-                            break;
-                        default:
-                            statusLabel.setText(request.getStatus());
-                            statusLabel.setStyle("");
-                            break;
+                    String status = request.getStatus();
+                    if ("Pending".equals(status)) {
+                        setGraphic(buttonBox);
+                    } else {
+                        switch (status) {
+                            case "Approved":
+                                statusLabel.setText("Approved");
+                                statusLabel.setStyle("-fx-text-fill: #4CAF50; -fx-font-weight: bold;");
+                                break;
+                            case "Rejected":
+                                statusLabel.setText("Rejected");
+                                statusLabel.setStyle("-fx-text-fill: #f44336; -fx-font-weight: bold;");
+                                break;
+                            case "Returned":
+                                statusLabel.setText("Returned");
+                                statusLabel.setStyle("-fx-text-fill: #FF9800; -fx-font-weight: bold;");
+                                break;
+                            default:
+                                statusLabel.setText(status);
+                                statusLabel.setStyle("");
+                                break;
+                        }
+                        setGraphic(labelBox);
                     }
-                    setGraphic(labelBox);
                 }
             }
         });
@@ -272,7 +283,7 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
                 + "-fx-padding: 5px 0;");
         
         table.getColumns().setAll(
-            idCol, userCol, sexCol, ageCol, telephoneCol, emailCol, petCol, dateCol, detailsCol, actionCol, dummyCol
+            idCol, userCol, sexCol, ageCol, telephoneCol, emailCol, petCol, petTypeCol, dateCol, detailsCol, actionCol, dummyCol
         );
         content.setCenter(table);
         loadAdoption();
@@ -281,12 +292,12 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
     private void loadAdoption() {
         List<Adoption> requests = new ArrayList<>();
         try {
-            String query = "SELECT a.*, p.petName AS petName, " +
-                          "u.realName, u.userName, u.sex, u.age, u.address, u.telephone, u.email, u.state AS userState, u.petHave, u.experience, u.pic " +
-                          "FROM adoptanimal a " +
-                          "LEFT JOIN user u ON a.userId = u.id " +
-                          "LEFT JOIN pet p ON a.petId = p.id " +
-                          "ORDER BY a.adoptTime DESC";
+            String query = "SELECT a.*, p.petName AS petName, p.petType AS petType, p.remark AS remark, a.adoptTime AS adoptTime, " +
+                            "u.realName, u.userName, u.sex, u.age, u.address, u.telephone, u.email, u.state AS userState, u.petHave, u.experience, u.pic " +
+                            "FROM adoptanimal a " +
+                            "LEFT JOIN user u ON a.userId = u.id " +
+                            "LEFT JOIN pet p ON a.petId = p.id " +
+                            "ORDER BY a.adoptTime DESC";
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -313,7 +324,9 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
                         rs.getInt("state"),
                         rs.getInt("petHave"),
                         rs.getInt("experience"),
-                        rs.getString("pic")
+                        rs.getString("pic"),
+                        rs.getString("petType"),
+                        rs.getString("remark")
                 ));
             }
             table.getItems().setAll(requests);

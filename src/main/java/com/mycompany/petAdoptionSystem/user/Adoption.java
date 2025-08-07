@@ -16,6 +16,9 @@ public class Adoption {
     private int experience;
     private final int userState;
     private final String pic;
+    private final String petType;
+    private final String remark;
+
     public Adoption(int id,
             String realName,
             String petName,
@@ -30,7 +33,7 @@ public class Adoption {
             int userState,
             int petHave,
             int experience,
-            String pic
+            String pic, String petType, String remark
     ) {
         this.id = new javafx.beans.property.SimpleIntegerProperty(id);
         this.realName = realName;
@@ -47,6 +50,8 @@ public class Adoption {
         this.petHave = petHave;
         this.experience = experience;
         this.pic = pic;
+        this.petType = petType;
+        this.remark = remark;
     }
 
     public int getId() { return id.get(); }
@@ -81,4 +86,6 @@ public class Adoption {
         return userState == 1 ? "Yes" : "No";
     }
     public String getPic() { return pic; }
+    public String getPetType() { return petType; }
+    public String getRemark() { return remark; }
 }
