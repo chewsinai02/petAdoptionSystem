@@ -42,10 +42,6 @@ public class RequestPetUpdate extends AdminDashboardScreen {
         initializeUI();
     }
 
-    public void postConstruct() {
-        initializeUI();
-    }
-
     @Override
     public void initializeUI() {
         content = new VBox(20);

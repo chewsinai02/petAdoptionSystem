@@ -19,6 +19,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 public class Main extends Application {
     private TextArea outputArea;
     private static final String SECONDARY_COLOR = "#F5F5F5";
@@ -27,7 +29,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         // Show main screen directly with pet gallery
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/Logo.png")));
+        primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Logo.png"))));
         MainScreen mainScreen = new MainScreen(primaryStage) {
             @Override
             protected MenuBar createMenuBar() {
@@ -127,8 +129,7 @@ public class Main extends Application {
         mainContent.getChildren().addAll(titleText, topSection, scrollPane);
 
         Scene scene = new Scene(mainContent, 900, 700);
-        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
-        
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles.css")).toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
     }

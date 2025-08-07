@@ -56,9 +56,6 @@ public abstract class MainScreen {
     public MainScreen(Stage primaryStage) {
         this.stage = primaryStage;
     }
-    public void initialize() {
-        initializeUI();
-    }
 
     public void initializeUI() {
         mainLayout = new BorderPane();
@@ -682,7 +679,6 @@ public abstract class MainScreen {
             "-fx-padding: 6;"
         );
     }
-
 
     // Helper for edit row
     protected HBox createEditRow(String labelText, javafx.scene.Node field, Font labelFont, Color labelColor) {

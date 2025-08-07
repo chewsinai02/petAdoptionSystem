@@ -46,10 +46,6 @@ public class ViewPetUpdate extends AdminDashboardScreen {
         initializeUI();
     }
 
-    public void postConstruct() {
-        initializeUI();
-    }
-
     @Override
     public void initializeUI() {
         content = new BorderPane();
