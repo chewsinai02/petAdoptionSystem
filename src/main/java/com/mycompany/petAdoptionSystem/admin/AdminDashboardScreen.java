@@ -40,8 +40,8 @@ public class AdminDashboardScreen extends MainScreen {
     }
 
     private MenuBar createAdminMenuBar() {
-        MenuBar menuBar = new MenuBar();
-        menuBar.setStyle("-fx-background-color: white; font-color: #4A90E2; -fx-border-color: #E0E0E0; -fx-border-width: 0 0 1 0; -fx-padding: 5 0;");
+        MenuBar adminMenuBar = new MenuBar();
+        adminMenuBar.setStyle("-fx-background-color: white; font-color: #4A90E2; -fx-border-color: #E0E0E0; -fx-border-width: 0 0 1 0; -fx-padding: 5 0;");
 
         // 1. Pets
         Menu managePetsMenu = new Menu("Pets");
@@ -70,8 +70,8 @@ public class AdminDashboardScreen extends MainScreen {
         adminMenu.getItems().add(logoutItem);
 
         // Add menus in logical order
-        menuBar.getMenus().addAll(managePetsMenu, viewWellbeingMenu, manageApprovalsMenu, adminMenu);
-        return menuBar;
+        adminMenuBar.getMenus().addAll(managePetsMenu, viewWellbeingMenu, manageApprovalsMenu, adminMenu);
+        return adminMenuBar;
     }
 
     private void showWelcome() {
@@ -83,6 +83,7 @@ public class AdminDashboardScreen extends MainScreen {
         adminContent.setPadding(new Insets(40));
         Label welcomeLabel = new Label("Welcome to the Admin Dashboard!\nPlease select an action above.");
         welcomeLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2C3E50; -fx-text-alignment: center;-fx-font-family: 'Cherry Bomb One';");
+        adminContent.getChildren().add(welcomeLabel);
         contentArea.getChildren().setAll(adminContent);
     }
 

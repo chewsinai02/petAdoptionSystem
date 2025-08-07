@@ -35,7 +35,8 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
     private BorderPane content;
     private Connection conn;
     private final TableView<Adoption> table = new TableView<>();
-
+    
+    @SuppressWarnings("unchecked")
     public ManageAdoptionsScreen(Stage stage) {
         super(stage);
         content = new BorderPane();
@@ -269,7 +270,7 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
                 + "-fx-border-color: #E0E0E0; "
                 + "-fx-border-width: 0 0 1 0; "
                 + "-fx-padding: 5px 0;");
-    
+        
         table.getColumns().setAll(
             idCol, userCol, sexCol, ageCol, telephoneCol, emailCol, petCol, dateCol, detailsCol, actionCol, dummyCol
         );

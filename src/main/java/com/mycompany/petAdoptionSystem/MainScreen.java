@@ -366,7 +366,7 @@ public abstract class MainScreen {
     }
 
     // Helper class to hold user profile data
-    private static class UserProfileData {
+    public static class UserProfileData {
         int id;
         String realName;
         String userName;
