@@ -62,6 +62,13 @@ public class ManagePetsScreen extends AdminDashboardScreen {
         initializeUI();
     }
 
+    /**
+     * Initializes the UI for the ManagePetsScreen.
+     * 
+     * The screen consists of a title, a table of pets, a form for adding/editing pets, and
+     * buttons for adding, updating, deleting, and clearing the form. The form is styled to
+     * have a white background with a drop shadow.
+     */
     @Override
     public void initializeUI() {
         content = new VBox(20);
@@ -97,6 +104,15 @@ public class ManagePetsScreen extends AdminDashboardScreen {
         content.getChildren().addAll(titleText, petTable, formGrid, buttonBox);
     }
 
+    /**
+     * Creates the table for displaying all pets in the system.
+     * 
+     * The table has columns for pet ID, name, type, sex, birthday, and state. The state column
+     * uses a custom cell factory to display a text representation of the state (e.g. "Available",
+     * "Under Review", etc.). The table is styled to have a white background with a drop shadow.
+     * The selection model is set up to listen for changes in the selected pet, and the form is
+     * populated with the selected pet's data when the selection changes.
+     */
     @SuppressWarnings("unchecked")
     private void createPetTable() {
         petTable = new TableView<>();
@@ -160,6 +176,12 @@ public class ManagePetsScreen extends AdminDashboardScreen {
         loadPets();
     }
 
+    /**
+     * Creates the pet form with fields for name, type, sex, birthday, pictures, state, and remark.
+     * The form is a GridPane with the fields arranged in a 2-column layout.
+     * 
+     * @return the GridPane containing the pet form
+     */
     private GridPane createPetForm() {
         GridPane grid = new GridPane();
         grid.setHgap(10);
@@ -341,12 +363,29 @@ public class ManagePetsScreen extends AdminDashboardScreen {
         return grid;
     }
 
+    /**
+     * Creates a label with the given text, styled with a bold font, the accent color, and a font size of 14px.
+     * @param text the label's text
+     * @return the styled label
+     */
     private Label createLabel(String text) {
         Label label = new Label(text);
         label.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: " + ACCENT_COLOR + ";");
         return label;
     }
 
+
+    /**
+     * Creates a styled button with the specified text and event handler.
+     * 
+     * The button is styled with a primary color background, white text, bold font,
+     * rounded corners, and a hand cursor. When the mouse hovers over the button,
+     * the background changes to white, and the text color changes to the primary color.
+     * 
+     * @param text the text to be displayed on the button
+     * @param handler the event handler for button actions
+     * @return the styled button
+     */
     private Button createStyledButton(String text, javafx.event.EventHandler<javafx.event.ActionEvent> handler) {
         Button button = new Button(text);
         button.setStyle(
@@ -395,14 +434,23 @@ public class ManagePetsScreen extends AdminDashboardScreen {
         }
     }
 
+    /**
+     * Sets the style of a ComboBox based on whether it is focused or not.
+     * 
+     * @param comboBox the ComboBox to be styled
+     * @param focused whether the ComboBox is focused
+     */
     private void styleFocusedComboBox(ComboBox<String> comboBox, boolean focused) {
+        // Set the style of the ComboBox based on whether it is focused
         if (focused) {
+            // When the ComboBox is focused, set the border to the primary color
             comboBox.setStyle("-fx-font-size: 14px; "
                     + "-fx-background-color: white; "
                     + "-fx-border-color: " + PRIMARY_COLOR + "; "
                     + "-fx-border-width: 2; "
                     + "-fx-border-radius: 5;");
         } else {
+            // When the ComboBox is not focused, set the border to the secondary color
             comboBox.setStyle("-fx-font-size: 14px; "
                     + "-fx-background-color: white; "
                     + "-fx-border-color: #E0E0E0; "
@@ -410,12 +458,23 @@ public class ManagePetsScreen extends AdminDashboardScreen {
         }
     }
 
+    /**
+     * Loads all pets from the database and populates the pet table.
+     * 
+     * This method executes a SQL query to retrieve all pet records from the database.
+     * It then iterates over the result set, creating a Pet object for each record and adding
+     * it to the list of pets. Finally, it updates the pet table with the list of pets.
+     * 
+     * In case of a SQL exception, an error message is displayed.
+     */
     private void loadPets() {
         try {
+            // Execute a SQL query to retrieve all pet records from the database
             String query = "SELECT * FROM pet";
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
 
+            // Iterate over the result set and create a Pet object for each record
             List<Pet> pets = new ArrayList<>();
             while (rs.next()) {
                 Pet pet = new Pet(
@@ -430,12 +489,21 @@ public class ManagePetsScreen extends AdminDashboardScreen {
                 );
                 pets.add(pet);
             }
+            // Update the pet table with the list of pets
             petTable.getItems().setAll(pets);
         } catch (SQLException e) {
+            // Display an error message if a SQL exception occurs
             showError("Error loading pets: " + e.getMessage());
         }
     }
 
+    /**
+     * Handles the "Add Pet" button click event.
+     * 
+     * This method first validates the form fields and checks if a pet with the same name already exists.
+     * If the validation is successful, it inserts a new pet record into the database using the provided field values.
+     * Finally, it reloads the pet table and clears the form fields.
+     */
     private void handleAddPet() {
         // Validate form
         if (!validateForm()) {
@@ -454,15 +522,18 @@ public class ManagePetsScreen extends AdminDashboardScreen {
                 return;
             }
 
+            // Insert new pet record into the database
             String query = "INSERT INTO pet (petName, petType, sex, birthday, pic, state, remark) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(query);
             
+            // Set the field values for the new pet record
             stmt.setString(1, nameField.getText().trim());
             stmt.setString(2, typeField.getText().trim());
             stmt.setString(3, sexComboBox.getValue());
             stmt.setDate(4, java.sql.Date.valueOf(birthdayPicker.getValue()));
             stmt.setString(5, picField.getText().trim());
-            int stateValue = 0; // Default to Available
+            // Set the default state to Available
+            int stateValue = 0;
             if (stateComboBox.getValue() != null) {
                 switch (stateComboBox.getValue()) {
                     case "Available": stateValue = 0; break;
@@ -475,14 +546,29 @@ public class ManagePetsScreen extends AdminDashboardScreen {
             stmt.setString(7, remarkField.getText().trim());
 
             stmt.executeUpdate();
+            // Reload the pet table
             loadPets();
+            // Clear the form fields
             clearForm();
+            // Show a success message
             showMessage("Success", "Pet added successfully!");
         } catch (SQLException e) {
+            // Display an error message if a SQL exception occurs
             showError("Error adding pet: " + e.getMessage());
         }
     }
 
+    /**
+     * Handles the "Update Pet" button click event.
+     * 
+     * This method first validates the form fields and checks if a pet with the same name already exists.
+     * If the validation is successful, it updates the selected pet record in the database using the provided field values.
+     * Finally, it reloads the pet table and clears the form fields.
+     * 
+     * Note: If the pet is being marked as returned, it will also update the adoptanimal table accordingly.
+     * If the pet is being marked as adopted after being returned, it will update the adoptanimal table to re-adopted.
+     * If the pet is being marked as available from any adoption-related status, it will reset the adoptanimal table accordingly.
+     */
     private void handleUpdatePet() {
         Pet selectedPet = petTable.getSelectionModel().getSelectedItem();
         if (selectedPet == null) {
@@ -586,6 +672,14 @@ public class ManagePetsScreen extends AdminDashboardScreen {
         }
     }
 
+    /**
+     * Handles the "Delete Pet" button click event.
+     * 
+     * This method first checks if a pet is selected, and if not, displays an error message.
+     * Then it checks if the selected pet has any adoption records. If there are records, it displays an error message.
+     * If there are no records, it displays a confirmation dialog to confirm the deletion of the pet. If confirmed, it deletes the pet from the database.
+     * Finally, it reloads the pet table and clears the form fields.
+     */
     private void handleDeletePet() {
         Pet selectedPet = petTable.getSelectionModel().getSelectedItem();
         if (selectedPet == null) {
@@ -624,6 +718,14 @@ public class ManagePetsScreen extends AdminDashboardScreen {
         }
     }
 
+    /**
+     * Validates the pet form fields.
+     * 
+     * This method checks each field for validity and displays an error message if a field is invalid.
+     * If all fields are valid, it returns true.
+     * 
+     * @return true if all fields are valid, false otherwise
+     */
     private boolean validateForm() {
         // Validate name
         if (nameField.getText().trim().isEmpty()) {
@@ -695,6 +797,11 @@ public class ManagePetsScreen extends AdminDashboardScreen {
         return true;
     }
 
+    /**
+     * Populate the form with the given pet's information.
+     * 
+     * @param pet the pet to populate the form with
+     */
     private void populateForm(Pet pet) {
         nameField.setText(pet.getName());
         typeField.setText(pet.getType());
@@ -711,6 +818,13 @@ public class ManagePetsScreen extends AdminDashboardScreen {
         remarkField.setText(pet.getRemark());
     }
 
+    /**
+     * Clears all the fields in the pet form and resets the selection in the pet table.
+     *
+     * This method clears the text fields for name, type, picture, and remark. It also
+     * resets the selection in the sex and state combo boxes, sets the birthday date
+     * picker to null, and clears the selection in the pet table.
+     */
     private void clearForm() {
         nameField.clear();
         typeField.clear();
@@ -722,6 +836,11 @@ public class ManagePetsScreen extends AdminDashboardScreen {
         petTable.getSelectionModel().clearSelection();
     }
 
+    /**
+     * Shows an error message in an alert dialog.
+     *
+     * @param message The content of the alert dialog.
+     */
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
@@ -730,6 +849,11 @@ public class ManagePetsScreen extends AdminDashboardScreen {
         alert.showAndWait();
     }
 
+    /**
+     * Shows an information message in an alert dialog.
+     *
+     * @param content The content of the alert dialog.
+     */
     @Override
     protected void showMessage(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -738,12 +862,22 @@ public class ManagePetsScreen extends AdminDashboardScreen {
         alert.setContentText(content);
         alert.showAndWait();
     }
-
+    
+    /**
+     * Sets the content of the content area to the default content.
+     * This method is called when the user navigates to the Manage Pets screen.
+     * It sets the content area to the default content, which is the table of pets.
+     */
     @Override
     public void showDefaultContent() {
         contentArea.getChildren().setAll(content);
     }
 
+    /**
+     * Gets the content of the Manage Pets screen.
+     *
+     * @return The VBox that contains the content of this screen.
+     */
     public VBox getContent() {
         return content;
     }

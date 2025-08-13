@@ -198,6 +198,15 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
                     showUserDetailsDialog(request);
                 });
             }
+        /**
+         * If the row is empty, remove the graphic, otherwise set the graphic to
+         * the button box.
+         *
+         * @param item
+         *            the item in the row
+         * @param empty
+         *            whether or not the row is empty
+         */
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
@@ -230,6 +239,16 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
                 approveBtn.setOnAction(e -> handleApproval(getTableView().getItems().get(getIndex()), true));
                 rejectBtn.setOnAction(e -> handleApproval(getTableView().getItems().get(getIndex()), false));
             }
+        /**
+         * Update the graphic of the cell depending on the status of the adoption request.
+         * If the status is "Pending", show the buttons to approve or reject the request.
+         * Otherwise, show a label with the status of the request.
+         *
+         * @param item
+         *            the item in the row
+         * @param empty
+         *            whether or not the row is empty
+         */
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
@@ -289,6 +308,14 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
         loadAdoption();
     }
 
+    /**
+     * Loads adoption requests from the database and populates them into the table.
+     * This method executes a SQL query to retrieve adoption details including
+     * user and pet information. It converts the result set into a list of 
+     * Adoption objects and updates the table view with this data. The adoption 
+     * status is interpreted from the 'state' field and mapped to a textual 
+     * representation. In case of a SQL exception, an error message is displayed.
+     */
     private void loadAdoption() {
         List<Adoption> requests = new ArrayList<>();
         try {
@@ -335,6 +362,16 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
         }
     }
 
+     /**
+         * Handle approval or rejection of an adoption request.
+         * 
+         * If approved, sets the adoption request status to 2 (approved) and the pet status to 2 (adopted).
+         * Also updates the user's number of pets and sets the user's status to 1 (adopted).
+         * If rejected, sets the adoption request status to 0 (rejected) and the pet status to 0 (available).
+         * 
+         * @param request The adoption request to be approved or rejected.
+         * @param approve True if approving the adoption, false if rejecting.
+         */
     private void handleApproval(Adoption request, boolean approve) {
         try {
             conn.setAutoCommit(false); // Start transaction
@@ -384,6 +421,11 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
         }
     }
 
+    /**
+     * Shows an error message in an alert dialog.
+     * 
+     * @param message The error message to be displayed.
+     */
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
@@ -392,6 +434,12 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
         alert.showAndWait();
     }
 
+    /**
+     * Shows an information message in an alert dialog.
+     *
+     * @param title The title of the alert dialog.
+     * @param content The content of the alert dialog.
+     */
     @Override
     protected void showMessage(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -401,15 +449,36 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
         alert.showAndWait();
     }
 
+
+    /**
+     * Sets the content of the content area to the default content.
+     * <p>
+     * This method is called when the user navigates to the Manage Adoptions screen.
+     * It sets the content area to the default content, which is the table of adoption requests.
+     */
     @Override
     public void showDefaultContent() {
         contentArea.getChildren().setAll(content);
     }
 
+
+
+    /**
+     * Gets the content of this Manage Adoptions screen.
+     *
+     * @return The BorderPane that contains the content of this screen.
+     */
     public BorderPane getContent() {
         return content;
     }
 
+    /**
+     * Shows a dialog with user details, including profile image, real name,
+     * username, sex, age, address, telephone, email, whether they have
+     * adopted before, number of pets they have, and their experience.
+     * 
+     * @param request The adoption request for which to show user details.
+     */
     private void showUserDetailsDialog(Adoption request) {
         Dialog<Void> dialog = new Dialog<>();
         dialog.setTitle("User Details");

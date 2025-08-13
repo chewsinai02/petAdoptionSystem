@@ -46,6 +46,13 @@ public class ViewPetUpdate extends AdminDashboardScreen {
         initializeUI();
     }
 
+    /**
+     * Initializes the UI for the ViewPetUpdate screen.
+     *
+     * This method sets up the layout using a BorderPane, applies styling to the background,
+     * and creates a title for the screen. It initializes and populates the table for displaying
+     * pet updates, positioning the title at the top and the table in the center of the layout.
+     */
     @Override
     public void initializeUI() {
         content = new BorderPane();
@@ -66,6 +73,13 @@ public class ViewPetUpdate extends AdminDashboardScreen {
         content.setCenter(updateTable);
     }
 
+    /**
+     * Creates a table for displaying pet updates. The table is set up with columns
+     * for the update ID, pet name, user name, update time, and actions. The actions
+     * column contains a button for viewing the update details. The table is styled
+     * to have a white background with a drop shadow and rounded borders. The rows
+     * and columns are separated by light gray borders. The table is not editable.
+     */
     @SuppressWarnings("unchecked")
     private void createUpdateTable() {
         updateTable = new TableView<>();
@@ -166,6 +180,16 @@ public class ViewPetUpdate extends AdminDashboardScreen {
                     "-fx-padding: 5 12;"
                 ));
             }
+            
+            /**
+             * Updates the cell's graphic based on whether the row is empty.
+             *
+             * <p>If the row is empty, the graphic is set to null. Otherwise, an
+             * HBox containing a view button is added as the graphic to the cell.
+             *
+             * @param item  the item in the row (unused in this implementation)
+             * @param empty whether or not the row is empty
+             */
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
@@ -187,6 +211,7 @@ public class ViewPetUpdate extends AdminDashboardScreen {
         updateTable.getColumns().addAll(idCol, petNameCol, userNameCol, updateTimeCol, actionCol);
         loadUpdates();
     }
+
 
     private void loadUpdates() {
         String query = "SELECT pu.id, pu.adoptId, pu.updateTime, pu.updateContent, pu.updatePic, pu.remark, p.petName, u.userName FROM petupdate pu JOIN adoptanimal a ON pu.adoptId = a.id JOIN pet p ON a.petId = p.id JOIN user u ON a.userId = u.id ORDER BY pu.updateTime DESC";
