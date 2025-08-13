@@ -1,5 +1,6 @@
 ﻿# Pet adoption system
-*Sdg* : 15 Life on Land. Protect, restore and promote sustainable use of terrestrial ecosystems, sustainably manage forests, combat desertification, and halt and reverse land degradation and halt biodiversity loss
+*Sdg* : 15 Life on Land. 
+    -> Protect, restore and promote sustainable use of terrestrial ecosystems, sustainably manage forests, combat desertification, and halt and reverse land degradation and halt biodiversity loss
     -> Reason: reducing stray animal populations, promoting responsible pet ownership, and protecting local biodiversity through sustainable adoption practices.
 
 *Function* :
