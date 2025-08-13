@@ -33,6 +33,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class LoginScreen {
+
     private static final String PRIMARY_COLOR = "#FAD9DD";
     private static final String ACCENT_COLOR = "#2C3E50";
     private Stage stage;
@@ -67,7 +68,19 @@ public class LoginScreen {
     public void setOnAdminLoginSuccess(Runnable callback) {
         this.onAdminLoginSuccess = callback;
     }
-    
+
+    /**
+     * Show the login screen in a window. The window title is "Pet Adoption
+     * System - Login" and the window icon is the same as the logo image.
+     *
+     * This method sets up the UI components for the login screen, including the
+     * logo, title, form fields, buttons, and hyperlinks. It also sets up the
+     * actions for the buttons and hyperlinks.
+     *
+     * After setting up the UI and actions, it creates a scene with the main
+     * container and sets the scene on the provided stage. Finally, it shows the
+     * stage.
+     */
     public void show() {
         VBox mainContainer = new VBox();
         mainContainer.setAlignment(Pos.CENTER);
@@ -79,7 +92,7 @@ public class LoginScreen {
         ImageView logoView = new ImageView(new Image(getClass().getResourceAsStream("/Logo.png")));
         logoView.setFitWidth(150);
         logoView.setPreserveRatio(true);
-        
+
         // Apply rounded corners using clipping
         Rectangle clip = new Rectangle(150, 150);
         clip.setArcWidth(40);   // Radius X
@@ -97,33 +110,33 @@ public class LoginScreen {
         Text titleText = new Text("Pet Adoption System Login");
         titleText.setFont(Font.loadFont(getClass().getResourceAsStream("/fontStyle/CherryBombOne-Regular.ttf"), 28));
         titleText.setFill(Color.web(ACCENT_COLOR));
-        
+
         // --- Form elements ---
         VBox fieldContainer = new VBox(15);
-        
+
         // Username
         Label loginLabel = new Label("Username:");
         loginLabel.setFont(Font.font("System", FontWeight.BOLD, 14));
         loginLabel.setTextFill(Color.web(ACCENT_COLOR));
-        
+
         loginField = new TextField();
         loginField.setPromptText("Enter your login");
         String fieldStyle = "-fx-font-size: 14px; -fx-background-color: transparent; -fx-border-color: transparent;";
         loginField.setStyle(fieldStyle);
 
         loginPane = createTextFieldWithIcon(loginField, null);
-        
+
         // Password
         Label passwordLabel = new Label("Password:");
         passwordLabel.setFont(Font.font("System", FontWeight.BOLD, 14));
         passwordLabel.setTextFill(Color.web(ACCENT_COLOR));
-        
+
         passwordField = new PasswordField();
         passwordField.setPromptText("Enter your password");
         passwordField.setStyle(fieldStyle);
 
         passPane = createTextFieldWithIcon(passwordField, null);
-        
+
         fieldContainer.getChildren().addAll(loginLabel, loginPane, passwordLabel, passPane);
 
         // Remember Me & Forgot Password
@@ -131,15 +144,15 @@ public class LoginScreen {
         rememberMe.setFont(Font.font("System", FontWeight.BOLD, 13));
         rememberMe.setStyle("-fx-text-fill: black;");
         rememberMe.getStylesheets().add(getClass().getResource("/styles/checkbox.css").toExternalForm());
-        
+
         Hyperlink forgotPassword = new Hyperlink("Forgot Your Password?");
         forgotPassword.setFont(Font.font("System", 13));
         forgotPassword.setStyle("-fx-text-fill: #007fff;");
-        
+
         BorderPane optionsPane = new BorderPane();
         optionsPane.setLeft(rememberMe);
         optionsPane.setRight(forgotPassword);
-        
+
         // Login Button
         Button loginButton = createStyledButton("Login");
 
@@ -155,13 +168,13 @@ public class LoginScreen {
         // Error and Success Labels
         errorLabel = createFeedbackLabel("-fx-text-fill: #D32F2F; -fx-background-color: #FFEBEE; -fx-border-color: #FFCDD2;");
         successLabel = createFeedbackLabel("-fx-text-fill: #388E3C; -fx-background-color: #E8F5E9; -fx-border-color: #C8E6C9;");
-        
+
         formContainer.getChildren().addAll(logoView, titleText, fieldContainer, optionsPane, loginActions, errorLabel, successLabel);
 
         // Footer with images
         HBox footerImages = new HBox(15);
         footerImages.setAlignment(Pos.CENTER);
-        
+
         mainContainer.getChildren().addAll(formContainer, footerImages);
 
         // Actions
@@ -178,11 +191,22 @@ public class LoginScreen {
         stage.setScene(scene);
         stage.show();
     }
-    
+
+    /**
+     * Creates a StackPane with a TextField and an optional icon. The pane will
+     * have a white background, a border of the PRIMARY_COLOR, and rounded
+     * corners. When the TextField is focused, the border color will change to
+     * #F4ACB5 and the border width will be increased to 2.
+     *
+     * @param textField the TextField to be added to the pane
+     * @param icon the icon to be added to the pane, or null if no icon is
+     * desired
+     * @return the StackPane with the TextField and icon
+     */
     private StackPane createTextFieldWithIcon(TextField textField, ImageView icon) {
         StackPane pane = new StackPane();
         pane.setStyle("-fx-background-color: white; -fx-border-color: " + PRIMARY_COLOR + "; -fx-border-radius: 8; -fx-background-radius: 8;");
-        
+
         HBox content;
         if (icon != null) {
             content = new HBox(10, icon, textField);
@@ -191,9 +215,9 @@ public class LoginScreen {
         }
         content.setAlignment(Pos.CENTER_LEFT);
         content.setPadding(new Insets(5, 10, 5, 10));
-        
+
         pane.getChildren().add(content);
-        
+
         textField.focusedProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal) {
                 pane.setStyle("-fx-background-color: white; -fx-border-color: #F4ACB5; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8;");
@@ -201,22 +225,39 @@ public class LoginScreen {
                 pane.setStyle("-fx-background-color: white; -fx-border-color: " + PRIMARY_COLOR + "; -fx-border-radius: 8; -fx-background-radius: 8;");
             }
         });
-        
+
         return pane;
     }
-    
+
+    /**
+     * Creates a styled button with the specified text. The button has a white
+     * text fill, bold font, rounded corners, and a hand cursor. When the mouse
+     * hovers over the button, the background changes to the PRIMARY_COLOR.
+     *
+     * @param text the text to be displayed on the button
+     * @return the styled button
+     */
     private Button createStyledButton(String text) {
         Button button = new Button(text);
         String baseStyle = "-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 12 25;";
         button.setStyle("-fx-background-color: #F4ACB5;" + baseStyle);
         button.setPrefWidth(Double.MAX_VALUE);
 
-        button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: " + PRIMARY_COLOR+ ";" + baseStyle));
+        button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: " + PRIMARY_COLOR + ";" + baseStyle));
         button.setOnMouseExited(e -> button.setStyle("-fx-background-color: #F4ACB5;" + baseStyle));
-        
+
         return button;
     }
-    
+
+    /**
+     * Creates a Label with a bold font, padding, and rounded corners. The Label
+     * is initially not visible and will be hidden when the text is empty. The
+     * Label will be resized to fit the width of its parent while wrapping its
+     * text.
+     *
+     * @param style additional CSS styles to apply to the Label
+     * @return the styled Label
+     */
     private Label createFeedbackLabel(String style) {
         Label label = new Label();
         label.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 10; -fx-background-radius: 5; -fx-border-radius: 5;" + style);
@@ -227,10 +268,23 @@ public class LoginScreen {
         return label;
     }
 
+    /**
+     * Resets the style of the given StackPane to its default (non-focused)
+     * style. This is used to reset the style of the login and password fields
+     * after a login attempt.
+     *
+     * @param pane the StackPane to be reset
+     */
     private void resetFieldStyle(StackPane pane) {
         pane.setStyle("-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8; -fx-background-radius: 8;");
     }
 
+    /**
+     * Handles the login process by checking if the user has filled in all
+     * fields, then attempting to log in as an admin and if that fails,
+     * attempting to log in as a user. If both login attempts fail, an error
+     * message is displayed.
+     */
     private void handleLogin() {
         String login = loginField.getText();
         String password = passwordField.getText();
@@ -293,6 +347,15 @@ public class LoginScreen {
         }
     }
 
+    /**
+     * Show a success message on the login screen, then proceed to the
+     * appropriate screen depending on whether the user is an admin or not.
+     * <p>
+     * This method is called when the login is successful. It shows a success
+     * message on the login screen, then triggers the appropriate login success
+     * callback (either admin or user) after a short delay. Finally, it closes
+     * the login window.
+     */
     private void showSuccessAndProceed() {
         // Show success message
         successLabel.setText("Login successful! Redirecting...");
@@ -301,8 +364,8 @@ public class LoginScreen {
 
         // Add fade animation to success message
         Timeline fade = new Timeline(
-            new KeyFrame(Duration.ZERO, new KeyValue(successLabel.opacityProperty(), 0)),
-            new KeyFrame(Duration.millis(500), new KeyValue(successLabel.opacityProperty(), 1))
+                new KeyFrame(Duration.ZERO, new KeyValue(successLabel.opacityProperty(), 0)),
+                new KeyFrame(Duration.millis(500), new KeyValue(successLabel.opacityProperty(), 1))
         );
         fade.play();
 
@@ -324,24 +387,44 @@ public class LoginScreen {
         delay.play();
     }
 
+    /**
+     * Highlights the given {@link StackPane} with an error color to visually
+     * indicate an error in the input.
+     * <p>
+     * This method is called when an error occurs in the input fields. The error
+     * color is a light pink color, which is a Material Design specification.
+     * <p>
+     * The style changes made by this method can be reset by calling
+     * {@link #resetErrorField(StackPane)}.
+     */
     private void highlightErrorField(StackPane pane) {
         pane.setStyle("-fx-background-color: #FFEBEE; -fx-border-color: #FF5252; -fx-border-radius: 8; -fx-border-width: 2; -fx-background-radius: 8;");
     }
 
+    /**
+     * Displays an error message to the user in an error label.
+     * <p>
+     * This method is called when an error occurs in the input fields. The error
+     * message is displayed in a label at the bottom of the login window with a
+     * shake animation.
+     * <p>
+     * The style changes made by this method can be reset by calling
+     * {@link #resetErrorField(StackPane)}.
+     */
     private void showError(String message) {
         errorLabel.setText(message);
         errorLabel.setVisible(true);
         successLabel.setVisible(false);
-        
+
         // Add shake animation to error label
         Timeline shake = new Timeline(
-            new KeyFrame(Duration.ZERO, new KeyValue(errorLabel.translateXProperty(), 0)),
-            new KeyFrame(Duration.millis(100), new KeyValue(errorLabel.translateXProperty(), -10)),
-            new KeyFrame(Duration.millis(200), new KeyValue(errorLabel.translateXProperty(), 10)),
-            new KeyFrame(Duration.millis(300), new KeyValue(errorLabel.translateXProperty(), -10)),
-            new KeyFrame(Duration.millis(400), new KeyValue(errorLabel.translateXProperty(), 10)),
-            new KeyFrame(Duration.millis(500), new KeyValue(errorLabel.translateXProperty(), 0))
+                new KeyFrame(Duration.ZERO, new KeyValue(errorLabel.translateXProperty(), 0)),
+                new KeyFrame(Duration.millis(100), new KeyValue(errorLabel.translateXProperty(), -10)),
+                new KeyFrame(Duration.millis(200), new KeyValue(errorLabel.translateXProperty(), 10)),
+                new KeyFrame(Duration.millis(300), new KeyValue(errorLabel.translateXProperty(), -10)),
+                new KeyFrame(Duration.millis(400), new KeyValue(errorLabel.translateXProperty(), 10)),
+                new KeyFrame(Duration.millis(500), new KeyValue(errorLabel.translateXProperty(), 0))
         );
         shake.play();
     }
-} 
+}

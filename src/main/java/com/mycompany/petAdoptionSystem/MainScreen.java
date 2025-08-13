@@ -45,6 +45,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public abstract class MainScreen {
+
     private static final String PRIMARY_COLOR = "#FAD9DD";
     private static final String SECONDARY_COLOR = "#F5F5F5";
     private static final String ACCENT_COLOR = "#2C3E50";
@@ -57,6 +58,13 @@ public abstract class MainScreen {
         this.stage = primaryStage;
     }
 
+    /**
+     * Initializes the UI for this screen.
+     *
+     * This method creates a top bar with the logo and menu bar, and a content
+     * area below it. The content area is a stack pane with 20-pixel padding and
+     * a drop shadow effect. The default content is shown in the content area.
+     */
     public void initializeUI() {
         mainLayout = new BorderPane();
         mainLayout.setStyle("-fx-background-color: " + SECONDARY_COLOR + ";");
@@ -68,7 +76,7 @@ public abstract class MainScreen {
 
         // Create menu bar
         this.menuBar = createMenuBar();
-        
+
         topBar.getChildren().addAll(menuBar);
         mainLayout.setTop(topBar);
 
@@ -84,9 +92,18 @@ public abstract class MainScreen {
 
     // Abstract methods that must be implemented by subclasses
     protected abstract MenuBar createMenuBar();
+
     protected abstract void showDefaultContent();
+
     protected abstract String getDashboardTitle();
 
+    /**
+     * Shows the pet gallery content on the main screen.
+     * <p>
+     * This method clears the content area and adds the content of the
+     * {@link PetGalleryScreen} to it. The pet gallery content is a list view of
+     * all the pets in the database.
+     */
     protected void showPetGallery() {
         PetGalleryScreen galleryScreen = new PetGalleryScreen(stage);
         contentArea.getChildren().clear();
@@ -94,15 +111,20 @@ public abstract class MainScreen {
         StackPane.setMargin(galleryScreen.getContent(), new Insets(0));
     }
 
+    /**
+     * Show a dialog containing pet care information for the given pet type.
+     *
+     * @param petType The type of pet, either "dog" or "cat".
+     */
     protected void showPetCareInfo(String petType) {
         Dialog<Void> dialog = new Dialog<>();
         dialog.setTitle(petType.equals("dog") ? "Dog Care" : "Cat Care");
-        
+
         VBox content = new VBox(15);
         content.setPadding(new Insets(20));
         content.setStyle("-fx-background-color: #FAD9DD; -fx-background-radius: 8;");
         content.setAlignment(Pos.CENTER);
-        
+
         String imagePath = petType.equals("dog") ? "/d3.jpg" : "/bg3.jpg";
         ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream(imagePath)));
         imageView.setFitWidth(150);
@@ -112,18 +134,16 @@ public abstract class MainScreen {
         clip.setArcWidth(40);   // Radius X
         clip.setArcHeight(40);  // Radius Y
         imageView.setClip(clip);
-        
 
-        Text contentText = new Text(petType.equals("dog") ? 
-            "\n Feeding time should be accurate, try to feed them according to the habits of their original owners, and do not feed them too much sweet, salty, and stimulating food. \n" +
-            "\n For the new baby, the owner must feed them personally, and over time, they can establish a deep emotional connection and deepen the degree of mutual trust, \n" +
-            "\n The other important task of the owner is to help the little one overcome the pain of leaving its mother and adapt to the new environment as soon as possible. \n" :
-            "\n We can't keep the kitten at home all the time, we need to take the kitten out for a walk from time to time. \n" +
-            "\n Then, when we raise the kitten, we also need to play with the kitten more. \n" +
-            "\n When we raise the kitten, we also need to take care of its fur more.");
+        Text contentText = new Text(petType.equals("dog")
+                ? "\n Feeding time should be accurate, try to feed them according to the habits of their original owners, and do not feed them too much sweet, salty, and stimulating food. \n"
+                + "\n For the new baby, the owner must feed them personally, and over time, they can establish a deep emotional connection and deepen the degree of mutual trust, \n"
+                + "\n The other important task of the owner is to help the little one overcome the pain of leaving its mother and adapt to the new environment as soon as possible. \n"
+                : "\n We can't keep the kitten at home all the time, we need to take the kitten out for a walk from time to time. \n"
+                + "\n Then, when we raise the kitten, we also need to play with the kitten more. \n"
+                + "\n When we raise the kitten, we also need to take care of its fur more.");
         contentText.setWrappingWidth(400);
         contentText.setFont(Font.loadFont(getClass().getResourceAsStream("/fontStyle/CherryBombOne-Regular.ttf"), 18));
-        
 
         content.getChildren().addAll(imageView, contentText);
 
@@ -133,32 +153,31 @@ public abstract class MainScreen {
         dialog.getDialogPane().setStyle("-fx-background-radius: 8; -fx-background-color: white");
         Button closeBtn = (Button) dialog.getDialogPane().lookupButton(closeButton);
         closeBtn.setStyle(
-            "-fx-background-color: white;" +
-            "-fx-text-fill: #FAD9DD;" +
-            "-fx-border-color: #FAD9DD;" +
-            "-fx-border-radius: 6;" +
-            "-fx-background-radius: 6;" +
-            "-fx-font-size: 14px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 6, 0, 0, 2);"
-
+                "-fx-background-color: white;"
+                + "-fx-text-fill: #FAD9DD;"
+                + "-fx-border-color: #FAD9DD;"
+                + "-fx-border-radius: 6;"
+                + "-fx-background-radius: 6;"
+                + "-fx-font-size: 14px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 6, 0, 0, 2);"
         );
-        closeBtn.setOnMouseEntered(e -> closeBtn.setStyle("-fx-background-color: #FAD9DD;" +
-            "-fx-text-fill: white;" +
-            "-fx-border-color: white;" +
-            "-fx-border-radius: 6;" +
-            "-fx-background-radius: 6;" +
-            "-fx-font-size: 14px;" +
-            "-fx-font-weight: bold;"
+        closeBtn.setOnMouseEntered(e -> closeBtn.setStyle("-fx-background-color: #FAD9DD;"
+                + "-fx-text-fill: white;"
+                + "-fx-border-color: white;"
+                + "-fx-border-radius: 6;"
+                + "-fx-background-radius: 6;"
+                + "-fx-font-size: 14px;"
+                + "-fx-font-weight: bold;"
         ));
-        closeBtn.setOnMouseExited(e -> closeBtn.setStyle("-fx-background-color: white;" +
-            "-fx-text-fill: #FAD9DD;" +
-            "-fx-border-color: #FAD9DD;" +
-            "-fx-border-radius: 6;" +
-            "-fx-background-radius: 6;" +
-            "-fx-font-size: 14px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 6, 0, 0, 2);"
+        closeBtn.setOnMouseExited(e -> closeBtn.setStyle("-fx-background-color: white;"
+                + "-fx-text-fill: #FAD9DD;"
+                + "-fx-border-color: #FAD9DD;"
+                + "-fx-border-radius: 6;"
+                + "-fx-background-radius: 6;"
+                + "-fx-font-size: 14px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 6, 0, 0, 2);"
         ));
         dialog.showAndWait();
     }
@@ -166,18 +185,18 @@ public abstract class MainScreen {
     protected void showAdoptionProcess() {
         Dialog<Void> dialog = new Dialog<>();
         dialog.setTitle("Adoption Process");
-        
+
         VBox content = new VBox(15);
         content.setPadding(new Insets(20));
         content.setStyle("-fx-background-color: #FAD9DD; -fx-background-radius: 8;");
 
         Text processText = new Text(
-            "1. Browse adoptable pets\n" +
-            "2. Select a pet you like\n" +
-            "3. Fill out the adoption application form\n" +
-            "4. Wait for review\n" +
-            "5. Arrange an interview after review is passed\n" +
-            "6. Complete the adoption process"
+                "1. Browse adoptable pets\n"
+                + "2. Select a pet you like\n"
+                + "3. Fill out the adoption application form\n"
+                + "4. Wait for review\n"
+                + "5. Arrange an interview after review is passed\n"
+                + "6. Complete the adoption process"
         );
         processText.setFont(Font.loadFont(getClass().getResourceAsStream("/fontStyle/CherryBombOne-Regular.ttf"), 15));
 
@@ -189,36 +208,43 @@ public abstract class MainScreen {
         dialog.getDialogPane().setStyle("-fx-background-radius: 8; -fx-background-color: white;");
         Button closeBtn = (Button) dialog.getDialogPane().lookupButton(closeButton);
         closeBtn.setStyle(
-            "-fx-background-color: white;" +
-            "-fx-text-fill: #FAD9DD;" +
-            "-fx-border-color: #FAD9DD;" +
-            "-fx-border-radius: 6;" +
-            "-fx-background-radius: 6;" +
-            "-fx-font-size: 14px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 6, 0, 0, 2);"
-
+                "-fx-background-color: white;"
+                + "-fx-text-fill: #FAD9DD;"
+                + "-fx-border-color: #FAD9DD;"
+                + "-fx-border-radius: 6;"
+                + "-fx-background-radius: 6;"
+                + "-fx-font-size: 14px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 6, 0, 0, 2);"
         );
-        closeBtn.setOnMouseEntered(e -> closeBtn.setStyle("-fx-background-color: #FAD9DD;" +
-            "-fx-text-fill: white;" +
-            "-fx-border-color: white;" +
-            "-fx-border-radius: 6;" +
-            "-fx-background-radius: 6;" +
-            "-fx-font-size: 14px;" +
-            "-fx-font-weight: bold;"
+        closeBtn.setOnMouseEntered(e -> closeBtn.setStyle("-fx-background-color: #FAD9DD;"
+                + "-fx-text-fill: white;"
+                + "-fx-border-color: white;"
+                + "-fx-border-radius: 6;"
+                + "-fx-background-radius: 6;"
+                + "-fx-font-size: 14px;"
+                + "-fx-font-weight: bold;"
         ));
-        closeBtn.setOnMouseExited(e -> closeBtn.setStyle("-fx-background-color: white;" +
-            "-fx-text-fill: #FAD9DD;" +
-            "-fx-border-color: #FAD9DD;" +
-            "-fx-border-radius: 6;" +
-            "-fx-background-radius: 6;" +
-            "-fx-font-size: 14px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 6, 0, 0, 2);"
+        closeBtn.setOnMouseExited(e -> closeBtn.setStyle("-fx-background-color: white;"
+                + "-fx-text-fill: #FAD9DD;"
+                + "-fx-border-color: #FAD9DD;"
+                + "-fx-border-radius: 6;"
+                + "-fx-background-radius: 6;"
+                + "-fx-font-size: 14px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 6, 0, 0, 2);"
         ));
         dialog.showAndWait();
     }
 
+    /**
+     * Displays the list of adopted pets for the currently logged-in user.
+     *
+     * <p>
+     * This method initializes the AdoptedPetListScreen and updates the content
+     * area to show the list of pets adopted by the user. If the user is not
+     * logged in, an appropriate message should be displayed by the screen.
+     */
     protected void showAdoptedPetList() {
         AdoptedPetListScreen adoptedPetsScreen = new AdoptedPetListScreen(children -> contentArea.getChildren().setAll(children));
         contentArea.getChildren().clear();
@@ -226,6 +252,22 @@ public abstract class MainScreen {
         StackPane.setMargin(adoptedPetsScreen.getContent(), new Insets(0));
     }
 
+    /**
+     * Displays the user profile of the currently logged-in user.
+     *
+     * <p>
+     * If the user is not logged in, displays a message asking them to log in.
+     *
+     * <p>
+     * Fetches the user's data from the database and displays it in a card with
+     * the user's profile picture, name, username, email, phone, age, gender,
+     * address, number of pets owned, and experience in years. Also displays an
+     * "Edit Profile" button.
+     *
+     * <p>
+     * If an error occurs while loading the user profile (e.g., user not found,
+     * database error), displays an error message.
+     */
     protected void showUserProfile() {
         int userId = UserSession.getCurrentUserId();
         if (userId <= 0) {
@@ -307,47 +349,47 @@ public abstract class MainScreen {
 
                 // Edit button
                 UserProfileData userData = new UserProfileData(
-                    rs.getInt("id"),
-                    rs.getString("realName"),
-                    rs.getString("userName"),
-                    rs.getString("Email"),
-                    rs.getString("telephone"),
-                    rs.getInt("age"),
-                    rs.getString("sex"),
-                    rs.getString("address"),
-                    rs.getInt("petHave"),
-                    rs.getInt("experience"),
-                    rs.getString("pic")
+                        rs.getInt("id"),
+                        rs.getString("realName"),
+                        rs.getString("userName"),
+                        rs.getString("Email"),
+                        rs.getString("telephone"),
+                        rs.getInt("age"),
+                        rs.getString("sex"),
+                        rs.getString("address"),
+                        rs.getInt("petHave"),
+                        rs.getInt("experience"),
+                        rs.getString("pic")
                 );
                 Button editButton = new Button("Edit Profile");
                 editButton.setStyle(
-                    "-fx-background-color: #F4ACB5;" +
-                    "-fx-text-fill: white;" +
-                    "-fx-font-size: 16px;" +
-                    "-fx-font-weight: bold;" +
-                    "-fx-background-radius: 8;" +
-                    "-fx-cursor: hand;" +
-                    "-fx-padding: 10 30;"
+                        "-fx-background-color: #F4ACB5;"
+                        + "-fx-text-fill: white;"
+                        + "-fx-font-size: 16px;"
+                        + "-fx-font-weight: bold;"
+                        + "-fx-background-radius: 8;"
+                        + "-fx-cursor: hand;"
+                        + "-fx-padding: 10 30;"
                 );
                 editButton.setOnMouseEntered(e -> editButton.setStyle(
-                    "-fx-background-color: #FAD9DD;" +
-                    "-fx-text-fill: white;" +
-                    "-fx-font-size: 16px;" +
-                    "-fx-font-weight: bold;" +
-                    "-fx-background-radius: 8;" +
-                    "-fx-cursor: hand;" +
-                    "-fx-padding: 10 30;" +
-                    "-fx-border-color: #F4ACB5;" +
-                    "-fx-border-radius: 8;"
+                        "-fx-background-color: #FAD9DD;"
+                        + "-fx-text-fill: white;"
+                        + "-fx-font-size: 16px;"
+                        + "-fx-font-weight: bold;"
+                        + "-fx-background-radius: 8;"
+                        + "-fx-cursor: hand;"
+                        + "-fx-padding: 10 30;"
+                        + "-fx-border-color: #F4ACB5;"
+                        + "-fx-border-radius: 8;"
                 ));
                 editButton.setOnMouseExited(e -> editButton.setStyle(
-                    "-fx-background-color: #F4ACB5;" +
-                    "-fx-text-fill: white;" +
-                    "-fx-font-size: 16px;" +
-                    "-fx-font-weight: bold;" +
-                    "-fx-background-radius: 8;" +
-                    "-fx-cursor: hand;" +
-                    "-fx-padding: 10 30;"
+                        "-fx-background-color: #F4ACB5;"
+                        + "-fx-text-fill: white;"
+                        + "-fx-font-size: 16px;"
+                        + "-fx-font-weight: bold;"
+                        + "-fx-background-radius: 8;"
+                        + "-fx-cursor: hand;"
+                        + "-fx-padding: 10 30;"
                 ));
                 editButton.setOnAction(e -> showEditUserProfile(userData));
                 profileCard.getChildren().add(editButton);
@@ -364,6 +406,7 @@ public abstract class MainScreen {
 
     // Helper class to hold user profile data
     public static class UserProfileData {
+
         int id;
         String realName;
         String userName;
@@ -375,6 +418,7 @@ public abstract class MainScreen {
         int petHave;
         int experience;
         String pic;
+
         UserProfileData(int id, String realName, String userName, String email, String phone, int age, String gender, String address, int petHave, int experience, String pic) {
             this.id = id;
             this.realName = realName;
@@ -481,7 +525,7 @@ public abstract class MainScreen {
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Select Profile Picture");
                 fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif")
+                        new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif")
                 );
                 java.io.File selectedFile = fileChooser.showOpenDialog(stage);
                 if (selectedFile != null) {
@@ -520,16 +564,16 @@ public abstract class MainScreen {
             picRow.setPrefWidth(INPUT_WIDTH);
             // Helper for label/field row
             fieldBox.getChildren().addAll(
-                createEditRow("Full Name", fullNameField, labelFont, labelColor),
-                createEditRow("Username", usernameField, labelFont, labelColor),
-                createEditRow("Email", emailField, labelFont, labelColor),
-                createEditRow("Phone", phoneField, labelFont, labelColor),
-                createEditRow("Age", ageField, labelFont, labelColor),
-                createEditRow("Gender", genderComboBox, labelFont, labelColor),
-                createEditRow("Address", addressField, labelFont, labelColor),
-                createEditRow("Pets Owned", petHaveField, labelFont, labelColor),
-                createEditRow("Experience (years)", experienceField, labelFont, labelColor),
-                createEditRow("Profile Picture", picRow, labelFont, labelColor)
+                    createEditRow("Full Name", fullNameField, labelFont, labelColor),
+                    createEditRow("Username", usernameField, labelFont, labelColor),
+                    createEditRow("Email", emailField, labelFont, labelColor),
+                    createEditRow("Phone", phoneField, labelFont, labelColor),
+                    createEditRow("Age", ageField, labelFont, labelColor),
+                    createEditRow("Gender", genderComboBox, labelFont, labelColor),
+                    createEditRow("Address", addressField, labelFont, labelColor),
+                    createEditRow("Pets Owned", petHaveField, labelFont, labelColor),
+                    createEditRow("Experience (years)", experienceField, labelFont, labelColor),
+                    createEditRow("Profile Picture", picRow, labelFont, labelColor)
             );
             // Error label
             Label errorLabel = new Label();
@@ -542,40 +586,40 @@ public abstract class MainScreen {
             // Save button (centered)
             Button saveButton = new Button("Save");
             saveButton.setStyle(
-                "-fx-background-color: #F4ACB5;" +
-                "-fx-text-fill: white;" +
-                "-fx-font-size: 16px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-background-radius: 8;" +
-                "-fx-cursor: hand;" +
-                "-fx-padding: 10 30;"
+                    "-fx-background-color: #F4ACB5;"
+                    + "-fx-text-fill: white;"
+                    + "-fx-font-size: 16px;"
+                    + "-fx-font-weight: bold;"
+                    + "-fx-background-radius: 8;"
+                    + "-fx-cursor: hand;"
+                    + "-fx-padding: 10 30;"
             );
             saveButton.setOnMouseEntered(e -> saveButton.setStyle(
-                "-fx-background-color: " + PRIMARY_COLOR + ";" +
-                "-fx-text-fill: white;" +
-                "-fx-font-size: 16px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-background-radius: 8;" +
-                "-fx-cursor: hand;" +
-                "-fx-padding: 10 30;" +
-                "-fx-border-color: #F4ACB5;" +
-                "-fx-border-radius: 8;"
+                    "-fx-background-color: " + PRIMARY_COLOR + ";"
+                    + "-fx-text-fill: white;"
+                    + "-fx-font-size: 16px;"
+                    + "-fx-font-weight: bold;"
+                    + "-fx-background-radius: 8;"
+                    + "-fx-cursor: hand;"
+                    + "-fx-padding: 10 30;"
+                    + "-fx-border-color: #F4ACB5;"
+                    + "-fx-border-radius: 8;"
             ));
             saveButton.setOnMouseExited(e -> saveButton.setStyle(
-                "-fx-background-color: #F4ACB5;" +
-                "-fx-text-fill: white;" +
-                "-fx-font-size: 16px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-background-radius: 8;" +
-                "-fx-cursor: hand;" +
-                "-fx-padding: 10 30;"
+                    "-fx-background-color: #F4ACB5;"
+                    + "-fx-text-fill: white;"
+                    + "-fx-font-size: 16px;"
+                    + "-fx-font-weight: bold;"
+                    + "-fx-background-radius: 8;"
+                    + "-fx-cursor: hand;"
+                    + "-fx-padding: 10 30;"
             ));
             HBox saveBox = new HBox(saveButton);
             saveBox.setAlignment(Pos.CENTER);
             saveButton.setOnAction(ev -> {
                 // Validation
-                if (fullNameField.getText().isEmpty() || usernameField.getText().isEmpty() || emailField.getText().isEmpty() || phoneField.getText().isEmpty() ||
-                    ageField.getText().isEmpty() || addressField.getText().isEmpty() || petHaveField.getText().isEmpty() || experienceField.getText().isEmpty()) {
+                if (fullNameField.getText().isEmpty() || usernameField.getText().isEmpty() || emailField.getText().isEmpty() || phoneField.getText().isEmpty()
+                        || ageField.getText().isEmpty() || addressField.getText().isEmpty() || petHaveField.getText().isEmpty() || experienceField.getText().isEmpty()) {
                     errorLabel.setText("Please fill in all required fields");
                     errorLabel.setVisible(true);
                     return;
@@ -651,17 +695,17 @@ public abstract class MainScreen {
             // Cancel button
             Button cancelButton = new Button("Cancel");
             cancelButton.setStyle(
-                "-fx-background-color: #F5F5F5;" +
-                "-fx-text-fill: " + ACCENT_COLOR + ";" +
-                "-fx-font-size: 16px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-background-radius: 8;" +
-                "-fx-cursor: hand;" +
-                "-fx-padding: 10 30;"
+                    "-fx-background-color: #F5F5F5;"
+                    + "-fx-text-fill: " + ACCENT_COLOR + ";"
+                    + "-fx-font-size: 16px;"
+                    + "-fx-font-weight: bold;"
+                    + "-fx-background-radius: 8;"
+                    + "-fx-cursor: hand;"
+                    + "-fx-padding: 10 30;"
             );
             cancelButton.setOnAction(ev -> showUserProfile());
             editCard.getChildren().add(fieldBox);
-            
+
             HBox buttonBox = new HBox(10, saveButton, cancelButton);
             buttonBox.setAlignment(Pos.CENTER);
             fieldBox.getChildren().add(buttonBox);
@@ -670,13 +714,19 @@ public abstract class MainScreen {
             showMessage("Error", "Could not load user info for editing: " + e.getMessage());
         }
     }
-    
+
+    /**
+     * Styles the given control with a transparent background, a pink border,
+     * rounded corners, and padding.
+     *
+     * @param field the control to be styled
+     */
     protected void styleInputField(Control field) {
         field.setStyle(
-            "-fx-background-color: transparent;" +
-            "-fx-border-color: #F4ACB5;" +
-            "-fx-border-radius: 6;" +
-            "-fx-padding: 6;"
+                "-fx-background-color: transparent;"
+                + "-fx-border-color: #F4ACB5;"
+                + "-fx-border-radius: 6;"
+                + "-fx-padding: 6;"
         );
     }
 
@@ -709,6 +759,12 @@ public abstract class MainScreen {
         loginScreen.show();
     }
 
+    /**
+     * Updates the menu bar by clearing all menu items and recreating based on
+     * the current login state. If the user is logged in, adds user menu items
+     * for viewing profile, viewing my adoption applications, viewing adopted
+     * pets, updating pet status, and logging out.
+     */
     protected void updateMenuBarAfterLogin() {
         // Remove all menus and recreate based on login state
         this.menuBar.getMenus().clear();
@@ -732,16 +788,48 @@ public abstract class MainScreen {
         }
     }
 
+    /**
+     * Shows the My Adoption Applications screen.
+     *
+     * <p>
+     * This method creates a new instance of the
+     * {@link ViewAdoptionApplicationsScreen} class and calls its
+     * {@link ViewAdoptionApplicationsScreen#show()} method to display the
+     * screen.
+     */
     protected void showMyApplications() {
         ViewAdoptionApplicationsScreen applicationsScreen = new ViewAdoptionApplicationsScreen(new Stage());
         applicationsScreen.show();
     }
 
+    /**
+     * Displays the Update Pet Status screen.
+     *
+     * <p>
+     * This method creates a new instance of {@link UpdatePetStatus} and sets
+     * its content as the content of the main screen. The content is set to
+     * cover the entire content area and the margins are set to zero.
+     */
     protected void showUpdatePetStatus() {
         UpdatePetStatus UpdateScreen = new UpdatePetStatus();
         contentArea.getChildren().setAll(UpdateScreen.getContent());
     }
 
+    /**
+     * Handles the user logout process and returns to the main screen.
+     *
+     * <p>
+     * This method prompts the user with a confirmation dialog to confirm
+     * whether they wish to log out. If the user confirms, their session state
+     * is reset by updating the {@link UserSession} to reflect the logged-out
+     * status. A new instance of the main screen is then initialized and
+     * displayed, replacing the current screen.
+     *
+     * <p>
+     * The main screen's menu bar is recreated based on the updated login state,
+     * and the default content is shown. This ensures that the application
+     * returns to its initial state, ready for a new login attempt.
+     */
     protected void handleLogout() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Logout");
@@ -817,32 +905,40 @@ public abstract class MainScreen {
         });
     }
 
+    /**
+     * Show a notification dialog with the pets that the user needs to update
+     * the status for. The dialog will only show the pets that the user has
+     * successfully adopted and that do not have any updates during the same
+     * day. The dialog will show the pet names and the date they were requested
+     * to be updated. The dialog will also show the total number of
+     * notifications.
+     */
     protected void showNotification() {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/adopt", "root", "");
-            String sql =
-                "SELECT n.*, u.realName, p.petName " +
-                "FROM notification n " +
-                "JOIN user u ON n.userId = u.id " +
-                "JOIN pet p ON n.petId = p.id " +
-                "WHERE n.userId = ? " +
-                "AND EXISTS ( " +
-                "    SELECT 1 " +
-                "    FROM adoptanimal a " +
-                "    WHERE a.userId = n.userId " +
-                "      AND a.petId = n.petId " +
-                "      AND a.state = 2 " +
-                ") " +
-                "AND NOT EXISTS ( " +
-                "    SELECT 1 " +
-                "    FROM petupdate pu " +
-                "    JOIN adoptanimal aa ON pu.adoptId = aa.id " +
-                "    WHERE aa.userId = n.userId " +
-                "      AND aa.petId = n.petId " +
-                "      AND pu.updateTime >= DATE(n.createdAt) " +
-                ") " +
-                "ORDER BY n.createdAt DESC " +
-                "LIMIT 0, 25";
+            String sql
+                    = "SELECT n.*, u.realName, p.petName "
+                    + "FROM notification n "
+                    + "JOIN user u ON n.userId = u.id "
+                    + "JOIN pet p ON n.petId = p.id "
+                    + "WHERE n.userId = ? "
+                    + "AND EXISTS ( "
+                    + "    SELECT 1 "
+                    + "    FROM adoptanimal a "
+                    + "    WHERE a.userId = n.userId "
+                    + "      AND a.petId = n.petId "
+                    + "      AND a.state = 2 "
+                    + ") "
+                    + "AND NOT EXISTS ( "
+                    + "    SELECT 1 "
+                    + "    FROM petupdate pu "
+                    + "    JOIN adoptanimal aa ON pu.adoptId = aa.id "
+                    + "    WHERE aa.userId = n.userId "
+                    + "      AND aa.petId = n.petId "
+                    + "      AND pu.updateTime >= DATE(n.createdAt) "
+                    + ") "
+                    + "ORDER BY n.createdAt DESC "
+                    + "LIMIT 0, 25";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, UserSession.getCurrentUserId());
             ResultSet rs = stmt.executeQuery();
@@ -871,6 +967,12 @@ public abstract class MainScreen {
         }
     }
 
+    /**
+     * Shows an information message in an alert dialog.
+     *
+     * @param title The title of the alert dialog.
+     * @param content The content of the alert dialog.
+     */
     protected void showMessage(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -879,6 +981,15 @@ public abstract class MainScreen {
         alert.showAndWait();
     }
 
+    /**
+     * Displays the main application window.
+     *
+     * <p>
+     * This method creates a new {@link Scene} with the main layout as its root
+     * and applies the stylesheet located at {@code /styles.css}. The scene is
+     * set on the stage, the title is set to "Pet Adoption System", and the
+     * stage is shown.
+     */
     public void show() {
         Scene scene = new Scene(mainLayout, 1200, 800);
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());

@@ -1,5 +1,7 @@
 package com.mycompany.petAdoptionSystem;
 
+import java.util.Objects;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -19,18 +21,32 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.util.Objects;
-
 public class Main extends Application {
+
     private TextArea outputArea;
     private static final String SECONDARY_COLOR = "#F5F5F5";
     private static final String ACCENT_COLOR = "#2C3E50";
 
+    /**
+     * Shows the main screen with pet gallery.
+     * <p>
+     * This method creates a new instance of the {@link MainScreen} class and
+     * calls its {@link #show()} method to display the main screen.
+     *
+     * @param primaryStage the primary stage of the application
+     */
     @Override
     public void start(Stage primaryStage) {
         // Show main screen directly with pet gallery
         primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Logo.png"))));
         MainScreen mainScreen = new MainScreen(primaryStage) {
+            /**
+             * Creates a menu bar for the main screen. The menu bar includes
+             * options for user navigation and interaction within the
+             * application.
+             *
+             * @return the menu bar for the main screen
+             */
             @Override
             protected MenuBar createMenuBar() {
                 MenuBar localMenuBar = new MenuBar();
@@ -78,11 +94,23 @@ public class Main extends Application {
                 return localMenuBar;
             }
 
+            /**
+             * Shows the default content of the main screen.
+             * <p>
+             * This method is called when the user navigates to the main screen.
+             * It displays the pet gallery by calling the
+             * {@link #showPetGallery()} method.
+             */
             @Override
             protected void showDefaultContent() {
                 showPetGallery();
             }
 
+            /**
+             * {@inheritDoc}
+             *
+             * @return the title of the main screen dashboard
+             */
             @Override
             protected String getDashboardTitle() {
                 return "Pet Adoption System";
@@ -105,7 +133,7 @@ public class Main extends Application {
         outputArea.setPrefHeight(300);
         outputArea.setWrapText(true);
         outputArea.setStyle("-fx-font-size: 14px; -fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 5;");
-        
+
         ScrollPane scrollPane = new ScrollPane(outputArea);
         scrollPane.setFitToWidth(true);
         scrollPane.setStyle("-fx-background: white; -fx-border-color: transparent;");
@@ -134,6 +162,14 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Starts the JavaFX application.
+     * <p>
+     * This is the entry point for the application. It simply calls the
+     * {@link Application#launch(String[])} method to start the application.
+     *
+     * @param args the arguments passed to the application
+     */
     public static void main(String[] args) {
         launch(args);
     }

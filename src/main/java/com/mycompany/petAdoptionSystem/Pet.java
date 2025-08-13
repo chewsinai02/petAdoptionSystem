@@ -11,11 +11,14 @@ import javafx.beans.property.StringProperty;
 
 // Interface for pet behaviors
 interface PetBehavior {
+
     String getCareInstructions();
+
     String getAdoptionRequirements();
 }
 
 public class Pet implements PetBehavior {
+
     private final IntegerProperty id;
     private final StringProperty name;
     private final StringProperty type;
@@ -37,34 +40,100 @@ public class Pet implements PetBehavior {
     }
 
     // Getters
-    public int getId() { return id.get(); }
-    public String getName() { return name.get(); }
-    public String getType() { return type.get(); }
-    public String getSex() { return sex.get(); }
-    public Date getBirthday() { return birthday.get(); }
-    public String getPic() { return pic.get(); }
-    public int getState() { return state.get(); }
-    public String getRemark() { return remark.get(); }
+    public int getId() {
+        return id.get();
+    }
+
+    public String getName() {
+        return name.get();
+    }
+
+    public String getType() {
+        return type.get();
+    }
+
+    public String getSex() {
+        return sex.get();
+    }
+
+    public Date getBirthday() {
+        return birthday.get();
+    }
+
+    public String getPic() {
+        return pic.get();
+    }
+
+    public int getState() {
+        return state.get();
+    }
+
+    public String getRemark() {
+        return remark.get();
+    }
 
     // Property getters
-    public IntegerProperty idProperty() { return id; }
-    public StringProperty nameProperty() { return name; }
-    public StringProperty typeProperty() { return type; }
-    public StringProperty sexProperty() { return sex; }
-    public ObjectProperty<Date> birthdayProperty() { return birthday; }
-    public StringProperty picProperty() { return pic; }
-    public IntegerProperty stateProperty() { return state; }
-    public StringProperty remarkProperty() { return remark; }
+    public IntegerProperty idProperty() {
+        return id;
+    }
+
+    public StringProperty nameProperty() {
+        return name;
+    }
+
+    public StringProperty typeProperty() {
+        return type;
+    }
+
+    public StringProperty sexProperty() {
+        return sex;
+    }
+
+    public ObjectProperty<Date> birthdayProperty() {
+        return birthday;
+    }
+
+    public StringProperty picProperty() {
+        return pic;
+    }
+
+    public IntegerProperty stateProperty() {
+        return state;
+    }
+
+    public StringProperty remarkProperty() {
+        return remark;
+    }
 
     // Setters
-    public void setName(String name) { this.name.set(name); }
-    public void setType(String type) { this.type.set(type); }
-    public void setSex(String sex) { this.sex.set(sex); }
-    public void setBirthday(Date birthday) { this.birthday.set(birthday); }
-    public void setPic(String pic) { this.pic.set(pic); }
-    public void setState(int state) { this.state.set(state); }
-    public void setRemark(String remark) { this.remark.set(remark); }
-    
+    public void setName(String name) {
+        this.name.set(name);
+    }
+
+    public void setType(String type) {
+        this.type.set(type);
+    }
+
+    public void setSex(String sex) {
+        this.sex.set(sex);
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday.set(birthday);
+    }
+
+    public void setPic(String pic) {
+        this.pic.set(pic);
+    }
+
+    public void setState(int state) {
+        this.state.set(state);
+    }
+
+    public void setRemark(String remark) {
+        this.remark.set(remark);
+    }
+
     // Interface method implementations
     @Override
     public String getCareInstructions() {
@@ -77,7 +146,22 @@ public class Pet implements PetBehavior {
             return "Provide appropriate food, shelter, and veterinary care for your pet.";
         }
     }
-    
+
+    /**
+     * Returns the adoption requirements for the pet based on its type.
+     * <p>
+     * The requirements are as follows:
+     * <ul>
+     * <li>Dogs: stable home, time for exercise, training commitment, and
+     * financial resources for care.</li>
+     * <li>Cats: safe indoor environment, time for care and play, and financial
+     * resources for veterinary care.</li>
+     * <li>Other: stable home, time for care, and financial resources for
+     * veterinary care.</li>
+     * </ul>
+     *
+     * @return the adoption requirements as a string
+     */
     @Override
     public String getAdoptionRequirements() {
         String petType = getType().toLowerCase();
@@ -89,4 +173,4 @@ public class Pet implements PetBehavior {
             return "General requirements: stable home, time for care, and financial resources for veterinary care.";
         }
     }
-} 
+}
