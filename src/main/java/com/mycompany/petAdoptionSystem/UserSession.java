@@ -3,7 +3,7 @@
  * Stores details such as username, role, and authentication state.
  * 
  * @author Chew Sin Ai (finalize, and debug)
- * @version 1.0
+ * @version 2.0
  */
 package com.mycompany.petAdoptionSystem;
 

@@ -3,7 +3,7 @@
  * Contains attributes such as name, type, age, and adoption status.
  * 
  * @author Chew Sin Ai (finalize, and debug)
- * @version 1.0
+ * @version 2.0
  */
 package com.mycompany.petAdoptionSystem;
 

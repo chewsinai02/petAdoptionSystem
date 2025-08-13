@@ -4,7 +4,7 @@
  * Accessible only to admin users after successful login.
  * 
  * @author Chew Sin Ai (finalize, and debug)
- * @version 1.0
+ * @version 2.0
  */
 package com.mycompany.petAdoptionSystem.admin;
 
