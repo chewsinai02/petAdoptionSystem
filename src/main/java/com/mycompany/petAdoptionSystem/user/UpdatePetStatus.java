@@ -1,3 +1,10 @@
+/**
+ * Provides functionality for updating the well-being of a pet.
+ * Typically to let admin view the well-being of pets.
+ * 
+ * @author Chew Sin Ai (finalize, and debug)
+ * @version 1.0
+ */
 package com.mycompany.petAdoptionSystem.user;
 
 import java.sql.Connection;

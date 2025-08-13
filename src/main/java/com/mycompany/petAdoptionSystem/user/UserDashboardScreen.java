@@ -1,3 +1,11 @@
+/**
+ * Represents the main dashboard screen for a logged-in user.
+ * Provides navigation to browse pets, view pet knowledge, view adoption process, 
+ * view adoptions, notifications and manage personal profile.
+ * 
+ * @author Chew Sin Ai (finalize, and debug)
+ * @version 1.0
+ */
 package com.mycompany.petAdoptionSystem.user;
 
 import com.mycompany.petAdoptionSystem.MainScreen;

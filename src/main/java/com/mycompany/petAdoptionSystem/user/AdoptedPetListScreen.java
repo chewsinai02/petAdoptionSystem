@@ -1,3 +1,10 @@
+/**
+ * Displays a list of pets that have been adopted by the current user.
+ * Provides details such as pet name, type, and adoption date.
+ * 
+ * @author Chew Sin Ai (finalize, and debug)
+ * @version 1.0
+ */
 package com.mycompany.petAdoptionSystem.user;
 
 import java.sql.Connection;

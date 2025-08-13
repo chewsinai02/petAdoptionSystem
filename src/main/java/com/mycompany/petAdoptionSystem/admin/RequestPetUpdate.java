@@ -1,3 +1,9 @@
+/**
+ * Represents a form or interface for users to request updates to pet status from adopters.
+ * 
+ * @author Chew Sin Ai (finalize, and debug)
+ * @version 1.0
+ */
 package com.mycompany.petAdoptionSystem.admin;
 
 import java.sql.Connection;

@@ -1,3 +1,10 @@
+/**
+ * Displays a gallery of pets available for adoption.
+ * Allows users to view details for each pet.
+ * 
+ * @author Chew Sin Ai (finalize, and debug)
+ * @version 1.0
+ */
 package com.mycompany.petAdoptionSystem;
 
 import java.sql.Connection;

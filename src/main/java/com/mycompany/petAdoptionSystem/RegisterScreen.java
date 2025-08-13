@@ -1,3 +1,10 @@
+/**
+ * Provides the user interface for new user registration. (no include admin registration)
+ * Handles input validation and creates new user accounts.
+ * 
+ * @author Chew Sin Ai (finalize, and debug)
+ * @version 1.0
+ */
 package com.mycompany.petAdoptionSystem;
 
 import java.io.File;

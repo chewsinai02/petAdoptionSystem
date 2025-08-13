@@ -1,3 +1,10 @@
+/**
+ * Manages the database connection for the Pet Adoption System.
+ * Handles establishing and closing connections to the database.
+ * 
+ * @author Chew Sin Ai (finalize, and debug)
+ * @version 1.0
+ */
 package com.mycompany.petAdoptionSystem;
 
 import java.sql.Connection;

@@ -1,3 +1,10 @@
+/**
+ * Manages session information for the currently logged-in user.
+ * Stores details such as username, role, and authentication state.
+ * 
+ * @author Chew Sin Ai (finalize, and debug)
+ * @version 1.0
+ */
 package com.mycompany.petAdoptionSystem;
 
 public class UserSession {

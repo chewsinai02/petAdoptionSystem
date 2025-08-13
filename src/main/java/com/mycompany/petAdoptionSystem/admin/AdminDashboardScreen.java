@@ -1,3 +1,11 @@
+/**
+ * Represents the main administrative dashboard screen in the Pet Adoption System.
+ * Provides navigation options for managing pets, adoption approvals, view and request updates to pet well-being.
+ * Accessible only to admin users after successful login.
+ * 
+ * @author Chew Sin Ai (finalize, and debug)
+ * @version 1.0
+ */
 package com.mycompany.petAdoptionSystem.admin;
 
 import com.mycompany.petAdoptionSystem.MainScreen;

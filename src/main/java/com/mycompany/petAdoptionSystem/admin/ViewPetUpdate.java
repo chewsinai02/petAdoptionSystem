@@ -1,3 +1,9 @@
+/**
+ * Displays pet update from adopters.
+ * 
+ * @author Chew Sin Ai (finalize, and debug)
+ * @version 1.0
+ */
 package com.mycompany.petAdoptionSystem.admin;
 
 import java.sql.Connection;
@@ -56,7 +62,7 @@ public class ViewPetUpdate extends AdminDashboardScreen {
      * the top and the table in the center of the layout.
      */
     @Override
-    public void initializeUI() {
+    public final void initializeUI() {
         content = new BorderPane();
         content.setStyle("-fx-background-color: #FAD9DD; -fx-background-radius: 12;-fx-border-radius: 12;");
 

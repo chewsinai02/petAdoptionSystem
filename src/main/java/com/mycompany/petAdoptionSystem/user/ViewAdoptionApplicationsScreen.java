@@ -1,3 +1,10 @@
+/**
+ * Displays details of a user's adoption application.
+ * Allows the user to track application status and view feedback from the admin.
+ * 
+ * @author Chew Sin Ai (finalize, and debug)
+ * @version 1.0
+ */
 package com.mycompany.petAdoptionSystem.user;
 
 import java.sql.Connection;

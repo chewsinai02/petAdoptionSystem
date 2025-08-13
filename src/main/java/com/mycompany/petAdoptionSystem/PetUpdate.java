@@ -1,3 +1,10 @@
+/**
+ * Represents an update for a pet's information.
+ * Stores details about changes such as health condition or availability.
+ * 
+ * @author Chew Sin Ai (finalize, and debug)
+ * @version 1.0
+ */
 package com.mycompany.petAdoptionSystem;
 
 public class PetUpdate {

@@ -1,3 +1,10 @@
+/**
+ * Handles the interface and logic for managing pet adoption applications.
+ * Allows the admin to approve, reject, or review the personal information from applicants.
+ * 
+ * @author Chew Sin Ai (finalize, and debug)
+ * @version 1.0
+ */
 package com.mycompany.petAdoptionSystem.admin;
 
 import java.sql.Connection;

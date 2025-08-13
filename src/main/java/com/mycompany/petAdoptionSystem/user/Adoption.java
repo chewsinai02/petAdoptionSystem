@@ -1,3 +1,10 @@
+/**
+ * Represents an adoption record in the system.
+ * Contains information such as adoption ID, pet details, adopter details, and adoption date.
+ * 
+ * @author Chew Sin Ai (finalize, and debug)
+ * @version 1.0
+ */
 package com.mycompany.petAdoptionSystem.user;
 
 public class Adoption {

@@ -1,3 +1,10 @@
+/**
+ * Provides the user interface for logging into the Pet Adoption System.
+ * Handles authentication for both admin and regular users.
+ * 
+ * @author Chew Sin Ai (finalize, and debug)
+ * @version 1.0
+ */
 package com.mycompany.petAdoptionSystem;
 
 import java.sql.Connection;

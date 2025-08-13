@@ -1,3 +1,10 @@
+/**
+ * Provides the admin interface for adding, editing, and removing pets in the system.
+ * Includes functionality to update pet details and availability status.
+ * 
+ * @author Chew Sin Ai (finalize, and debug)
+ * @version 1.0
+ */
 package com.mycompany.petAdoptionSystem.admin;
 
 import java.io.File;
