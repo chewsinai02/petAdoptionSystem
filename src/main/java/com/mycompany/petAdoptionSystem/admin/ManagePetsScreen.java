@@ -39,6 +39,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class ManagePetsScreen extends AdminDashboardScreen {
+
     private static final String PRIMARY_COLOR = "#F4ACB5";
     private static final String SECONDARY_COLOR = "#fad9dd";
     private static final String ACCENT_COLOR = "#2C3E50";
@@ -64,17 +65,18 @@ public class ManagePetsScreen extends AdminDashboardScreen {
 
     /**
      * Initializes the UI for the ManagePetsScreen.
-     * 
-     * The screen consists of a title, a table of pets, a form for adding/editing pets, and
-     * buttons for adding, updating, deleting, and clearing the form. The form is styled to
-     * have a white background with a drop shadow.
+     *
+     * The screen consists of a title, a table of pets, a form for
+     * adding/editing pets, and buttons for adding, updating, deleting, and
+     * clearing the form. The form is styled to have a white background with a
+     * drop shadow.
      */
     @Override
     public void initializeUI() {
         content = new VBox(20);
         content.setAlignment(Pos.CENTER);
         content.setPadding(new Insets(20));
-        content.setStyle("-fx-background-color:" + SECONDARY_COLOR +"; -fx-background-radius: 12;-fx-border-radius: 12;");
+        content.setStyle("-fx-background-color:" + SECONDARY_COLOR + "; -fx-background-radius: 12;-fx-border-radius: 12;");
 
         // Title
         Text titleText = new Text("Manage Pets");
@@ -92,12 +94,12 @@ public class ManagePetsScreen extends AdminDashboardScreen {
         // Buttons
         HBox buttonBox = new HBox(15);
         buttonBox.setAlignment(Pos.CENTER);
-        
+
         Button addButton = createStyledButton("Add Pet", e -> handleAddPet());
         Button updateButton = createStyledButton("Update Pet", e -> handleUpdatePet());
         Button deleteButton = createStyledButton("Delete Pet", e -> handleDeletePet());
         Button clearButton = createStyledButton("Clear Form", e -> clearForm());
-        
+
         buttonBox.getChildren().addAll(addButton, updateButton, deleteButton, clearButton);
 
         // Add all components to content
@@ -106,12 +108,14 @@ public class ManagePetsScreen extends AdminDashboardScreen {
 
     /**
      * Creates the table for displaying all pets in the system.
-     * 
-     * The table has columns for pet ID, name, type, sex, birthday, and state. The state column
-     * uses a custom cell factory to display a text representation of the state (e.g. "Available",
-     * "Under Review", etc.). The table is styled to have a white background with a drop shadow.
-     * The selection model is set up to listen for changes in the selected pet, and the form is
-     * populated with the selected pet's data when the selection changes.
+     *
+     * The table has columns for pet ID, name, type, sex, birthday, and state.
+     * The state column uses a custom cell factory to display a text
+     * representation of the state (e.g. "Available", "Under Review", etc.). The
+     * table is styled to have a white background with a drop shadow. The
+     * selection model is set up to listen for changes in the selected pet, and
+     * the form is populated with the selected pet's data when the selection
+     * changes.
      */
     @SuppressWarnings("unchecked")
     private void createPetTable() {
@@ -152,11 +156,21 @@ public class ManagePetsScreen extends AdminDashboardScreen {
                     setText(null);
                 } else {
                     switch (item) {
-                        case "0": setText("Available"); break;
-                        case "1": setText("Under Review"); break;
-                        case "2": setText("Adopted"); break;
-                        case "3": setText("Returned"); break;
-                        default: setText("Unknown"); break;
+                        case "0":
+                            setText("Available");
+                            break;
+                        case "1":
+                            setText("Under Review");
+                            break;
+                        case "2":
+                            setText("Adopted");
+                            break;
+                        case "3":
+                            setText("Returned");
+                            break;
+                        default:
+                            setText("Unknown");
+                            break;
                     }
                 }
             }
@@ -177,9 +191,10 @@ public class ManagePetsScreen extends AdminDashboardScreen {
     }
 
     /**
-     * Creates the pet form with fields for name, type, sex, birthday, pictures, state, and remark.
-     * The form is a GridPane with the fields arranged in a 2-column layout.
-     * 
+     * Creates the pet form with fields for name, type, sex, birthday, pictures,
+     * state, and remark. The form is a GridPane with the fields arranged in a
+     * 2-column layout.
+     *
      * @return the GridPane containing the pet form
      */
     private GridPane createPetForm() {
@@ -227,7 +242,7 @@ public class ManagePetsScreen extends AdminDashboardScreen {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Select Pet Pictures");
             fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp", "*.webp", "*.tiff", "*.tif")
+                    new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp", "*.webp", "*.tiff", "*.tif")
             );
             List<File> files = fileChooser.showOpenMultipleDialog(stage);
             if (files != null && !files.isEmpty()) {
@@ -272,52 +287,52 @@ public class ManagePetsScreen extends AdminDashboardScreen {
             }
         });
         browseButton.setStyle(
-            "-fx-background-color: transparent;" +
-            "-fx-border-color: #F4ACB5;" +
-            "-fx-border-width: 1;" +
-            "-fx-text-fill: #F4ACB5;" +
-            "-fx-font-size: 15px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-border-radius: 8;" +
-            "-fx-background-radius: 8;" +
-            "-fx-cursor: hand;" +
-            "-fx-padding: 5 12;"
+                "-fx-background-color: transparent;"
+                + "-fx-border-color: #F4ACB5;"
+                + "-fx-border-width: 1;"
+                + "-fx-text-fill: #F4ACB5;"
+                + "-fx-font-size: 15px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-border-radius: 8;"
+                + "-fx-background-radius: 8;"
+                + "-fx-cursor: hand;"
+                + "-fx-padding: 5 12;"
         );
         browseButton.setOnMouseEntered(e -> browseButton.setStyle(
-            "-fx-background-color: #F4ACB5;" +
-            "-fx-border-color: #F4ACB5;" +
-            "-fx-border-width: 1;" +
-            "-fx-text-fill: white;" +
-            "-fx-font-size: 15px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-border-radius: 8;" +
-            "-fx-background-radius: 8;" +
-            "-fx-cursor: hand;" +
-            "-fx-padding: 5 12;"
+                "-fx-background-color: #F4ACB5;"
+                + "-fx-border-color: #F4ACB5;"
+                + "-fx-border-width: 1;"
+                + "-fx-text-fill: white;"
+                + "-fx-font-size: 15px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-border-radius: 8;"
+                + "-fx-background-radius: 8;"
+                + "-fx-cursor: hand;"
+                + "-fx-padding: 5 12;"
         ));
-        browseButton.setOnMouseExited(e -> browseButton.setStyle(            
-            "-fx-background-color: transparent;" +
-            "-fx-border-color: #F4ACB5;" +
-            "-fx-border-width: 1;" +
-            "-fx-text-fill: #F4ACB5;" +
-            "-fx-font-size: 15px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-border-radius: 8;" +
-            "-fx-background-radius: 8;" +
-            "-fx-cursor: hand;" +
-            "-fx-padding: 5 12;"
+        browseButton.setOnMouseExited(e -> browseButton.setStyle(
+                "-fx-background-color: transparent;"
+                + "-fx-border-color: #F4ACB5;"
+                + "-fx-border-width: 1;"
+                + "-fx-text-fill: #F4ACB5;"
+                + "-fx-font-size: 15px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-border-radius: 8;"
+                + "-fx-background-radius: 8;"
+                + "-fx-cursor: hand;"
+                + "-fx-padding: 5 12;"
         ));
         browseButton.setOnMousePressed(e -> browseButton.setStyle(
-            "-fx-background-color: #eab9c1;" +
-            "-fx-border-color: #eab9c1;" +
-            "-fx-border-width: 1;" +
-            "-fx-text-fill: white;" +
-            "-fx-font-size: 14px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-border-radius: 8;" +
-            "-fx-background-radius: 8;" +
-            "-fx-cursor: hand;" +
-            "-fx-padding: 5 12;"
+                "-fx-background-color: #eab9c1;"
+                + "-fx-border-color: #eab9c1;"
+                + "-fx-border-width: 1;"
+                + "-fx-text-fill: white;"
+                + "-fx-font-size: 14px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-border-radius: 8;"
+                + "-fx-background-radius: 8;"
+                + "-fx-cursor: hand;"
+                + "-fx-padding: 5 12;"
         ));
         HBox picBox = new HBox(10, picField, browseButton);
         grid.add(createLabel("Pictures:"), 0, row);
@@ -355,7 +370,6 @@ public class ManagePetsScreen extends AdminDashboardScreen {
 
         grid.add(createLabel("State:"), 0, row);
         grid.add(stateComboBox, 1, row++);
-        
 
         grid.add(createLabel("Remark:"), 0, row);
         grid.add(remarkField, 1, row++);
@@ -364,7 +378,9 @@ public class ManagePetsScreen extends AdminDashboardScreen {
     }
 
     /**
-     * Creates a label with the given text, styled with a bold font, the accent color, and a font size of 14px.
+     * Creates a label with the given text, styled with a bold font, the accent
+     * color, and a font size of 14px.
+     *
      * @param text the label's text
      * @return the styled label
      */
@@ -374,14 +390,14 @@ public class ManagePetsScreen extends AdminDashboardScreen {
         return label;
     }
 
-
     /**
      * Creates a styled button with the specified text and event handler.
-     * 
-     * The button is styled with a primary color background, white text, bold font,
-     * rounded corners, and a hand cursor. When the mouse hovers over the button,
-     * the background changes to white, and the text color changes to the primary color.
-     * 
+     *
+     * The button is styled with a primary color background, white text, bold
+     * font, rounded corners, and a hand cursor. When the mouse hovers over the
+     * button, the background changes to white, and the text color changes to
+     * the primary color.
+     *
      * @param text the text to be displayed on the button
      * @param handler the event handler for button actions
      * @return the styled button
@@ -389,39 +405,39 @@ public class ManagePetsScreen extends AdminDashboardScreen {
     private Button createStyledButton(String text, javafx.event.EventHandler<javafx.event.ActionEvent> handler) {
         Button button = new Button(text);
         button.setStyle(
-            "-fx-background-color: " + PRIMARY_COLOR + ";" +
-            "-fx-text-fill: white;" +
-            "-fx-font-size: 15px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-background-radius: 8;" +
-            "-fx-cursor: hand;" +
-            "-fx-padding: 10 20;"
+                "-fx-background-color: " + PRIMARY_COLOR + ";"
+                + "-fx-text-fill: white;"
+                + "-fx-font-size: 15px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-background-radius: 8;"
+                + "-fx-cursor: hand;"
+                + "-fx-padding: 10 20;"
         );
         button.setOnAction(handler);
         button.setOnMouseEntered(e -> button.setStyle(
-            "-fx-background-color: white;" +
-            "-fx-border-color: #F4ACB5;" +
-            "-fx-border-width: 1;" +
-            "-fx-text-fill: #F4ACB5;" +
-            "-fx-font-size: 15px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-border-radius: 8;" +
-            "-fx-background-radius: 8;" +
-            "-fx-cursor: hand;" +
-            "-fx-padding: 10 20;" + 
-            "-fx-background-insets: 0"
+                "-fx-background-color: white;"
+                + "-fx-border-color: #F4ACB5;"
+                + "-fx-border-width: 1;"
+                + "-fx-text-fill: #F4ACB5;"
+                + "-fx-font-size: 15px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-border-radius: 8;"
+                + "-fx-background-radius: 8;"
+                + "-fx-cursor: hand;"
+                + "-fx-padding: 10 20;"
+                + "-fx-background-insets: 0"
         ));
         button.setOnMouseExited(e -> button.setStyle(
-            "-fx-background-color: #F4ACB5;" +
-            "-fx-border-color: #F4ACB5;" +
-            "-fx-border-width: 1;" +
-            "-fx-text-fill: white;" +
-            "-fx-font-size: 15px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-border-radius: 8;" +
-            "-fx-background-radius: 8;" +
-            "-fx-cursor: hand;" +
-            "-fx-padding: 10 20;"
+                "-fx-background-color: #F4ACB5;"
+                + "-fx-border-color: #F4ACB5;"
+                + "-fx-border-width: 1;"
+                + "-fx-text-fill: white;"
+                + "-fx-font-size: 15px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-border-radius: 8;"
+                + "-fx-background-radius: 8;"
+                + "-fx-cursor: hand;"
+                + "-fx-padding: 10 20;"
         ));
         return button;
     }
@@ -436,7 +452,7 @@ public class ManagePetsScreen extends AdminDashboardScreen {
 
     /**
      * Sets the style of a ComboBox based on whether it is focused or not.
-     * 
+     *
      * @param comboBox the ComboBox to be styled
      * @param focused whether the ComboBox is focused
      */
@@ -460,11 +476,12 @@ public class ManagePetsScreen extends AdminDashboardScreen {
 
     /**
      * Loads all pets from the database and populates the pet table.
-     * 
-     * This method executes a SQL query to retrieve all pet records from the database.
-     * It then iterates over the result set, creating a Pet object for each record and adding
-     * it to the list of pets. Finally, it updates the pet table with the list of pets.
-     * 
+     *
+     * This method executes a SQL query to retrieve all pet records from the
+     * database. It then iterates over the result set, creating a Pet object for
+     * each record and adding it to the list of pets. Finally, it updates the
+     * pet table with the list of pets.
+     *
      * In case of a SQL exception, an error message is displayed.
      */
     private void loadPets() {
@@ -478,14 +495,14 @@ public class ManagePetsScreen extends AdminDashboardScreen {
             List<Pet> pets = new ArrayList<>();
             while (rs.next()) {
                 Pet pet = new Pet(
-                    rs.getInt("id"),
-                    rs.getString("petName"),
-                    rs.getString("petType"),
-                    rs.getString("sex"),
-                    rs.getDate("birthday"),
-                    rs.getString("pic"),
-                    rs.getInt("state"),
-                    rs.getString("remark")
+                        rs.getInt("id"),
+                        rs.getString("petName"),
+                        rs.getString("petType"),
+                        rs.getString("sex"),
+                        rs.getDate("birthday"),
+                        rs.getString("pic"),
+                        rs.getInt("state"),
+                        rs.getString("remark")
                 );
                 pets.add(pet);
             }
@@ -499,9 +516,10 @@ public class ManagePetsScreen extends AdminDashboardScreen {
 
     /**
      * Handles the "Add Pet" button click event.
-     * 
-     * This method first validates the form fields and checks if a pet with the same name already exists.
-     * If the validation is successful, it inserts a new pet record into the database using the provided field values.
+     *
+     * This method first validates the form fields and checks if a pet with the
+     * same name already exists. If the validation is successful, it inserts a
+     * new pet record into the database using the provided field values.
      * Finally, it reloads the pet table and clears the form fields.
      */
     private void handleAddPet() {
@@ -525,7 +543,7 @@ public class ManagePetsScreen extends AdminDashboardScreen {
             // Insert new pet record into the database
             String query = "INSERT INTO pet (petName, petType, sex, birthday, pic, state, remark) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(query);
-            
+
             // Set the field values for the new pet record
             stmt.setString(1, nameField.getText().trim());
             stmt.setString(2, typeField.getText().trim());
@@ -536,10 +554,18 @@ public class ManagePetsScreen extends AdminDashboardScreen {
             int stateValue = 0;
             if (stateComboBox.getValue() != null) {
                 switch (stateComboBox.getValue()) {
-                    case "Available": stateValue = 0; break;
-                    case "Under Review": stateValue = 1; break;
-                    case "Adopted": stateValue = 2; break;
-                    case "Returned": stateValue = 3; break;
+                    case "Available":
+                        stateValue = 0;
+                        break;
+                    case "Under Review":
+                        stateValue = 1;
+                        break;
+                    case "Adopted":
+                        stateValue = 2;
+                        break;
+                    case "Returned":
+                        stateValue = 3;
+                        break;
                 }
             }
             stmt.setInt(6, stateValue);
@@ -560,14 +586,17 @@ public class ManagePetsScreen extends AdminDashboardScreen {
 
     /**
      * Handles the "Update Pet" button click event.
-     * 
-     * This method first validates the form fields and checks if a pet with the same name already exists.
-     * If the validation is successful, it updates the selected pet record in the database using the provided field values.
+     *
+     * This method first validates the form fields and checks if a pet with the
+     * same name already exists. If the validation is successful, it updates the
+     * selected pet record in the database using the provided field values.
      * Finally, it reloads the pet table and clears the form fields.
-     * 
-     * Note: If the pet is being marked as returned, it will also update the adoptanimal table accordingly.
-     * If the pet is being marked as adopted after being returned, it will update the adoptanimal table to re-adopted.
-     * If the pet is being marked as available from any adoption-related status, it will reset the adoptanimal table accordingly.
+     *
+     * Note: If the pet is being marked as returned, it will also update the
+     * adoptanimal table accordingly. If the pet is being marked as adopted
+     * after being returned, it will update the adoptanimal table to re-adopted.
+     * If the pet is being marked as available from any adoption-related status,
+     * it will reset the adoptanimal table accordingly.
      */
     private void handleUpdatePet() {
         Pet selectedPet = petTable.getSelectionModel().getSelectedItem();
@@ -596,7 +625,7 @@ public class ManagePetsScreen extends AdminDashboardScreen {
 
             String query = "UPDATE pet SET petName=?, petType=?, sex=?, birthday=?, pic=?, state=?, remark=? WHERE id=?";
             PreparedStatement stmt = conn.prepareStatement(query);
-            
+
             stmt.setString(1, nameField.getText().trim());
             stmt.setString(2, typeField.getText().trim());
             stmt.setString(3, sexComboBox.getValue());
@@ -605,10 +634,18 @@ public class ManagePetsScreen extends AdminDashboardScreen {
             int stateValue = 0; // Default to Available
             if (stateComboBox.getValue() != null) {
                 switch (stateComboBox.getValue()) {
-                    case "Available": stateValue = 0; break;
-                    case "Under Review": stateValue = 1; break;
-                    case "Adopted": stateValue = 2; break;
-                    case "Returned": stateValue = 3; break;
+                    case "Available":
+                        stateValue = 0;
+                        break;
+                    case "Under Review":
+                        stateValue = 1;
+                        break;
+                    case "Adopted":
+                        stateValue = 2;
+                        break;
+                    case "Returned":
+                        stateValue = 3;
+                        break;
                 }
             }
             stmt.setInt(6, stateValue);
@@ -634,8 +671,8 @@ public class ManagePetsScreen extends AdminDashboardScreen {
                 Alert confirmReturn = new Alert(Alert.AlertType.CONFIRMATION);
                 confirmReturn.setTitle("Confirm Return");
                 confirmReturn.setHeaderText("Mark " + selectedPet.getName() + " as returned?");
-                confirmReturn.setContentText(selectedPet.getName() + " was previously adopted by " + ownerName + "." +
-                        "\nAre you sure you want to mark it as returned?");
+                confirmReturn.setContentText(selectedPet.getName() + " was previously adopted by " + ownerName + "."
+                        + "\nAre you sure you want to mark it as returned?");
 
                 if (confirmReturn.showAndWait().get() != ButtonType.OK) {
                     return; // Cancel update if not confirmed
@@ -649,7 +686,7 @@ public class ManagePetsScreen extends AdminDashboardScreen {
 
                 // Show confirmation
                 showMessage("Returned", "Pet was successfully marked as returned.");
-            }else if (oldState == 3 && newState == 2) {
+            } else if (oldState == 3 && newState == 2) {
                 // Returned → Adopted (re-adopted)
                 // Update adoptanimal state from 3 to 2
                 String updateAdoptAnimal = "UPDATE adoptanimal SET state = 2 WHERE petId = ? AND state = 3";
@@ -674,11 +711,13 @@ public class ManagePetsScreen extends AdminDashboardScreen {
 
     /**
      * Handles the "Delete Pet" button click event.
-     * 
-     * This method first checks if a pet is selected, and if not, displays an error message.
-     * Then it checks if the selected pet has any adoption records. If there are records, it displays an error message.
-     * If there are no records, it displays a confirmation dialog to confirm the deletion of the pet. If confirmed, it deletes the pet from the database.
-     * Finally, it reloads the pet table and clears the form fields.
+     *
+     * This method first checks if a pet is selected, and if not, displays an
+     * error message. Then it checks if the selected pet has any adoption
+     * records. If there are records, it displays an error message. If there are
+     * no records, it displays a confirmation dialog to confirm the deletion of
+     * the pet. If confirmed, it deletes the pet from the database. Finally, it
+     * reloads the pet table and clears the form fields.
      */
     private void handleDeletePet() {
         Pet selectedPet = petTable.getSelectionModel().getSelectedItem();
@@ -703,7 +742,7 @@ public class ManagePetsScreen extends AdminDashboardScreen {
             confirm.setTitle("Confirm Delete");
             confirm.setHeaderText("Delete Pet: " + selectedPet.getName());
             confirm.setContentText("Are you sure you want to delete this pet? This action cannot be undone.");
-            
+
             if (confirm.showAndWait().get() == ButtonType.OK) {
                 String query = "DELETE FROM pet WHERE id=?";
                 PreparedStatement stmt = conn.prepareStatement(query);
@@ -720,10 +759,10 @@ public class ManagePetsScreen extends AdminDashboardScreen {
 
     /**
      * Validates the pet form fields.
-     * 
-     * This method checks each field for validity and displays an error message if a field is invalid.
-     * If all fields are valid, it returns true.
-     * 
+     *
+     * This method checks each field for validity and displays an error message
+     * if a field is invalid. If all fields are valid, it returns true.
+     *
      * @return true if all fields are valid, false otherwise
      */
     private boolean validateForm() {
@@ -799,7 +838,7 @@ public class ManagePetsScreen extends AdminDashboardScreen {
 
     /**
      * Populate the form with the given pet's information.
-     * 
+     *
      * @param pet the pet to populate the form with
      */
     private void populateForm(Pet pet) {
@@ -809,21 +848,32 @@ public class ManagePetsScreen extends AdminDashboardScreen {
         birthdayPicker.setValue(pet.getBirthday().toLocalDate());
         picField.setText(pet.getPic());
         switch (pet.getState()) {
-            case 0: stateComboBox.setValue("Available"); break;
-            case 1: stateComboBox.setValue("Under Review"); break;
-            case 2: stateComboBox.setValue("Adopted"); break;
-            case 3: stateComboBox.setValue("Returned"); break;
-            default: stateComboBox.getSelectionModel().clearSelection(); break;
+            case 0:
+                stateComboBox.setValue("Available");
+                break;
+            case 1:
+                stateComboBox.setValue("Under Review");
+                break;
+            case 2:
+                stateComboBox.setValue("Adopted");
+                break;
+            case 3:
+                stateComboBox.setValue("Returned");
+                break;
+            default:
+                stateComboBox.getSelectionModel().clearSelection();
+                break;
         }
         remarkField.setText(pet.getRemark());
     }
 
     /**
-     * Clears all the fields in the pet form and resets the selection in the pet table.
+     * Clears all the fields in the pet form and resets the selection in the pet
+     * table.
      *
-     * This method clears the text fields for name, type, picture, and remark. It also
-     * resets the selection in the sex and state combo boxes, sets the birthday date
-     * picker to null, and clears the selection in the pet table.
+     * This method clears the text fields for name, type, picture, and remark.
+     * It also resets the selection in the sex and state combo boxes, sets the
+     * birthday date picker to null, and clears the selection in the pet table.
      */
     private void clearForm() {
         nameField.clear();
@@ -862,11 +912,11 @@ public class ManagePetsScreen extends AdminDashboardScreen {
         alert.setContentText(content);
         alert.showAndWait();
     }
-    
+
     /**
-     * Sets the content of the content area to the default content.
-     * This method is called when the user navigates to the Manage Pets screen.
-     * It sets the content area to the default content, which is the table of pets.
+     * Sets the content of the content area to the default content. This method
+     * is called when the user navigates to the Manage Pets screen. It sets the
+     * content area to the default content, which is the table of pets.
      */
     @Override
     public void showDefaultContent() {

@@ -12,11 +12,18 @@ import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 
 public class UserDashboardScreen extends MainScreen {
-    
+
     public UserDashboardScreen(Stage primaryStage) {
         super(primaryStage);
     }
 
+    /**
+     * Initializes the UI by calling the superclass's method and then
+     * customizing the menu bar for the user dashboard.
+     * <p>
+     * In particular, it clears the menus in the menu bar and replaces them with
+     * the menus returned by {@link #createUserMenuBar()}.
+     */
     @Override
     public void initializeUI() {
         super.initializeUI();
@@ -24,21 +31,42 @@ public class UserDashboardScreen extends MainScreen {
         this.menuBar.getMenus().addAll(createUserMenuBar().getMenus());
     }
 
+    /**
+     * Overrides the {@link MainScreen#createMenuBar()} to provide a custom menu
+     * bar specific to the user dashboard. The menu bar includes various options
+     * for user navigation and interaction within the application.
+     *
+     * @return the menu bar for the user dashboard
+     */
     @Override
     public MenuBar createMenuBar() {
         return createUserMenuBar();
     }
 
+    /**
+     * Displays the pet gallery as the default content of the user dashboard.
+     */
     @Override
     public void showDefaultContent() {
         showPetGallery();
     }
 
+    /**
+     * Returns the title of the user dashboard.
+     *
+     * @return the title of the user dashboard.
+     */
     @Override
     public String getDashboardTitle() {
         return "User Dashboard";
     }
 
+    /**
+     * Creates a custom menu bar for the user dashboard. The menu bar includes
+     * options for user navigation and interaction within the application.
+     *
+     * @return the menu bar for the user dashboard
+     */
     private MenuBar createUserMenuBar() {
         MenuBar userMenuBar = new MenuBar();
         userMenuBar.setStyle("-fx-background-color: white; font-color: #4A90E2; -fx-border-color: #E0E0E0; -fx-border-width: 0 0 1 0; -fx-padding: 5 0;");
@@ -92,6 +120,15 @@ public class UserDashboardScreen extends MainScreen {
         return userMenuBar;
     }
 
+    /**
+     * Handles the logout process for the user.
+     *
+     * <p>
+     * This method displays a confirmation dialog to the user asking if they are
+     * sure they want to log out. If the user confirms, it logs the user out by
+     * resetting the session state in the {@link UserSession} and then
+     * initializes and displays the main screen.</p>
+     */
     @Override
     protected void handleLogout() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -153,11 +190,23 @@ public class UserDashboardScreen extends MainScreen {
                         return localMenuBar;
                     }
 
+                    /**
+                     * Displays the default content of the user dashboard.
+                     * <p>
+                     * This method is called when the user navigates to the user
+                     * dashboard. It displays the pet gallery by calling the
+                     * {@link #showPetGallery()} method.
+                     */
                     @Override
                     protected void showDefaultContent() {
                         showPetGallery();
                     }
 
+                    /**
+                     * Returns the title of the main screen dashboard.
+                     *
+                     * @return the title of the main screen dashboard.
+                     */
                     @Override
                     protected String getDashboardTitle() {
                         return "Pet Adoption System";
@@ -169,6 +218,15 @@ public class UserDashboardScreen extends MainScreen {
         });
     }
 
+    /**
+     * Shows the user dashboard.
+     * <p>
+     * This method is called when the user navigates to the user dashboard. It
+     * creates a new scene with the main layout as its root and sets the scene
+     * on the given {@link Stage}. The scene is styled with the CSS file located
+     * at {@code /styles.css}. The stage is set to have a title of "User
+     * Dashboard" and is shown.
+     */
     @Override
     public void show() {
         Scene scene = new Scene(mainLayout, 1200, 800);
@@ -177,4 +235,4 @@ public class UserDashboardScreen extends MainScreen {
         stage.setTitle("User Dashboard");
         stage.show();
     }
-} 
+}

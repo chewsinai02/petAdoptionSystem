@@ -30,6 +30,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
 public class UpdatePetStatus {
+
     private static final String PRIMARY_COLOR = "#F4ACB5";
     private static final String SECONDARY_COLOR = "#FAD9DD";
     private BorderPane content;
@@ -75,6 +76,28 @@ public class UpdatePetStatus {
         }
     }
 
+    /**
+     * Initializes the UI for this screen.
+     *
+     * Creates a vertical box layout with a title, a scrollable grid pane
+     * containing the update form, and a set of buttons at the bottom.
+     *
+     * The title is a 28-point bold font with the text "Update Adopted Pet
+     * Status", and is displayed in the accent color.
+     *
+     * The grid pane is a 2x2 grid with 25-pixel horizontal and vertical gaps,
+     * and has a 10-pixel padding. The grid pane contains a pet combo box, a
+     * text area for the update content, and a button for submitting the update.
+     *
+     * The scroll pane is a vertical scroll pane with a 10-pixel padding and a
+     * 10-pixel border radius. The scroll pane is set to fit to the width of its
+     * contents, and is set to never show a horizontal scroll bar. The vertical
+     * scroll bar policy is set to show the bar only when needed.
+     *
+     * The buttons are a horizontal box layout with a 10-pixel gap between
+     * buttons. The buttons are styled as "button-primary" and have a 10-pixel
+     * padding.
+     */
     private void initializeUI() {
         content = new BorderPane();
         content.setStyle("-fx-background-color: " + SECONDARY_COLOR + ";");
@@ -109,6 +132,17 @@ public class UpdatePetStatus {
         }
     }
 
+    /**
+     * Creates a form UI component for updating the status of an adopted pet.
+     *
+     * The form includes a ComboBox for selecting a pet, TextArea for update
+     * content, and fields for displaying pet details such as name, type, sex,
+     * and birthday. It also provides functionality for image display and
+     * picture upload. The form features a submit button styled with specific
+     * visual effects.
+     *
+     * @return a GridPane containing the styled components for the update form
+     */
     private GridPane createUpdateForm() {
         petComboBox = new ComboBox<>();
         updateContent = new TextArea();
@@ -124,9 +158,9 @@ public class UpdatePetStatus {
         grid.setAlignment(Pos.TOP_CENTER);
         grid.setPadding(new Insets(28, 36, 28, 36));
         grid.setStyle(
-            "-fx-background-color: white;" +
-            "-fx-background-radius: 16;" +
-            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 12, 0, 0, 2);"
+                "-fx-background-color: white;"
+                + "-fx-background-radius: 16;"
+                + "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 12, 0, 0, 2);"
         );
 
         VBox inputBox = new VBox(6);
@@ -223,16 +257,16 @@ public class UpdatePetStatus {
         picPathField.setStyle("-fx-font-size: 15px; -fx-background-radius: 8; -fx-border-color: #F4ACB5; -fx-border-radius: 8; -fx-background-color: #F5F5F5;");
         Button browseButton = new Button("Browse");
         browseButton.setStyle(
-            "-fx-background-color: #fff;" +
-            "-fx-border-color: #F4ACB5;" +
-            "-fx-border-width: 2;" +
-            "-fx-text-fill: #F4ACB5;" +
-            "-fx-font-size: 15px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-background-radius: 12;" +
-            "-fx-border-radius: 12;" +
-            "-fx-cursor: hand;" +
-            "-fx-padding: 6 18;"
+                "-fx-background-color: #fff;"
+                + "-fx-border-color: #F4ACB5;"
+                + "-fx-border-width: 2;"
+                + "-fx-text-fill: #F4ACB5;"
+                + "-fx-font-size: 15px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-background-radius: 12;"
+                + "-fx-border-radius: 12;"
+                + "-fx-cursor: hand;"
+                + "-fx-padding: 6 18;"
         );
         browseButton.setOnAction(e -> handleBrowse());
         HBox browseRow = new HBox(12, picLabel, picPathField, browseButton);
@@ -242,14 +276,14 @@ public class UpdatePetStatus {
         // Submit button
         Button submitButton = new Button("Submit Update");
         submitButton.setStyle(
-            "-fx-background-color: #F4ACB5;" +
-            "-fx-text-fill: white;" +
-            "-fx-font-size: 17px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-background-radius: 16;" +
-            "-fx-cursor: hand;" +
-            "-fx-padding: 10 32;" +
-            "-fx-effect: dropshadow(gaussian, rgba(244,172,181,0.18), 6, 0, 0, 1);"
+                "-fx-background-color: #F4ACB5;"
+                + "-fx-text-fill: white;"
+                + "-fx-font-size: 17px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-background-radius: 16;"
+                + "-fx-cursor: hand;"
+                + "-fx-padding: 10 32;"
+                + "-fx-effect: dropshadow(gaussian, rgba(244,172,181,0.18), 6, 0, 0, 1);"
         );
         submitButton.setOnAction(e -> handleSubmit());
         HBox buttonBox = new HBox(submitButton);
@@ -289,11 +323,11 @@ public class UpdatePetStatus {
                         imageView.setFitHeight(180);
                         imageView.setPreserveRatio(true);
                         imageView.setStyle(
-                            "-fx-background-radius: 12;" +
-                            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 4, 0, 0, 1);" +
-                            "-fx-border-color: #F4ACB5;" +
-                            "-fx-border-width: 2;" +
-                            "-fx-border-radius: 12;"
+                                "-fx-background-radius: 12;"
+                                + "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 4, 0, 0, 1);"
+                                + "-fx-border-color: #F4ACB5;"
+                                + "-fx-border-width: 2;"
+                                + "-fx-border-radius: 12;"
                         );
                         imageBox.getChildren().add(imageView);
                     }
@@ -309,11 +343,19 @@ public class UpdatePetStatus {
         };
 
         petComboBox.valueProperty().addListener((obs, oldVal, newVal) -> updatePetDetails.run());
-        if (initialPet != null) updatePetDetails.run();
+        if (initialPet != null) {
+            updatePetDetails.run();
+        }
 
         return grid;
     }
 
+    /**
+     * Sets the style of a ComboBox based on whether it is focused or not.
+     *
+     * @param comboBox the ComboBox to be styled
+     * @param focused whether the ComboBox is focused
+     */
     private void styleFocusedComboBox(ComboBox<String> comboBox, boolean focused) {
         if (focused) {
             comboBox.setStyle("-fx-font-size: 14px; -fx-background-color: white; -fx-border-color: " + PRIMARY_COLOR + "; -fx-border-width: 2; -fx-border-radius: 5;");
@@ -322,6 +364,12 @@ public class UpdatePetStatus {
         }
     }
 
+    /**
+     * Sets the style of a TextArea based on whether it is focused or not.
+     *
+     * @param textArea the TextArea to be styled
+     * @param focused whether the TextArea is focused
+     */
     private void styleFocusedTextArea(TextArea textArea, boolean focused) {
         if (focused) {
             textArea.setStyle("-fx-font-size: 14px; -fx-background-color: white; -fx-border-color: " + PRIMARY_COLOR + "; -fx-border-width: 2; -fx-border-radius: 5;");
@@ -330,6 +378,13 @@ public class UpdatePetStatus {
         }
     }
 
+    /**
+     * Loads the adopted pets for the currently logged in user and populates the
+     * petComboBox with their names. If the initialPet is set, only that pet is
+     * shown. If the initialPet is null, all adopted pets are shown.
+     *
+     * @throws SQLException if there is an error executing the query
+     */
     private void loadAdoptedPets() {
         try {
             int userId = UserSession.getCurrentUserId();
@@ -357,14 +412,14 @@ public class UpdatePetStatus {
 
                 while (rs.next()) {
                     Pet pet = new Pet(
-                        rs.getInt("id"),
-                        rs.getString("petName"),
-                        rs.getString("petType"),
-                        rs.getString("sex"),
-                        rs.getDate("birthday"),
-                        rs.getString("pic"),
-                        rs.getInt("state"),
-                        rs.getString("remark")
+                            rs.getInt("id"),
+                            rs.getString("petName"),
+                            rs.getString("petType"),
+                            rs.getString("sex"),
+                            rs.getDate("birthday"),
+                            rs.getString("pic"),
+                            rs.getInt("state"),
+                            rs.getString("remark")
                     );
                     adoptedPets.add(pet);
                     petNames.add(pet.getName());
@@ -377,13 +432,20 @@ public class UpdatePetStatus {
         }
     }
 
+    /**
+     * Handles the "Browse" button click event.
+     *
+     * This method shows a file chooser dialog for the user to select a pet
+     * picture. If a file is selected, it sets the text of the picPathField to
+     * the selected file's path.
+     */
     private void handleBrowse() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Pet Picture");
         fileChooser.getExtensionFilters().addAll(
-            new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
         );
-        
+
         // The FileChooser needs a parent window to show correctly. 
         // Since updatePetStatus no longer has its own stage, we can pass null or find a parent.
         // For simplicity and assuming the MainScreen is managing this, we will remove stage from here.
@@ -393,6 +455,15 @@ public class UpdatePetStatus {
         }
     }
 
+    /**
+     * Handles the "Submit Update" button click event.
+     *
+     * This method first validates the form fields. If the validation is
+     * successful, it checks if an adoption record exists for the selected pet.
+     * If the record exists, it inserts a new update record into the database
+     * with the provided field values. Finally, it reloads the pet table and
+     * clears the form fields.
+     */
     private void handleSubmit() {
         if (!validateForm()) {
             return;
@@ -406,9 +477,9 @@ public class UpdatePetStatus {
             } else {
                 petName = petComboBox.getValue();
             }
-            String adoptQuery = "SELECT a.id FROM adoptanimal a " +
-                              "JOIN pet p ON a.petId = p.id " +
-                              "WHERE a.userId = ? AND p.petName = ? AND a.state = 2";
+            String adoptQuery = "SELECT a.id FROM adoptanimal a "
+                    + "JOIN pet p ON a.petId = p.id "
+                    + "WHERE a.userId = ? AND p.petName = ? AND a.state = 2";
             PreparedStatement adoptStmt = conn.prepareStatement(adoptQuery);
             adoptStmt.setInt(1, userId);
             adoptStmt.setString(2, petName);
@@ -450,6 +521,12 @@ public class UpdatePetStatus {
         }
     }
 
+    /**
+     * Validates the form fields. If the validation is successful, it returns
+     * true. Otherwise, it displays an error message and returns false.
+     *
+     * @return true if all fields are valid, false otherwise
+     */
     private boolean validateForm() {
         if (initialPet == null && petComboBox.getValue() == null) {
             showError("Please select a pet");
@@ -468,6 +545,11 @@ public class UpdatePetStatus {
         picPathField.clear();
     }
 
+    /**
+     * Displays an error message to the user in an alert dialog.
+     *
+     * @param message The content of the alert dialog.
+     */
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
@@ -476,6 +558,12 @@ public class UpdatePetStatus {
         alert.showAndWait();
     }
 
+    /**
+     * Displays an information message to the user in an alert dialog.
+     *
+     * @param title The title of the alert dialog.
+     * @param content The content of the alert dialog.
+     */
     private void showMessage(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -484,10 +572,21 @@ public class UpdatePetStatus {
         alert.showAndWait();
     }
 
+    /**
+     * Retrieves the content of the Update Pet Status screen.
+     *
+     * @return The BorderPane containing the content of this screen.
+     */
     public BorderPane getContent() {
         return content;
     }
 
+    /**
+     * Finds a Pet object by its name from the list of adopted pets.
+     *
+     * @param name The name of the pet to find.
+     * @return The Pet object with the given name if found, null otherwise.
+     */
     private Pet getPetByName(String name) {
         for (Pet pet : adoptedPets) {
             if (pet.getName().equals(name)) {
@@ -497,6 +596,17 @@ public class UpdatePetStatus {
         return null;
     }
 
+    /**
+     * Loads the pet details from the database with the given id.
+     *
+     * <p>
+     * This method executes a SQL query to retrieve the pet record from the
+     * database. It then creates a Pet object from the record and stores it in
+     * the initialPet variable.
+     *
+     * <p>
+     * In case of a SQL exception, an error message is displayed.
+     */
     private void loadInitialPet() {
         try {
             String query = "SELECT * FROM pet WHERE id = ?";
@@ -505,14 +615,14 @@ public class UpdatePetStatus {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 initialPet = new Pet(
-                    rs.getInt("id"),
-                    rs.getString("petName"),
-                    rs.getString("petType"),
-                    rs.getString("sex"),
-                    rs.getDate("birthday"),
-                    rs.getString("pic"),
-                    rs.getInt("state"),
-                    rs.getString("remark")
+                        rs.getInt("id"),
+                        rs.getString("petName"),
+                        rs.getString("petType"),
+                        rs.getString("sex"),
+                        rs.getDate("birthday"),
+                        rs.getString("pic"),
+                        rs.getInt("state"),
+                        rs.getString("remark")
                 );
             }
         } catch (SQLException e) {

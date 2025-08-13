@@ -17,15 +17,15 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class AdminDashboardScreen extends MainScreen {
-    
+
     public AdminDashboardScreen(Stage primaryStage) {
         super(primaryStage);
         // Do NOT touch menuBar here!
     }
 
     /**
-     * Initializes the UI by calling the superclass's method and then customizing
-     * the menu bar for the admin dashboard.
+     * Initializes the UI by calling the superclass's method and then
+     * customizing the menu bar for the admin dashboard.
      * <p>
      * In particular, it clears the menus in the menu bar and replaces them with
      * the menus returned by {@link #createAdminMenuBar()}.
@@ -38,8 +38,8 @@ public class AdminDashboardScreen extends MainScreen {
     }
 
     /**
-     * Override of {@link MainScreen#createMenuBar()} to create a menu bar that is
-     * specific to the admin dashboard.
+     * Override of {@link MainScreen#createMenuBar()} to create a menu bar that
+     * is specific to the admin dashboard.
      *
      * @return the menu bar for the admin dashboard
      */
@@ -58,7 +58,6 @@ public class AdminDashboardScreen extends MainScreen {
         showWelcome();
     }
 
-
     /**
      * {@inheritDoc}
      *
@@ -69,16 +68,16 @@ public class AdminDashboardScreen extends MainScreen {
         return "Admin Dashboard";
     }
 
-
     /**
-     * Create a menu bar for the admin dashboard. This menu bar contains
-     * several menus:
+     * Create a menu bar for the admin dashboard. This menu bar contains several
+     * menus:
      * <ol>
-     *   <li>Pets: Manage pets</li>
-     *   <li>Pet Well-being: View and request updates to pet well-being</li>
-     *   <li>Approvals: Manage adoption approvals</li>
-     *   <li>Admin: Logout</li>
+     * <li>Pets: Manage pets</li>
+     * <li>Pet Well-being: View and request updates to pet well-being</li>
+     * <li>Approvals: Manage adoption approvals</li>
+     * <li>Admin: Logout</li>
      * </ol>
+     *
      * @return the menu bar for the admin dashboard
      */
     private MenuBar createAdminMenuBar() {
@@ -118,14 +117,13 @@ public class AdminDashboardScreen extends MainScreen {
 
     /**
      * Displays the welcome message on the admin dashboard.
-     * 
-     * This method sets up the VBox container with a welcome
-     * message label styled for the admin dashboard. The message
-     * prompts the admin to select an action from the menu above.
-     * The content is visually centered and styled with specific
-     * background and text properties.
-    */
-     protected void showWelcome() {
+     *
+     * This method sets up the VBox container with a welcome message label
+     * styled for the admin dashboard. The message prompts the admin to select
+     * an action from the menu above. The content is visually centered and
+     * styled with specific background and text properties.
+     */
+    protected void showWelcome() {
         VBox adminContent = new VBox(20);
         adminContent.setAlignment(Pos.CENTER);
         adminContent.setPadding(new Insets(20));
@@ -141,9 +139,10 @@ public class AdminDashboardScreen extends MainScreen {
     /**
      * Displays the Manage Pets screen on the admin dashboard.
      *
-     * <p>This method creates a new instance of {@link ManagePetsScreen} and sets its content
-     * as the content of the admin dashboard. The content is set to cover the entire
-     * content area and the margins are set to zero.
+     * <p>
+     * This method creates a new instance of {@link ManagePetsScreen} and sets
+     * its content as the content of the admin dashboard. The content is set to
+     * cover the entire content area and the margins are set to zero.
      */
     protected void showManagePets() {
         ManagePetsScreen petsScreen = new ManagePetsScreen(stage);
@@ -154,9 +153,10 @@ public class AdminDashboardScreen extends MainScreen {
     /**
      * Displays the Manage Adoption Approvals screen on the admin dashboard.
      *
-     * <p>This method creates a new instance of {@link ManageAdoptionsScreen} 
-     * and sets its content as the content of the admin dashboard. 
-     * The content is set to cover the entire content area with zero margins.
+     * <p>
+     * This method creates a new instance of {@link ManageAdoptionsScreen} and
+     * sets its content as the content of the admin dashboard. The content is
+     * set to cover the entire content area with zero margins.
      */
     protected void showManageApprovals() {
         ManageAdoptionsScreen adoptionsScreen = new ManageAdoptionsScreen(stage);
@@ -164,27 +164,27 @@ public class AdminDashboardScreen extends MainScreen {
         StackPane.setMargin(adoptionsScreen.getContent(), new Insets(0));
     }
 
-
-
     /**
      * Displays the View Pet Well-being screen on the admin dashboard.
-     * 
-     * <p>This method creates a new instance of {@link ViewPetUpdate} and sets its content
-     * as the content of the admin dashboard. The content is set to cover the entire
-     * content area and the margins are set to zero.
+     *
+     * <p>
+     * This method creates a new instance of {@link ViewPetUpdate} and sets its
+     * content as the content of the admin dashboard. The content is set to
+     * cover the entire content area and the margins are set to zero.
      */
     protected void showWellbeing() {
         ViewPetUpdate updateScreen = new ViewPetUpdate(stage);
         contentArea.getChildren().setAll(updateScreen.getContent());
         StackPane.setMargin(updateScreen.getContent(), new Insets(0));
     }
-    
+
     /**
      * Displays the Request Pet Status Update screen on the admin dashboard.
      *
-     * <p>This method creates a new instance of {@link RequestPetUpdate} and sets its content
-     * as the content of the admin dashboard. The content is set to cover the entire
-     * content area and the margins are set to zero.
+     * <p>
+     * This method creates a new instance of {@link RequestPetUpdate} and sets
+     * its content as the content of the admin dashboard. The content is set to
+     * cover the entire content area and the margins are set to zero.
      */
     protected void showRequest() {
         RequestPetUpdate requestScreen = new RequestPetUpdate(stage);
@@ -194,10 +194,11 @@ public class AdminDashboardScreen extends MainScreen {
 
     /**
      * Logs the user out of the system and shows the main screen.
-     * 
-     * <p>This method displays a confirmation dialog to the user to confirm 
-     * whether they want to log out. If the user confirms, the user is logged out, 
-     * and the main screen is shown.
+     *
+     * <p>
+     * This method displays a confirmation dialog to the user to confirm whether
+     * they want to log out. If the user confirms, the user is logged out, and
+     * the main screen is shown.
      */
     @Override
     protected void handleLogout() {
@@ -215,19 +216,30 @@ public class AdminDashboardScreen extends MainScreen {
                 MainScreen mainScreen = new MainScreen(stage) {
 
                     /**
-                     * Creates and returns a styled menu bar for the application.
-                     * 
-                     * <p>The menu bar includes the following menus:
+                     * Creates and returns a styled menu bar for the
+                     * application.
+                     *
+                     * <p>
+                     * The menu bar includes the following menus:
                      * <ul>
-                     *   <li><strong>Home Menu</strong>: Allows navigation back to the pet gallery.</li>
-                     *   <li><strong>Pet Knowledge Menu</strong>: Provides information on dog and cat care.</li>
-                     *   <li><strong>Adoption Menu</strong>: Displays the adoption process.</li>
-                     *   <li><strong>User Account Menu</strong>: Contains login and registration options. Only shown if the user is not logged in.</li>
-                     *   <li><strong>Notification Menu</strong>: Offers a notification view. Only shown if the user is logged in.</li>
+                     * <li><strong>Home Menu</strong>: Allows navigation back to
+                     * the pet gallery.</li>
+                     * <li><strong>Pet Knowledge Menu</strong>: Provides
+                     * information on dog and cat care.</li>
+                     * <li><strong>Adoption Menu</strong>: Displays the adoption
+                     * process.</li>
+                     * <li><strong>User Account Menu</strong>: Contains login
+                     * and registration options. Only shown if the user is not
+                     * logged in.</li>
+                     * <li><strong>Notification Menu</strong>: Offers a
+                     * notification view. Only shown if the user is logged
+                     * in.</li>
                      * </ul>
-                     * 
-                     * <p>The visibility of the "User Account" and "Notification" menus is determined by the user's login state.
-                     * 
+                     *
+                     * <p>
+                     * The visibility of the "User Account" and "Notification"
+                     * menus is determined by the user's login state.
+                     *
                      * @return the constructed and styled MenuBar.
                      */
                     @Override
@@ -278,20 +290,21 @@ public class AdminDashboardScreen extends MainScreen {
                     }
 
                     /**
-                     * Displays the pet gallery when the user navigates to the admin dashboard.
+                     * Displays the pet gallery when the user navigates to the
+                     * admin dashboard.
                      * <p>
-                     * This method is called when the user navigates to the admin dashboard.
-                     * It displays the pet gallery by calling the {@link #showPetGallery()} method.
+                     * This method is called when the user navigates to the
+                     * admin dashboard. It displays the pet gallery by calling
+                     * the {@link #showPetGallery()} method.
                      */
                     @Override
                     protected void showDefaultContent() {
                         showPetGallery();
                     }
 
-
                     /**
                      * Returns the title of the admin dashboard.
-                     * 
+                     *
                      * @return the title of the admin dashboard.
                      */
                     @Override
@@ -308,10 +321,11 @@ public class AdminDashboardScreen extends MainScreen {
     /**
      * Displays the admin dashboard.
      *
-     * <p>This method creates a new {@link Scene} with the main layout as its root
-     * and sets the scene on the given {@link Stage}. The scene is styled with the
-     * CSS file located at {@code /styles.css}. The stage is set to have a title of
-     * "Admin Dashboard" and is shown.
+     * <p>
+     * This method creates a new {@link Scene} with the main layout as its root
+     * and sets the scene on the given {@link Stage}. The scene is styled with
+     * the CSS file located at {@code /styles.css}. The stage is set to have a
+     * title of "Admin Dashboard" and is shown.
      */
     @Override
     public void show() {
@@ -321,4 +335,4 @@ public class AdminDashboardScreen extends MainScreen {
         stage.setTitle("Admin Dashboard");
         stage.show();
     }
-} 
+}

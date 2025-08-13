@@ -28,6 +28,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class RequestPetUpdate extends AdminDashboardScreen {
+
     private VBox content;
     private Connection conn;
 
@@ -85,14 +86,14 @@ public class RequestPetUpdate extends AdminDashboardScreen {
             int row = 0;
             while (rs.next()) {
                 Pet pet = new Pet(
-                    rs.getInt("id"),
-                    rs.getString("petName"),
-                    rs.getString("petType"),
-                    rs.getString("sex"),
-                    rs.getDate("birthday"),
-                    rs.getString("pic"),
-                    rs.getInt("state"),
-                    rs.getString("remark")
+                        rs.getInt("id"),
+                        rs.getString("petName"),
+                        rs.getString("petType"),
+                        rs.getString("sex"),
+                        rs.getDate("birthday"),
+                        rs.getString("pic"),
+                        rs.getInt("state"),
+                        rs.getString("remark")
                 );
                 int adopterUserId = rs.getInt("userId");
                 adoptedPets.add(pet);
@@ -156,54 +157,54 @@ public class RequestPetUpdate extends AdminDashboardScreen {
 
         Button requestUpdateButton = new Button("Request");
         requestUpdateButton.setStyle(
-            "-fx-background-color: transparent;" +
-            "-fx-border-color: #F4ACB5;" +
-            "-fx-border-width: 1;" +
-            "-fx-text-fill: #F4ACB5;" +
-            "-fx-font-size: 15px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-border-radius: 8;" +
-            "-fx-background-radius: 8;" +
-            "-fx-cursor: hand;" +
-            "-fx-padding: 5 12;"
+                "-fx-background-color: transparent;"
+                + "-fx-border-color: #F4ACB5;"
+                + "-fx-border-width: 1;"
+                + "-fx-text-fill: #F4ACB5;"
+                + "-fx-font-size: 15px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-border-radius: 8;"
+                + "-fx-background-radius: 8;"
+                + "-fx-cursor: hand;"
+                + "-fx-padding: 5 12;"
         );
         requestUpdateButton.setOnMouseEntered(e -> requestUpdateButton.setStyle(
-            "-fx-background-color: #F4ACB5;" +
-            "-fx-border-color: #F4ACB5;" +
-            "-fx-border-width: 1;" +
-            "-fx-text-fill: white;" +
-            "-fx-font-size: 15px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-border-radius: 8;" +
-            "-fx-background-radius: 8;" +
-            "-fx-cursor: hand;" +
-            "-fx-padding: 5 12;"
+                "-fx-background-color: #F4ACB5;"
+                + "-fx-border-color: #F4ACB5;"
+                + "-fx-border-width: 1;"
+                + "-fx-text-fill: white;"
+                + "-fx-font-size: 15px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-border-radius: 8;"
+                + "-fx-background-radius: 8;"
+                + "-fx-cursor: hand;"
+                + "-fx-padding: 5 12;"
         ));
-        requestUpdateButton.setOnMouseExited(e -> requestUpdateButton.setStyle(            
-            "-fx-background-color: transparent;" +
-            "-fx-border-color: #F4ACB5;" +
-            "-fx-border-width: 1;" +
-            "-fx-text-fill: #F4ACB5;" +
-            "-fx-font-size: 15px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-border-radius: 8;" +
-            "-fx-background-radius: 8;" +
-            "-fx-cursor: hand;" +
-            "-fx-padding: 5 12;"
+        requestUpdateButton.setOnMouseExited(e -> requestUpdateButton.setStyle(
+                "-fx-background-color: transparent;"
+                + "-fx-border-color: #F4ACB5;"
+                + "-fx-border-width: 1;"
+                + "-fx-text-fill: #F4ACB5;"
+                + "-fx-font-size: 15px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-border-radius: 8;"
+                + "-fx-background-radius: 8;"
+                + "-fx-cursor: hand;"
+                + "-fx-padding: 5 12;"
         ));
         requestUpdateButton.setOnMousePressed(e -> requestUpdateButton.setStyle(
-            "-fx-background-color: #eab9c1;" +
-            "-fx-border-color: #eab9c1;" +
-            "-fx-border-width: 1;" +
-            "-fx-text-fill: white;" +
-            "-fx-font-size: 14px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-border-radius: 8;" +
-            "-fx-background-radius: 8;" +
-            "-fx-cursor: hand;" +
-            "-fx-padding: 5 12;"
+                "-fx-background-color: #eab9c1;"
+                + "-fx-border-color: #eab9c1;"
+                + "-fx-border-width: 1;"
+                + "-fx-text-fill: white;"
+                + "-fx-font-size: 14px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-border-radius: 8;"
+                + "-fx-background-radius: 8;"
+                + "-fx-cursor: hand;"
+                + "-fx-padding: 5 12;"
         ));
-        requestUpdateButton.setOnAction(e -> sendStatusUpdateRequest(pet, adopterUserId,requestLabel));
+        requestUpdateButton.setOnAction(e -> sendStatusUpdateRequest(pet, adopterUserId, requestLabel));
 
         card.getChildren().addAll(imageView, nameText, detailsText, lastUpdateLabel, requestLabel, requestUpdateButton);
         return card;
@@ -267,6 +268,7 @@ public class RequestPetUpdate extends AdminDashboardScreen {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     private void showInfo(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Info");
@@ -274,6 +276,7 @@ public class RequestPetUpdate extends AdminDashboardScreen {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     @Override
     public void showDefaultContent() {
         contentArea.getChildren().setAll(content);

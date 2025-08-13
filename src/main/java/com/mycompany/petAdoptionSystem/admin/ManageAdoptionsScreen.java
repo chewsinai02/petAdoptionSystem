@@ -32,6 +32,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class ManageAdoptionsScreen extends AdminDashboardScreen {
+
     private BorderPane content;
     private Connection conn;
     private final TableView<Adoption> table = new TableView<>();
@@ -41,7 +42,7 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
         super(stage);
         content = new BorderPane();
         content.setStyle("-fx-background-color: #FAD9DD; -fx-background-radius: 12;-fx-border-radius: 12;");
-        
+
         // Title
         Text titleText = new Text("Manage Adoption Approvals");
         titleText.setFont(Font.font("System", FontWeight.BOLD, 28));
@@ -85,6 +86,7 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
             private final HBox box = new HBox(6);
             private final ImageView imageView = new ImageView();
             private final Label nameLabel = new Label();
+
             {
                 imageView.setFitWidth(28);
                 imageView.setFitHeight(28);
@@ -92,6 +94,7 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
                 box.setAlignment(Pos.CENTER_LEFT);
                 box.getChildren().addAll(imageView, nameLabel);
             }
+
             @Override
             protected void updateItem(Adoption item, boolean empty) {
                 super.updateItem(item, empty);
@@ -113,11 +116,13 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
         picCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPic()));
         picCol.setCellFactory(col -> new TableCell<>() {
             private final ImageView imageView = new ImageView();
+
             {
                 imageView.setFitWidth(32);
                 imageView.setFitHeight(32);
                 imageView.setPreserveRatio(false);
             }
+
             @Override
             protected void updateItem(String pic, boolean empty) {
                 super.updateItem(pic, empty);
@@ -191,6 +196,7 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
         detailsCol.setCellFactory(param -> new TableCell<>() {
             private final Button detailsBtn = new Button("View Details");
             private final HBox box = new HBox(detailsBtn);
+
             {
                 box.setAlignment(Pos.CENTER);
                 detailsBtn.setOnAction(e -> {
@@ -198,15 +204,14 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
                     showUserDetailsDialog(request);
                 });
             }
-        /**
-         * If the row is empty, remove the graphic, otherwise set the graphic to
-         * the button box.
-         *
-         * @param item
-         *            the item in the row
-         * @param empty
-         *            whether or not the row is empty
-         */
+
+            /**
+             * If the row is empty, remove the graphic, otherwise set the
+             * graphic to the button box.
+             *
+             * @param item the item in the row
+             * @param empty whether or not the row is empty
+             */
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
@@ -231,6 +236,7 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
             private final HBox buttonBox = new HBox(10, approveBtn, rejectBtn);
             private final Label statusLabel = new Label();
             private final HBox labelBox = new HBox(statusLabel);
+
             {
                 buttonBox.setAlignment(Pos.CENTER);
                 labelBox.setAlignment(Pos.CENTER);
@@ -239,16 +245,16 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
                 approveBtn.setOnAction(e -> handleApproval(getTableView().getItems().get(getIndex()), true));
                 rejectBtn.setOnAction(e -> handleApproval(getTableView().getItems().get(getIndex()), false));
             }
-        /**
-         * Update the graphic of the cell depending on the status of the adoption request.
-         * If the status is "Pending", show the buttons to approve or reject the request.
-         * Otherwise, show a label with the status of the request.
-         *
-         * @param item
-         *            the item in the row
-         * @param empty
-         *            whether or not the row is empty
-         */
+
+            /**
+             * Update the graphic of the cell depending on the status of the
+             * adoption request. If the status is "Pending", show the buttons to
+             * approve or reject the request. Otherwise, show a label with the
+             * status of the request.
+             *
+             * @param item the item in the row
+             * @param empty whether or not the row is empty
+             */
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
@@ -300,41 +306,52 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
                 + "-fx-border-color: #E0E0E0; "
                 + "-fx-border-width: 0 0 1 0; "
                 + "-fx-padding: 5px 0;");
-        
+
         table.getColumns().setAll(
-            idCol, userCol, sexCol, ageCol, telephoneCol, emailCol, petCol, petTypeCol, dateCol, detailsCol, actionCol, dummyCol
+                idCol, userCol, sexCol, ageCol, telephoneCol, emailCol, petCol, petTypeCol, dateCol, detailsCol, actionCol, dummyCol
         );
         content.setCenter(table);
         loadAdoption();
     }
 
     /**
-     * Loads adoption requests from the database and populates them into the table.
-     * This method executes a SQL query to retrieve adoption details including
-     * user and pet information. It converts the result set into a list of 
-     * Adoption objects and updates the table view with this data. The adoption 
-     * status is interpreted from the 'state' field and mapped to a textual 
-     * representation. In case of a SQL exception, an error message is displayed.
+     * Loads adoption requests from the database and populates them into the
+     * table. This method executes a SQL query to retrieve adoption details
+     * including user and pet information. It converts the result set into a
+     * list of Adoption objects and updates the table view with this data. The
+     * adoption status is interpreted from the 'state' field and mapped to a
+     * textual representation. In case of a SQL exception, an error message is
+     * displayed.
      */
     private void loadAdoption() {
         List<Adoption> requests = new ArrayList<>();
         try {
-            String query = "SELECT a.*, p.petName AS petName, p.petType AS petType, p.remark AS remark, a.adoptTime AS adoptTime, " +
-                            "u.realName, u.userName, u.sex, u.age, u.address, u.telephone, u.email, u.state AS userState, u.petHave, u.experience, u.pic " +
-                            "FROM adoptanimal a " +
-                            "LEFT JOIN user u ON a.userId = u.id " +
-                            "LEFT JOIN pet p ON a.petId = p.id " +
-                            "ORDER BY a.adoptTime DESC";
+            String query = "SELECT a.*, p.petName AS petName, p.petType AS petType, p.remark AS remark, a.adoptTime AS adoptTime, "
+                    + "u.realName, u.userName, u.sex, u.age, u.address, u.telephone, u.email, u.state AS userState, u.petHave, u.experience, u.pic "
+                    + "FROM adoptanimal a "
+                    + "LEFT JOIN user u ON a.userId = u.id "
+                    + "LEFT JOIN pet p ON a.petId = p.id "
+                    + "ORDER BY a.adoptTime DESC";
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 String statusText;
                 switch (rs.getInt("state")) {
-                    case 0: statusText = "Rejected"; break;
-                    case 1: statusText = "Pending"; break;
-                    case 2: statusText = "Approved"; break;
-                    case 3: statusText = "Returned"; break;
-                    default: statusText = "Unknown"; break;
+                    case 0:
+                        statusText = "Rejected";
+                        break;
+                    case 1:
+                        statusText = "Pending";
+                        break;
+                    case 2:
+                        statusText = "Approved";
+                        break;
+                    case 3:
+                        statusText = "Returned";
+                        break;
+                    default:
+                        statusText = "Unknown";
+                        break;
                 }
                 requests.add(new Adoption(
                         rs.getInt("id"),
@@ -362,23 +379,24 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
         }
     }
 
-     /**
-         * Handle approval or rejection of an adoption request.
-         * 
-         * If approved, sets the adoption request status to 2 (approved) and the pet status to 2 (adopted).
-         * Also updates the user's number of pets and sets the user's status to 1 (adopted).
-         * If rejected, sets the adoption request status to 0 (rejected) and the pet status to 0 (available).
-         * 
-         * @param request The adoption request to be approved or rejected.
-         * @param approve True if approving the adoption, false if rejecting.
-         */
+    /**
+     * Handle approval or rejection of an adoption request.
+     *
+     * If approved, sets the adoption request status to 2 (approved) and the pet
+     * status to 2 (adopted). Also updates the user's number of pets and sets
+     * the user's status to 1 (adopted). If rejected, sets the adoption request
+     * status to 0 (rejected) and the pet status to 0 (available).
+     *
+     * @param request The adoption request to be approved or rejected.
+     * @param approve True if approving the adoption, false if rejecting.
+     */
     private void handleApproval(Adoption request, boolean approve) {
         try {
             conn.setAutoCommit(false); // Start transaction
 
             String updateAdoptAnimal = "UPDATE adoptanimal SET state = ? WHERE id = ?";
             PreparedStatement stmtAdopt = conn.prepareStatement(updateAdoptAnimal);
-            
+
             String updatePet = "UPDATE pet SET state = ? WHERE id = (SELECT petId FROM adoptanimal WHERE id = ?)";
             PreparedStatement stmtPet = conn.prepareStatement(updatePet);
 
@@ -407,15 +425,19 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
             showMessage("Success", approve ? "Adoption approved and pet status updated." : "Adoption rejected and pet status reset.");
         } catch (SQLException e) {
             try {
-                if (conn != null) conn.rollback(); // Rollback on error
-            } catch (SQLException ex) {
+                if (conn != null) {
+                    conn.rollback(); // Rollback on error
+
+                            }} catch (SQLException ex) {
                 showError(ex.getMessage());
             }
             showError("Error updating adoption status: " + e.getMessage());
         } finally {
             try {
-                if (conn != null) conn.setAutoCommit(true); // Reset auto-commit
-            } catch (SQLException e) {
+                if (conn != null) {
+                    conn.setAutoCommit(true); // Reset auto-commit
+
+                            }} catch (SQLException e) {
                 showError(e.getMessage());
             }
         }
@@ -423,7 +445,7 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
 
     /**
      * Shows an error message in an alert dialog.
-     * 
+     *
      * @param message The error message to be displayed.
      */
     private void showError(String message) {
@@ -449,19 +471,17 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
         alert.showAndWait();
     }
 
-
     /**
      * Sets the content of the content area to the default content.
      * <p>
-     * This method is called when the user navigates to the Manage Adoptions screen.
-     * It sets the content area to the default content, which is the table of adoption requests.
+     * This method is called when the user navigates to the Manage Adoptions
+     * screen. It sets the content area to the default content, which is the
+     * table of adoption requests.
      */
     @Override
     public void showDefaultContent() {
         contentArea.getChildren().setAll(content);
     }
-
-
 
     /**
      * Gets the content of this Manage Adoptions screen.
@@ -474,9 +494,9 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
 
     /**
      * Shows a dialog with user details, including profile image, real name,
-     * username, sex, age, address, telephone, email, whether they have
-     * adopted before, number of pets they have, and their experience.
-     * 
+     * username, sex, age, address, telephone, email, whether they have adopted
+     * before, number of pets they have, and their experience.
+     *
      * @param request The adoption request for which to show user details.
      */
     private void showUserDetailsDialog(Adoption request) {
@@ -512,16 +532,16 @@ public class ManageAdoptionsScreen extends AdminDashboardScreen {
         Font valueFont = Font.font("System", FontWeight.NORMAL, 15);
 
         contentBox.getChildren().addAll(
-            createDetailRow("Real Name", request.getRealName(), labelFont, valueFont),
-            createDetailRow("Username", request.getUserName(), labelFont, valueFont),
-            createDetailRow("Sex", request.getSex(), labelFont, valueFont),
-            createDetailRow("Age", String.valueOf(request.getAge()), labelFont, valueFont),
-            createDetailRow("Address", request.getAddress(), labelFont, valueFont),
-            createDetailRow("Telephone", request.getTelephone(), labelFont, valueFont),
-            createDetailRow("Email", request.getEmail(), labelFont, valueFont),
-            createDetailRow("Adopted Before", request.getUserState() == 1 ? "Yes" : "No", labelFont, valueFont),
-            createDetailRow("Pet Have", String.valueOf(request.getPetHave()), labelFont, valueFont),
-            createDetailRow("Experience", request.getExperience() + " years", labelFont, valueFont)
+                createDetailRow("Real Name", request.getRealName(), labelFont, valueFont),
+                createDetailRow("Username", request.getUserName(), labelFont, valueFont),
+                createDetailRow("Sex", request.getSex(), labelFont, valueFont),
+                createDetailRow("Age", String.valueOf(request.getAge()), labelFont, valueFont),
+                createDetailRow("Address", request.getAddress(), labelFont, valueFont),
+                createDetailRow("Telephone", request.getTelephone(), labelFont, valueFont),
+                createDetailRow("Email", request.getEmail(), labelFont, valueFont),
+                createDetailRow("Adopted Before", request.getUserState() == 1 ? "Yes" : "No", labelFont, valueFont),
+                createDetailRow("Pet Have", String.valueOf(request.getPetHave()), labelFont, valueFont),
+                createDetailRow("Experience", request.getExperience() + " years", labelFont, valueFont)
         );
 
         dialog.getDialogPane().setContent(contentBox);

@@ -28,6 +28,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class AdoptedPetListScreen {
+
     private static final String PRIMARY_COLOR = "#F4ACB5";
     private static final String ACCENT_COLOR = "#2C3E50";
     private VBox content;
@@ -46,6 +47,28 @@ public class AdoptedPetListScreen {
         }
     }
 
+    /**
+     * Initialize the UI for this screen.
+     *
+     * Creates a vertical box layout with a title, a scrollable grid pane
+     * containing pet cards, and a set of buttons at the bottom.
+     *
+     * The title is a 32-point bold font with the text "My Adopted Pets", and is
+     * displayed in the accent color.
+     *
+     * The grid pane is a 2x2 grid with 25-pixel horizontal and vertical gaps,
+     * and has a 10-pixel padding. The grid pane contains a set of pet cards,
+     * each with a 10-pixel padding and a 5-pixel border radius.
+     *
+     * The scroll pane is a vertical scroll pane with a 10-pixel padding and a
+     * 10-pixel border radius. The scroll pane is set to fit to the width of its
+     * contents, and is set to never show a horizontal scroll bar. The vertical
+     * scroll bar policy is set to show the bar only when needed.
+     *
+     * The buttons are a horizontal box layout with a 10-pixel gap between
+     * buttons. The buttons are styled as "button-primary" and have a 10-pixel
+     * padding.
+     */
     private void initializeUI() {
         content = new VBox(20);
         content.setAlignment(Pos.CENTER);
@@ -95,14 +118,14 @@ public class AdoptedPetListScreen {
             int row = 0;
             while (rs.next()) {
                 Pet pet = new Pet(
-                    rs.getInt("id"),
-                    rs.getString("petName"),
-                    rs.getString("petType"),
-                    rs.getString("sex"),
-                    rs.getDate("birthday"),
-                    rs.getString("pic"),
-                    rs.getInt("state"),
-                    rs.getString("remark")
+                        rs.getInt("id"),
+                        rs.getString("petName"),
+                        rs.getString("petType"),
+                        rs.getString("sex"),
+                        rs.getDate("birthday"),
+                        rs.getString("pic"),
+                        rs.getInt("state"),
+                        rs.getString("remark")
                 );
                 adoptedPets.add(pet);
                 VBox petCard = createPetCard(pet);
@@ -122,6 +145,19 @@ public class AdoptedPetListScreen {
         }
     }
 
+    /**
+     * Creates a card UI component for displaying a pet's information.
+     *
+     * The card includes the pet's image, name, type, sex, and status. It also
+     * provides a button for updating the pet's status. The card is styled with
+     * padding, background color, and drop shadow effects to enhance its
+     * appearance.
+     *
+     * @param pet the Pet object containing information to be displayed on the
+     * card
+     * @return a VBox containing the styled components representing the pet's
+     * details
+     */
     private VBox createPetCard(Pet pet) {
         VBox card = new VBox(10);
         card.setAlignment(Pos.CENTER);
@@ -162,23 +198,23 @@ public class AdoptedPetListScreen {
         statusLabel.setStyle("-fx-background-color: #f195a1; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 8; -fx-font-weight: bold; -fx-font-size: 12px;");
 
         Button updateStatusButton = new Button("Update Status");
-        String normalStyle =
-            "-fx-background-color: " + PRIMARY_COLOR + ";" +
-            "-fx-text-fill: white;" +
-            "-fx-font-size: 15px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-background-radius: 8;" +
-            "-fx-cursor: hand;" +
-            "-fx-padding: 10 20;";
+        String normalStyle
+                = "-fx-background-color: " + PRIMARY_COLOR + ";"
+                + "-fx-text-fill: white;"
+                + "-fx-font-size: 15px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-background-radius: 8;"
+                + "-fx-cursor: hand;"
+                + "-fx-padding: 10 20;";
 
-        String hoverStyle =
-            "-fx-background-color: derive(" + PRIMARY_COLOR + ", -20%);" +
-            "-fx-text-fill: white;" +
-            "-fx-font-size: 15px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-background-radius: 8;" +
-            "-fx-cursor: hand;" +
-            "-fx-padding: 10 20;";
+        String hoverStyle
+                = "-fx-background-color: derive(" + PRIMARY_COLOR + ", -20%);"
+                + "-fx-text-fill: white;"
+                + "-fx-font-size: 15px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-background-radius: 8;"
+                + "-fx-cursor: hand;"
+                + "-fx-padding: 10 20;";
         updateStatusButton.setStyle(normalStyle);
         updateStatusButton.setOnMouseEntered(e -> updateStatusButton.setStyle(hoverStyle));
         updateStatusButton.setOnMouseExited(e -> updateStatusButton.setStyle(normalStyle));
@@ -189,11 +225,26 @@ public class AdoptedPetListScreen {
         return card;
     }
 
+    /**
+     * Displays the update status screen for a given pet.
+     *
+     * <p>
+     * This method creates a new instance of {@link UpdatePetStatus} using the
+     * specified pet's ID and sets its content to be displayed. It allows the
+     * user to update the status of the adopted pet.
+     *
+     * @param pet the Pet object whose status is to be updated
+     */
     private void showUpdatePetStatus(Pet pet) {
         UpdatePetStatus UpdateScreen = new UpdatePetStatus(pet.getId());
         contentSetter.accept(UpdateScreen.getContent());
     }
 
+    /**
+     * Displays an error message to the user in an alert dialog.
+     *
+     * @param message The error message to be displayed.
+     */
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
@@ -202,6 +253,11 @@ public class AdoptedPetListScreen {
         alert.showAndWait();
     }
 
+    /**
+     * Gets the content of the Adopted Pets screen.
+     *
+     * @return The VBox containing the content of the Adopted Pets screen.
+     */
     public VBox getContent() {
         return content;
     }
