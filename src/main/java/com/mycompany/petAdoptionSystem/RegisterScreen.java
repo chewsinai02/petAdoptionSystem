@@ -34,6 +34,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class RegisterScreen {
+
     private static final String PRIMARY_COLOR = "#FAD9DD";
     private static final String SECONDARY_COLOR = "#F5F5F5";
     private static final String ACCENT_COLOR = "#2C3E50";
@@ -60,6 +61,26 @@ public class RegisterScreen {
         }
     }
 
+    /**
+     * Displays the registration screen for creating a new user account.
+     *
+     * <p>
+     * This method initializes the input fields and sets up the layout for the
+     * registration form. It includes fields for user details such as full name,
+     * username, email, phone number, age, gender, address, pets owned, and
+     * experience. The layout also allows users to select a profile picture,
+     * enter a password, and confirm the password. An error label is included
+     * for displaying validation errors.
+     *
+     * <p>
+     * The registration form is styled with custom fonts and colors. The form
+     * includes a register button to handle form submission and a hyperlink to
+     * navigate back to the login screen.
+     *
+     * <p>
+     * The registration screen is displayed using a JavaFX Scene with specified
+     * dimensions and stylesheets.
+     */
     public void show() {
         initializeFields();
         VBox mainContainer = new VBox();
@@ -210,32 +231,32 @@ public class RegisterScreen {
         // Register button and login link in VBox
         Button registerButton = new Button("Register");
         registerButton.setStyle(
-            "-fx-background-color: #F4ACB5;" +
-            "-fx-text-fill: white;" +
-            "-fx-font-size: 16px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-background-radius: 8;" +
-            "-fx-cursor: hand;" +
-            "-fx-padding: 12 0;"
+                "-fx-background-color: #F4ACB5;"
+                + "-fx-text-fill: white;"
+                + "-fx-font-size: 16px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-background-radius: 8;"
+                + "-fx-cursor: hand;"
+                + "-fx-padding: 12 0;"
         );
         registerButton.setPrefWidth(200);
         registerButton.setOnMouseEntered(e -> registerButton.setStyle(
-            "-fx-background-color: " + PRIMARY_COLOR + ";" +
-            "-fx-text-fill: white;" +
-            "-fx-font-size: 16px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-background-radius: 8;" +
-            "-fx-cursor: hand;" +
-            "-fx-padding: 12 0;"
+                "-fx-background-color: " + PRIMARY_COLOR + ";"
+                + "-fx-text-fill: white;"
+                + "-fx-font-size: 16px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-background-radius: 8;"
+                + "-fx-cursor: hand;"
+                + "-fx-padding: 12 0;"
         ));
         registerButton.setOnMouseExited(e -> registerButton.setStyle(
-            "-fx-background-color: #F4ACB5;" +
-            "-fx-text-fill: white;" +
-            "-fx-font-size: 16px;" +
-            "-fx-font-weight: bold;" +
-            "-fx-background-radius: 8;" +
-            "-fx-cursor: hand;" +
-            "-fx-padding: 12 0;"
+                "-fx-background-color: #F4ACB5;"
+                + "-fx-text-fill: white;"
+                + "-fx-font-size: 16px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-background-radius: 8;"
+                + "-fx-cursor: hand;"
+                + "-fx-padding: 12 0;"
         ));
         Hyperlink backToLogin = new Hyperlink("Already have an account? Login");
         backToLogin.setFont(Font.font("System", 14));
@@ -262,6 +283,12 @@ public class RegisterScreen {
         stage.show();
     }
 
+    /**
+     * Initializes all the fields in the registration form, including text
+     * fields, combo box, text area, password fields, and profile picture browse
+     * button. Also sets up the necessary styles and event handlers for these
+     * fields.
+     */
     private void initializeFields() {
         fullNameField = createStyledTextField(INPUT_WIDTH);
         usernameField = createStyledTextField(INPUT_WIDTH);
@@ -270,7 +297,7 @@ public class RegisterScreen {
         ageField = createStyledTextField(INPUT_WIDTH);
         petHaveField = createStyledTextField(INPUT_WIDTH);
         experienceField = createStyledTextField(INPUT_WIDTH);
-        
+
         genderComboBox = new ComboBox<>(FXCollections.observableArrayList("Male", "Female"));
         genderComboBox.setPrefWidth(INPUT_WIDTH);
         genderComboBox.setValue("Male");
@@ -282,7 +309,7 @@ public class RegisterScreen {
                 genderComboBox.setStyle("-fx-font-size: 14px; -fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8; -fx-background-radius: 8;");
             }
         });
-        
+
         addressField = createStyledTextArea(INPUT_WIDTH);
         passwordField = createStyledPasswordField(INPUT_WIDTH);
         confirmPasswordField = createStyledPasswordField(INPUT_WIDTH);
@@ -296,11 +323,18 @@ public class RegisterScreen {
         browsePicButton.setOnAction(e -> handleBrowseProfilePic());
     }
 
+    /**
+     * Opens a file chooser for selecting a profile picture. If a file is
+     * selected, copies it to the src/main/resources directory and updates the
+     * file name label. If a file with the same name exists, adds a number to
+     * the file name. If an error occurs during the copy, shows an error
+     * message.
+     */
     private void handleBrowseProfilePic() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Profile Picture");
         fileChooser.getExtensionFilters().addAll(
-            new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif")
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif")
         );
         File selectedFile = fileChooser.showOpenDialog(stage);
         if (selectedFile != null) {
@@ -330,6 +364,14 @@ public class RegisterScreen {
         }
     }
 
+    /**
+     * Creates a styled TextField with a white background, 14px font size, and a
+     * blue border (#4A90E2) when focused. When not focused, the border is a
+     * light gray color (#E0E0E0). The border radius is 8 for both states.
+     *
+     * @param width the preferred width of the TextField
+     * @return the styled TextField
+     */
     private TextField createStyledTextField(int width) {
         TextField field = new TextField();
         field.setPrefWidth(width);
@@ -344,6 +386,14 @@ public class RegisterScreen {
         return field;
     }
 
+    /**
+     * Creates a styled PasswordField with a white background, 14px font size,
+     * and a blue border (#4A90E2) when focused. When not focused, the border is
+     * a light gray color (#E0E0E0). The border radius is 8 for both states.
+     *
+     * @param width the preferred width of the PasswordField
+     * @return the styled PasswordField
+     */
     private PasswordField createStyledPasswordField(int width) {
         PasswordField field = new PasswordField();
         field.setPrefWidth(width);
@@ -358,6 +408,17 @@ public class RegisterScreen {
         return field;
     }
 
+    /**
+     * Creates a styled TextArea with a white background and a specified width.
+     * The TextArea has a font size of 14px and rounded corners with a radius of
+     * 8. When focused, the border color changes to blue (#4A90E2) and the
+     * border width increases to 2. When not focused, the border color is light
+     * gray (#E0E0E0). The TextArea wraps text and has a default preferred row
+     * count of 2.
+     *
+     * @param width the preferred width of the TextArea
+     * @return the styled TextArea
+     */
     private TextArea createStyledTextArea(int width) {
         TextArea area = new TextArea();
         area.setPrefRowCount(2);
@@ -374,6 +435,14 @@ public class RegisterScreen {
         return area;
     }
 
+    /**
+     * Handles the registration process. The method first checks if the username
+     * already exists in the database. If it does, the method shows an error
+     * message and returns. If the username does not exist, the method inserts
+     * the new user record into the database using the provided field values.
+     * Finally, the method shows a success message and navigates to the login
+     * screen.
+     */
     private void handleRegistration() {
         errorLabel.setVisible(false);
         if (!validateFields()) {
@@ -388,8 +457,8 @@ public class RegisterScreen {
                 showError("Username already exists");
                 return;
             }
-            String insertQuery = "INSERT INTO user (realName, userName, password, sex, age, telephone, Email, address, pic, state, petHave, experience) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String insertQuery = "INSERT INTO user (realName, userName, password, sex, age, telephone, Email, address, pic, state, petHave, experience) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement insertStmt = conn.prepareStatement(insertQuery);
             insertStmt.setString(1, fullNameField.getText());
             insertStmt.setString(2, usernameField.getText());
@@ -416,12 +485,30 @@ public class RegisterScreen {
         }
     }
 
+    /**
+     * Validates the user registration form fields.
+     *
+     * This method checks if all required fields are filled, ensures that the
+     * username, password, email, phone number, age, address, and other fields
+     * meet specific criteria. If any field is invalid, an appropriate error
+     * message is displayed.
+     *
+     * Validation includes: - Non-empty check for all required fields. -
+     * Username must be 20 characters or less. - Password must be 8 to 30
+     * characters and match the confirmation field. - Valid email format and max
+     * 30 characters. - Valid phone number format (10-20 digits). - Age must be
+     * between 18 and 120. - Address must be 50 characters or less. - Number of
+     * pets must be between 0 and 100. - Experience must be between 0 and 100
+     * years. - A profile picture must be selected.
+     *
+     * @return true if all fields are valid, false otherwise
+     */
     private boolean validateFields() {
-        if (fullNameField.getText().isEmpty() || usernameField.getText().isEmpty() ||
-            emailField.getText().isEmpty() || phoneField.getText().isEmpty() ||
-            addressField.getText().isEmpty() || passwordField.getText().isEmpty() ||
-            confirmPasswordField.getText().isEmpty() || petHaveField.getText().isEmpty() ||
-            experienceField.getText().isEmpty()) {
+        if (fullNameField.getText().isEmpty() || usernameField.getText().isEmpty()
+                || emailField.getText().isEmpty() || phoneField.getText().isEmpty()
+                || addressField.getText().isEmpty() || passwordField.getText().isEmpty()
+                || confirmPasswordField.getText().isEmpty() || petHaveField.getText().isEmpty()
+                || experienceField.getText().isEmpty()) {
             showError("Please fill in all required fields");
             return false;
         }
@@ -490,9 +577,14 @@ public class RegisterScreen {
         return true;
     }
 
+    /**
+     * Sets the error label text and style, and makes it visible.
+     *
+     * @param message the error message to be displayed
+     */
     private void showError(String message) {
         errorLabel.setText(message);
         errorLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: red;");
         errorLabel.setVisible(true);
     }
-} 
+}
