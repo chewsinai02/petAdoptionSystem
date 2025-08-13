@@ -1,0 +1,14 @@
+.check-box .box {
+    -fx-border-color: #F4ACB5;
+    -fx-border-radius: 3;
+    -fx-background-color: transparent;
+}
+
+.check-box:selected .box {
+    -fx-background-color: #F4ACB5;
+    -fx-border-color: #F4ACB5;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: white;
+}

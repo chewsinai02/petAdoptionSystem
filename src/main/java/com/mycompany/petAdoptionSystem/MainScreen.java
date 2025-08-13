@@ -846,7 +846,6 @@ public abstract class MainScreen {
                     @Override
                     protected MenuBar createMenuBar() {
                         MenuBar localMenuBar = new MenuBar();
-                        localMenuBar.setStyle("-fx-background-color: white; font-color: #4A90E2;-fx-border-color: #E0E0E0; -fx-border-width: 0 0 1 0; -fx-padding: 5 0;");
 
                         // Home Menu
                         Menu homeMenu = new Menu("Home");
