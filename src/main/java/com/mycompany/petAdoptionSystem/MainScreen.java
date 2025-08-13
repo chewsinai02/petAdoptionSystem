@@ -52,6 +52,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+// Abstract class representing a main screen in the Pet Adoption System.
 public abstract class MainScreen {
 
     private static final String PRIMARY_COLOR = "#FAD9DD";
