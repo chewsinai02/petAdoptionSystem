@@ -14,11 +14,25 @@
     -fx-border-width: 1px;
     -fx-border-color: #E0E0E0;
     -fx-border-radius: 5;
+    -fx-highlight-fill: pink; 
+    -fx-highlight-text-fill: white;
 }
 
 .text-area .content {
     background-color: white;
     -fx-background-color: white;
+    -fx-highlight-fill: pink; 
+    -fx-highlight-text-fill: white;
+}
+
+.text-field {
+    -fx-highlight-fill: pink; 
+    -fx-highlight-text-fill: white;
+}
+
+.text-input {
+    -fx-highlight-fill: pink; 
+    -fx-highlight-text-fill: white;
 }
 
 .scroll-pane {
@@ -137,14 +151,14 @@
 }
 
 .date-picker .selected {
-    background-color: #fad9dd;  
-    -fx-background-color: #fad9dd; 
+    background-color: #F4ACB5;  
+    -fx-background-color: #F4ACB5; 
     -fx-text-fill: white;
 }
 
 .date-picker .selected:focused {
-    background-color: #fad9dd;  
-    -fx-background-color: #fad9dd; 
+    background-color: #F4ACB5;  
+    -fx-background-color: #F4ACB5; 
     -fx-text-fill: white;
 }
 
@@ -164,8 +178,8 @@
 }
 
 .date-picker-popup .week-number-cell {
-    color: #4A90E2;
-    -fx-text-fill: #4A90E2;
+    color: white;
+    -fx-text-fill: white;
 }
 
 .date-picker-popup .spinner .button .left-arrow,
@@ -265,7 +279,7 @@
 
 .combo-box .list-view .list-cell:hover {
     -fx-background-color: #FAD1D7;
-    -fx-text-fill: black;
+    -fx-text-fill: white;
      background-color: #FAD1D7;
 }
 

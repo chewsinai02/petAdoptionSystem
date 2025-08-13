@@ -29,7 +29,6 @@ import javafx.scene.text.Text;
 
 public class AdoptedPetListScreen {
 
-    private static final String PRIMARY_COLOR = "#F4ACB5";
     private static final String ACCENT_COLOR = "#2C3E50";
     private VBox content;
     private Connection conn;
@@ -198,26 +197,54 @@ public class AdoptedPetListScreen {
         statusLabel.setStyle("-fx-background-color: #f195a1; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 8; -fx-font-weight: bold; -fx-font-size: 12px;");
 
         Button updateStatusButton = new Button("Update Status");
-        String normalStyle
-                = "-fx-background-color: " + PRIMARY_COLOR + ";"
+        updateStatusButton.setStyle(
+                "-fx-background-color: transparent;"
+                + "-fx-border-color: #F4ACB5;"
+                + "-fx-border-width: 1;"
+                + "-fx-text-fill: #F4ACB5;"
+                + "-fx-font-size: 15px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-border-radius: 8;"
+                + "-fx-background-radius: 8;"
+                + "-fx-cursor: hand;"
+                + "-fx-padding: 5 12;"
+        );
+        updateStatusButton.setOnMouseEntered(e -> updateStatusButton.setStyle(
+                "-fx-background-color: #F4ACB5;"
+                + "-fx-border-color: #F4ACB5;"
+                + "-fx-border-width: 1;"
                 + "-fx-text-fill: white;"
                 + "-fx-font-size: 15px;"
                 + "-fx-font-weight: bold;"
+                + "-fx-border-radius: 8;"
                 + "-fx-background-radius: 8;"
                 + "-fx-cursor: hand;"
-                + "-fx-padding: 10 20;";
-
-        String hoverStyle
-                = "-fx-background-color: derive(" + PRIMARY_COLOR + ", -20%);"
-                + "-fx-text-fill: white;"
+                + "-fx-padding: 5 12;"
+        ));
+        updateStatusButton.setOnMouseExited(e -> updateStatusButton.setStyle(
+                "-fx-background-color: transparent;"
+                + "-fx-border-color: #F4ACB5;"
+                + "-fx-border-width: 1;"
+                + "-fx-text-fill: #F4ACB5;"
                 + "-fx-font-size: 15px;"
                 + "-fx-font-weight: bold;"
+                + "-fx-border-radius: 8;"
                 + "-fx-background-radius: 8;"
                 + "-fx-cursor: hand;"
-                + "-fx-padding: 10 20;";
-        updateStatusButton.setStyle(normalStyle);
-        updateStatusButton.setOnMouseEntered(e -> updateStatusButton.setStyle(hoverStyle));
-        updateStatusButton.setOnMouseExited(e -> updateStatusButton.setStyle(normalStyle));
+                + "-fx-padding: 5 12;"
+        ));
+        updateStatusButton.setOnMousePressed(e -> updateStatusButton.setStyle(
+                "-fx-background-color: #eab9c1;"
+                + "-fx-border-color: #eab9c1;"
+                + "-fx-border-width: 1;"
+                + "-fx-text-fill: white;"
+                + "-fx-font-size: 14px;"
+                + "-fx-font-weight: bold;"
+                + "-fx-border-radius: 8;"
+                + "-fx-background-radius: 8;"
+                + "-fx-cursor: hand;"
+                + "-fx-padding: 5 12;"
+        ));
         updateStatusButton.setOnAction(e -> showUpdatePetStatus(pet));
 
         card.getChildren().addAll(imageView, nameText, detailsText, statusLabel, updateStatusButton);

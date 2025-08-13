@@ -72,7 +72,7 @@ public class ManagePetsScreen extends AdminDashboardScreen {
      * drop shadow.
      */
     @Override
-    public void initializeUI() {
+    public final void initializeUI() {
         content = new VBox(20);
         content.setAlignment(Pos.CENTER);
         content.setPadding(new Insets(20));
@@ -217,7 +217,7 @@ public class ManagePetsScreen extends AdminDashboardScreen {
         typeField.focusedProperty().addListener((obs, oldVal, newVal) -> styleFocusedField(typeField, newVal));
 
         sexComboBox = new ComboBox<>();
-        sexComboBox.getItems().addAll("male", "female");
+        sexComboBox.getItems().addAll("Male", "Female");
         sexComboBox.setStyle(
                 "-fx-font-size: 14px; "
                 + "-fx-background-color: white; "
@@ -341,7 +341,8 @@ public class ManagePetsScreen extends AdminDashboardScreen {
 
         stateComboBox = new ComboBox<>();
         stateComboBox.getItems().addAll("Available", "Under Review", "Adopted", "Returned");
-        stateComboBox.setStyle("-fx-font-size: 14px; "
+        stateComboBox.setStyle(
+                "-fx-font-size: 14px; "
                 + "-fx-background-color: white; "
                 + "-fx-border-color: #E0E0E0; "
                 + "-fx-border-radius: 5;");

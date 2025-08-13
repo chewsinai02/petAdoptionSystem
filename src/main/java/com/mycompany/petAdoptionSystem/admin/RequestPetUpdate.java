@@ -57,7 +57,7 @@ public class RequestPetUpdate extends AdminDashboardScreen {
      * contains the grid pane of adopted pets.
      */
     @Override
-    public void initializeUI() {
+    public final void initializeUI() {
         content = new VBox(20);
         content.setAlignment(Pos.CENTER);
         content.setPadding(new Insets(20));

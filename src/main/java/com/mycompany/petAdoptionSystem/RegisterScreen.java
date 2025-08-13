@@ -304,7 +304,7 @@ public class RegisterScreen {
         genderComboBox.setStyle("-fx-font-size: 14px; -fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8; -fx-background-radius: 8;");
         genderComboBox.focusedProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal) {
-                genderComboBox.setStyle("-fx-font-size: 14px; -fx-background-color: white; -fx-border-color: #4A90E2; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8;");
+                genderComboBox.setStyle("-fx-font-size: 14px; -fx-background-color: white; -fx-border-color: pink;  -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8; -fx-highlight-fill: pink; -fx-highlight-text-fill: white;");
             } else {
                 genderComboBox.setStyle("-fx-font-size: 14px; -fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8; -fx-background-radius: 8;");
             }
@@ -366,7 +366,7 @@ public class RegisterScreen {
 
     /**
      * Creates a styled TextField with a white background, 14px font size, and a
-     * blue border (#4A90E2) when focused. When not focused, the border is a
+     * pink color when focused. When not focused, the border is a
      * light gray color (#E0E0E0). The border radius is 8 for both states.
      *
      * @param width the preferred width of the TextField
@@ -378,7 +378,7 @@ public class RegisterScreen {
         field.setStyle("-fx-font-size: 14px; -fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8; -fx-background-radius: 8;");
         field.focusedProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal) {
-                field.setStyle("-fx-font-size: 14px; -fx-background-color: white; -fx-border-color: #4A90E2; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8;");
+                field.setStyle("-fx-font-size: 14px; -fx-background-color: white; -fx-border-color: pink; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8; -fx-highlight-fill: pink; -fx-highlight-text-fill: white;");
             } else {
                 field.setStyle("-fx-font-size: 14px; -fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8; -fx-background-radius: 8;");
             }
@@ -388,7 +388,7 @@ public class RegisterScreen {
 
     /**
      * Creates a styled PasswordField with a white background, 14px font size,
-     * and a blue border (#4A90E2) when focused. When not focused, the border is
+     * and a pink border when focused. When not focused, the border is
      * a light gray color (#E0E0E0). The border radius is 8 for both states.
      *
      * @param width the preferred width of the PasswordField
@@ -400,7 +400,7 @@ public class RegisterScreen {
         field.setStyle("-fx-font-size: 14px; -fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8; -fx-background-radius: 8;");
         field.focusedProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal) {
-                field.setStyle("-fx-font-size: 14px; -fx-background-color: white; -fx-border-color: #4A90E2; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8;");
+                field.setStyle("-fx-font-size: 14px; -fx-background-color: white; -fx-border-color: pink; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8; -fx-highlight-fill: pink; -fx-highlight-text-fill: white;");
             } else {
                 field.setStyle("-fx-font-size: 14px; -fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8; -fx-background-radius: 8;");
             }
@@ -411,7 +411,7 @@ public class RegisterScreen {
     /**
      * Creates a styled TextArea with a white background and a specified width.
      * The TextArea has a font size of 14px and rounded corners with a radius of
-     * 8. When focused, the border color changes to blue (#4A90E2) and the
+     * 8. When focused, the border color changes to pink and the
      * border width increases to 2. When not focused, the border color is light
      * gray (#E0E0E0). The TextArea wraps text and has a default preferred row
      * count of 2.
@@ -427,7 +427,7 @@ public class RegisterScreen {
         area.setStyle("-fx-font-size: 14px; -fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8; -fx-background-radius: 8;");
         area.focusedProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal) {
-                area.setStyle("-fx-font-size: 14px; -fx-background-color: white; -fx-border-color: #4A90E2; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8;");
+                area.setStyle("-fx-font-size: 14px; -fx-background-color: white; -fx-border-color: pink; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8; -fx-highlight-fill: pink; -fx-highlight-text-fill: white;");
             } else {
                 area.setStyle("-fx-font-size: 14px; -fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8; -fx-background-radius: 8;");
             }
@@ -463,7 +463,7 @@ public class RegisterScreen {
             insertStmt.setString(1, fullNameField.getText());
             insertStmt.setString(2, usernameField.getText());
             insertStmt.setString(3, passwordField.getText());
-            insertStmt.setString(4, genderComboBox.getValue().equals("Male") ? "male" : "female");
+            insertStmt.setString(4, genderComboBox.getValue().equals("Male") ? "Male" : "Female");
             insertStmt.setInt(5, Integer.parseInt(ageField.getText()));
             insertStmt.setString(6, phoneField.getText());
             insertStmt.setString(7, emailField.getText());

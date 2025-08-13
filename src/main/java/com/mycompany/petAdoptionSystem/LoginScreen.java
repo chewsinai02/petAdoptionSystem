@@ -121,7 +121,7 @@ public class LoginScreen {
 
         loginField = new TextField();
         loginField.setPromptText("Enter your login");
-        String fieldStyle = "-fx-font-size: 14px; -fx-background-color: transparent; -fx-border-color: transparent;";
+        String fieldStyle = "-fx-font-size: 14px; -fx-background-color: transparent; -fx-border-color: transparent; -fx-highlight-fill: pink; -fx-highlight-text-fill: white;";
         loginField.setStyle(fieldStyle);
 
         loginPane = createTextFieldWithIcon(loginField, null);

@@ -492,7 +492,7 @@ public abstract class MainScreen {
             TextField ageField = new TextField(String.valueOf(user.age));
             ageField.setPrefWidth(INPUT_WIDTH);
             styleInputField(ageField);
-            ComboBox<String> genderComboBox = new ComboBox<>(FXCollections.observableArrayList("male", "female"));
+            ComboBox<String> genderComboBox = new ComboBox<>(FXCollections.observableArrayList("Male", "Female"));
             genderComboBox.setPrefWidth(INPUT_WIDTH);
             genderComboBox.setValue(user.gender);
             styleInputField(genderComboBox);
@@ -716,17 +716,21 @@ public abstract class MainScreen {
     }
 
     /**
-     * Styles the given control with a transparent background, a pink border,
+     * Styles the given control with a white background, a pink border,
      * rounded corners, and padding.
      *
      * @param field the control to be styled
      */
     protected void styleInputField(Control field) {
         field.setStyle(
-                "-fx-background-color: transparent;"
+                "-fx-background-color: white;"
+                + "-fx-background-radius: 6;"
                 + "-fx-border-color: #F4ACB5;"
                 + "-fx-border-radius: 6;"
                 + "-fx-padding: 6;"
+                + "-fx-border-width: 2;"
+                + "-fx-highlight-fill: pink;"
+                + "-fx-highlight-text-fill: white;"
         );
     }
 

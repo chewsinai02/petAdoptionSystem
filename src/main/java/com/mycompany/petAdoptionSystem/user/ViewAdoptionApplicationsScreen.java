@@ -108,6 +108,7 @@ public class ViewAdoptionApplicationsScreen {
             String selectedStyle
                     = "-fx-background-color: #FAD9DD;"
                     + "-fx-border-color: transparent transparent #F4ACB5 transparent;"
+                    + "-fx-selection-border-color: transparent transparent #F4ACB5 transparent;"
                     + "-fx-border-width: 0 0 1 0;"
                     + "-fx-text-fill: black;"
                     + "-fx-font-weight: bold;";
