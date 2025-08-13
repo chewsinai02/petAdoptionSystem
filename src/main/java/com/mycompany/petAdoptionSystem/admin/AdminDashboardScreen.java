@@ -20,7 +20,6 @@ public class AdminDashboardScreen extends MainScreen {
 
     public AdminDashboardScreen(Stage primaryStage) {
         super(primaryStage);
-        // Do NOT touch menuBar here!
     }
 
     /**
