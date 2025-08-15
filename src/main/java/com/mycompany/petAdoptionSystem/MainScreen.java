@@ -302,15 +302,19 @@ public abstract class MainScreen {
             if (rs.next()) {
                 // Profile picture
                 String picFile = rs.getString("pic");
+                System.out.println("Loading profile picture: " + picFile); // Log the file name
+
                 ImageView profilePic = new ImageView();
                 try {
                     java.net.URL imgUrl = getClass().getResource("/" + picFile);
                     if (imgUrl != null) {
                         profilePic.setImage(new Image(imgUrl.toExternalForm()));
                     } else {
+                        System.out.println("Image not found: " + picFile); // Log the error
                         profilePic.setImage(new Image(getClass().getResource("/t0.jpg").toExternalForm()));
                     }
                 } catch (Exception e) {
+                    System.out.println("Error loading image: " + e.getMessage()); // Log the error
                     profilePic.setImage(new Image(getClass().getResource("/t0.jpg").toExternalForm()));
                 }
                 profilePic.setFitWidth(140);
