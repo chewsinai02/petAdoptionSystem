@@ -3,6 +3,12 @@
     -> Protect, restore and promote sustainable use of terrestrial ecosystems, sustainably manage forests, combat desertification, and halt and reverse land degradation and halt biodiversity loss
     -> Reason: reducing stray animal populations, promoting responsible pet ownership, and protecting local biodiversity through sustainable adoption practices.
 
+*Problem Statement* :
+Many areas have too many stray animals, crowded shelters, 
+and not enough good ways to manage pet adoption. 
+This can hurt the animals and the environment.
+
+
 *Function* :
 1. Crud for admin manage pet. 
 2. Normal user adopt pet.
